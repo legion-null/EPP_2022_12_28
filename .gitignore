@@ -1,0 +1,10 @@
+# eclipse
+.project
+.cproject
+
+/.settings/
+/build/
+
+# Visual Studio
+/out/
+/.vs/
