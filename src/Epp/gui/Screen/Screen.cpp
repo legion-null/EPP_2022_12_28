@@ -3,6 +3,8 @@
 using namespace Epp;
 using namespace Epp::base;
 
+using namespace Epp::graphics;
+
 namespace Epp {
 namespace gui {
 
@@ -20,13 +22,22 @@ void Screen::destroy() {
 	delete this;
 }
 
+Screen::Screen(i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) :
+		Base(w, h, colorType, rot) {
+}
+
 void Screen::refresh() {
+	refreshRect(0, 0, this->w, this->h);
 }
 
 void Screen::test() {
-}
+	static const EColor testColor[7] = { TColor(Red), TColor(Orange), TColor(Yellow), TColor(Green), TColor(Cyan), TColor(Blue),
+			TColor(Purple) };
 
-Screen::Screen(i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) {
+	for (i32 i = 0;; i++) {
+		clear(testColor[i % 7]);
+		refresh();
+	}
 }
 
 }

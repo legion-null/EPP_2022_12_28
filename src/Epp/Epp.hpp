@@ -63,7 +63,7 @@ void SafeCopy(const byte *src, byte *&dest, i32 elSize, i32 elNum);
 
 template<typename T>
 inline void Copy(const T *src, T *dest, i32 elNum) {
-	Copy(reinterpret_cast<const byte*>(src), reinterpret_cast<byte*>(dest), sizeof(T), elNum);
+	Copy((const byte*)(src), (byte*)(dest), sizeof(T), elNum);
 }
 
 template<typename T>
@@ -73,7 +73,7 @@ inline void Copy(const T *src, T *dest) {
 
 template<typename T>
 inline void SafeCopy(const T *src, T *&dest, i32 elNum) {
-	SafeCopy(reinterpret_cast<const byte*>(src), reinterpret_cast<byte*&>(dest), sizeof(T), elNum);
+	SafeCopy((const byte*)(src), (byte*&)(dest), sizeof(T), elNum);
 }
 
 template<typename T>
@@ -107,7 +107,7 @@ inline void Move(const T *src, T *dest) {
 
 template<typename T>
 inline void SafeMove(const T *src, T *&dest, i32 elNum) {
-	SafeMove(reinterpret_cast<const byte*>(src), reinterpret_cast<byte*&>(dest), sizeof(T), elNum);
+	SafeMove((const byte*)(src), (byte*&)(dest), sizeof(T), elNum);
 }
 
 template<typename T>
@@ -137,12 +137,12 @@ inline void ReverseBit(T &value, i32 i) {
 
 template<typename T>
 inline byte GetByte(T &value, i32 i) {
-	return (reinterpret_cast<byte*>(&value))[i];
+	return ((byte*)(&value))[i];
 }
 
 template<typename T>
 inline void SetByte(T &value, i32 i, byte b) {
-	(reinterpret_cast<byte*>(&value))[i] = b;
+	((byte*)(&value))[i] = b;
 }
 
 }

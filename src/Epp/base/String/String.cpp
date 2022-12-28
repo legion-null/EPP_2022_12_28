@@ -154,7 +154,7 @@ String::String(const c8 *str, i32 off, i32 len) {
 	SafeCopy(str + off, this->value, len);
 }
 
-c8* String::getValue() {
+const c8* String::getValue() {
 	return this->value;
 }
 
@@ -162,8 +162,8 @@ i32 String::getLength() {
 	return strlen(this->value);
 }
 
-EObject String::clone() {
-	return new String();
+EString String::clone() {
+	return new String(this->value);
 }
 
 bool String::equalTo(EObject other) {

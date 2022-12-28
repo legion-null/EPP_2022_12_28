@@ -12,18 +12,6 @@ class Color: extends base::Object {
 E_CLASS_DEC(Color,base::Object)
 
 public:
-	enum TypicalColor : i32 {
-		BLACK = 0x000000,	// 黑色
-		WHITE = 0xFFFFFF,	// 白色
-		RED = 0xFF0000,		// 红色
-		GREEN = 0x00FF00,	// 绿色
-		BLUE = 0x0000FF,	// 蓝色
-		CYAN = 0x00FFFF,	// 青色
-		FUCHSIA = 0xFF00FF,	// 紫红色
-		YELLOW = 0xFFFF00,	// 黄色
-	};
-
-public:
 	enum Type : i8 {
 		RGB565 = 0,		// RGB565
 		RGB888 = 1,		// RGB888
@@ -64,9 +52,9 @@ protected:
 	};
 
 public:
-	static i32 ToARGB8888(i32 , Type src);
-	static i32 FormARGB8888(i32 , Type dest);
-	static i32 Transform(i32 , Type src, Type dest);
+	static i32 ToARGB8888(i32, Type src);
+	static i32 FormARGB8888(i32, Type dest);
+	static i32 Transform(i32, Type src, Type dest);
 
 protected:
 	union ColorValue value;
@@ -82,7 +70,7 @@ public:
 	Color(f32 r, f32 g, f32 b);
 	Color(f32 a, f32 r, f32 g, f32 b);
 
-	Color(i32 value,Type src);
+	Color(i32 value, Type src);
 
 public:
 	i32 getValue();
@@ -110,6 +98,10 @@ public:
 };
 
 E_class(Color)
+
+inline EColor TColor(TypicalColor color) {
+	return new Color(color);
+}
 
 }
 }

@@ -31,3 +31,5 @@ E_class(GUIService)
 }
 }
 
+#include "SDL2/GUIService_SDL2.h"
+

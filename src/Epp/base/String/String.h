@@ -59,11 +59,11 @@ public:
 	String(const c8 *str, i32 off, i32 len);
 
 public:
-	c8* getValue();
+	const c8* getValue();
 	i32 getLength();
 
 public:
-	virtual EObject clone() override;
+	virtual EString clone() override;
 
 public:
 	virtual bool equalTo(EObject other) override;
