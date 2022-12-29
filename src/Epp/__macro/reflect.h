@@ -19,7 +19,7 @@ private:\
 	static void Static(); /* 静态块 */\
 \
 protected:\
-	virtual ~classX(){::printf("~\n");} /* 保护型析构函数，强制对象动态创建 */ \
+	virtual ~classX(){} /* 保护型析构函数，强制对象动态创建 */ \
 \
 public:\
 	virtual base::EClass getClass() {\

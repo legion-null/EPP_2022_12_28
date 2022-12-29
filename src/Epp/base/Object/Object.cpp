@@ -17,10 +17,7 @@ Object::Object() {
 
 void Object::destroy() {
 
-	if(this->getClass() == This::ClassInfo){
-		OS::Printf(S("~Exception()\n"));
-		delete this;
-	}
+	delete this;
 }
 
 EObject Object::clone() {

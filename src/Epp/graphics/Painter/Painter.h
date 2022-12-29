@@ -7,6 +7,7 @@ E_init
 namespace Epp {
 namespace graphics {
 
+E_import_class(Color)
 E_import_class(Layer)
 E_import_class(Font)
 E_import_class(Image)

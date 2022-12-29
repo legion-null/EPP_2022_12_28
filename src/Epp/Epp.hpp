@@ -22,6 +22,13 @@ inline bool SafeDelete(T *&ptr) {
 }
 
 template<typename T>
+inline bool SafeNew(T *&ptr) {
+	bool constructed = SafeDelete(ptr);
+	ptr = new T;
+	return constructed;
+}
+
+template<typename T>
 inline bool SafeNew(T *&ptr, i32 len) {
 	bool constructed = SafeDelete(ptr);
 	ptr = new T[len];
@@ -44,7 +51,7 @@ inline void iSwap(byte *a, byte *b, i32 elSize) {
 void Swap(byte *a, byte *b, i32 elSize);
 
 inline void iCopy(const byte *src, byte *dest, i32 elSize, i32 elNum) {
-	for (i32 i = 0; i < elSize * elNum; i++) {
+	for (u64 i = 0; i < (u64) (elSize * elNum); i++) {
 		*dest = *src;
 		src++;
 		dest++;
@@ -63,7 +70,7 @@ void SafeCopy(const byte *src, byte *&dest, i32 elSize, i32 elNum);
 
 template<typename T>
 inline void Copy(const T *src, T *dest, i32 elNum) {
-	Copy((const byte*)(src), (byte*)(dest), sizeof(T), elNum);
+	Copy((const byte*) (src), (byte*) (dest), sizeof(T), elNum);
 }
 
 template<typename T>
@@ -73,7 +80,7 @@ inline void Copy(const T *src, T *dest) {
 
 template<typename T>
 inline void SafeCopy(const T *src, T *&dest, i32 elNum) {
-	SafeCopy((const byte*)(src), (byte*&)(dest), sizeof(T), elNum);
+	SafeCopy((const byte*) (src), (byte*&) (dest), sizeof(T), elNum);
 }
 
 template<typename T>
@@ -107,7 +114,7 @@ inline void Move(const T *src, T *dest) {
 
 template<typename T>
 inline void SafeMove(const T *src, T *&dest, i32 elNum) {
-	SafeMove((const byte*)(src), (byte*&)(dest), sizeof(T), elNum);
+	SafeMove((const byte*) (src), (byte*&) (dest), sizeof(T), elNum);
 }
 
 template<typename T>
@@ -137,12 +144,12 @@ inline void ReverseBit(T &value, i32 i) {
 
 template<typename T>
 inline byte GetByte(T &value, i32 i) {
-	return ((byte*)(&value))[i];
+	return ((byte*) (&value))[i];
 }
 
 template<typename T>
 inline void SetByte(T &value, i32 i, byte b) {
-	((byte*)(&value))[i] = b;
+	((byte*) (&value))[i] = b;
 }
 
 }

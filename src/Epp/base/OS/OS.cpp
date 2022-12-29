@@ -3,6 +3,9 @@
 using namespace Epp;
 using namespace Epp::base;
 
+#include <stdio.h>
+#include <stdarg.h>
+
 namespace Epp {
 namespace base {
 

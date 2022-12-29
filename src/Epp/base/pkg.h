@@ -12,6 +12,8 @@
 
 #include "Exception/Exception.h"
 
+#include "Error/Error.h"
+
 #include "String/String.h"
 
 // ---> OS

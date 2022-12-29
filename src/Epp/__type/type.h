@@ -21,8 +21,8 @@ typedef unsigned d32 u32;
 typedef unsigned d64 u64;
 
 // CPU架构相关类型 长度和指针类型长度相等的整数类型
-typedef i64 iSize;
-typedef u64 uSize;
+//typedef i64 iSize;
+//typedef u64 uSize;
 
 // 浮点数类型
 typedef float f32;
@@ -60,12 +60,12 @@ inline bool type_check() {
 		return false;
 	if (sizeof(c32) != 4)
 		return false;
-
+/*
 	if (sizeof(void*) != sizeof(iSize))
 		return false;
 	if (sizeof(void*) != sizeof(uSize))
 		return false;
-
+*/
 	return true;
 }
 

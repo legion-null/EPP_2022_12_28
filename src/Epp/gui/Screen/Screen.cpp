@@ -22,17 +22,29 @@ void Screen::destroy() {
 	delete this;
 }
 
-Screen::Screen(i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) :
+Screen::Screen(i32 w, i32 h, Color::Type colorType, Rot rot) :
+		This(nullptr, w, h, colorType, rot) {
+}
+
+Screen::Screen(byte *fb, i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Base(w, h, colorType, rot) {
+	if (fb != nullptr){
+		this->display = new FrameBuffer(fb, w, h, Color::GetBPP(colorType));
+	}
+}
+
+void Screen::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
+	rMapPixel(x0, y0);
+	this->display->copyFrom(this, x0, y0, w, h, x0, y0);
 }
 
 void Screen::refresh() {
-	refreshRect(0, 0, this->w, this->h);
+	this->display->copyFrom(this);
 }
 
 void Screen::test() {
-	static const EColor testColor[7] = { TColor(Red), TColor(Orange), TColor(Yellow), TColor(Green), TColor(Cyan), TColor(Blue),
-			TColor(Purple) };
+	static const EColor testColor[7] = { TColor(Red), TColor(Orange), TColor(Yellow), TColor(Green), TColor(Cyan), TColor(
+			Blue), TColor(Purple) };
 
 	for (i32 i = 0;; i++) {
 		clear(testColor[i % 7]);

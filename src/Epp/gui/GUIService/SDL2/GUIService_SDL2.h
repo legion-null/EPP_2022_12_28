@@ -12,6 +12,8 @@ class GUIService_SDL2: extends GUIService {
 E_CLASS_DEC(GUIService_SDL2,GUIService)
 
 public:
+
+public:
 	GUIService_SDL2();
 	virtual void destroy() override;
 

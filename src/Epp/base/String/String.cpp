@@ -3,6 +3,8 @@
 using namespace Epp;
 using namespace Epp::base;
 
+#include <string.h>
+
 namespace Epp {
 namespace base {
 
@@ -152,6 +154,15 @@ String::String(const c8 *str) :
 
 String::String(const c8 *str, i32 off, i32 len) {
 	SafeCopy(str + off, this->value, len);
+
+	/*
+	 if (strlen(str + off) < len) {
+	 throw new Exception(S("NullPointerException"));
+	 } else {
+	 this->value = str + off;
+	 this->length = len;
+	 }
+	 */
 }
 
 const c8* String::getValue() {

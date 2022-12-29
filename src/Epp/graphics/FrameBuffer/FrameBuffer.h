@@ -14,7 +14,7 @@ E_CLASS_DEC(FrameBuffer,base::Object)
 protected:
 	i32 w = 0;
 	i32 h = 0;
-	u8 bpp = 0;
+	i8 bpp = 0;
 
 protected:
 	i32 lineSize = 0;
@@ -22,8 +22,8 @@ protected:
 
 protected:
 	bool ownBuf = true;
-	u8 *fb = nullptr;
-	u8 **fbX = nullptr;
+	byte *fb = nullptr;
+	byte **fbX = nullptr;
 
 public:
 	FrameBuffer();
@@ -31,9 +31,10 @@ public:
 
 public:
 	FrameBuffer(i32 w, i32 h, i32 bpp);
+	FrameBuffer(byte *fb, i32 w, i32 h, i32 bpp);
 
 public:
-	void reset(i32 w, i32 h, i32 bpp);
+	void reset(byte *fb, i32 w, i32 h, i32 bpp);
 
 public:
 	i32 getWidth();
@@ -56,6 +57,10 @@ public:
 
 public:
 	void clear(i32 color);
+
+public:
+	void copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1);
+	void copyFrom(EFrameBuffer other);
 
 };
 

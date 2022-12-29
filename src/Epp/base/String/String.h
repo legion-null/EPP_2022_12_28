@@ -49,6 +49,7 @@ public:
 
 protected:
 	c8 *value = nullptr;
+	i32 length = 0;
 
 public:
 	String();

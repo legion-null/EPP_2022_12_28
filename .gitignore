@@ -1,3 +1,5 @@
+# 全局
+/src/Epp/__doc/
 # eclipse
 .project
 .cproject

@@ -34,9 +34,7 @@ Screen_SDL2::Screen_SDL2(base::EString title, i32 w, i32 h, Color::Type colorTyp
 
 	this->title = title->clone();
 
-	if (this->csdl2 == nullptr)
-		this->csdl2 = new CSDL2;
-	//SafeNew(this->csdl2, 1);
+	SafeNew(this->csdl2, 1);
 
 	::SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -48,22 +46,26 @@ Screen_SDL2::Screen_SDL2(base::EString title, i32 w, i32 h, Color::Type colorTyp
 
 	this->csdl2->surface = SDL_GetWindowSurface((SDL_Window*) this->csdl2->window);
 
+	// 建立映射
+	this->display = new FrameBuffer((byte*) (this->csdl2->surface->pixels), this->w, this->h, this->bpp);
+/*
 	// 缓冲区映射
-	this->csdl2->fb = (u8*) (this->csdl2->surface->pixels);
-	this->csdl2->fbX = new u8*[this->h];
+	this->csdl2->fb = (byte*) (this->csdl2->surface->pixels);
+	this->csdl2->fbX = new byte*[this->h];
 
 	for (i32 i = 0; i < this->h; i++)
 		this->csdl2->fbX[i] = &(this->csdl2->fb[this->lineSize * i]);
-
+*/
 }
 
 void Screen_SDL2::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
-
+	Base::refreshRect(x0, y0, w, h);
 	::SDL_UpdateWindowSurface(this->csdl2->window);
 }
 
 void Screen_SDL2::refresh() {
-	SafeCopy(this->fb, this->csdl2->fb, this->fbSize);
+	Base::refresh();
+	//SafeCopy(this->fb, this->csdl2->fb, this->fbSize);
 	::SDL_UpdateWindowSurface(this->csdl2->window);
 }
 

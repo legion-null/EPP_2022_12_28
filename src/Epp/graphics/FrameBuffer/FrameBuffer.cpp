@@ -24,32 +24,46 @@ void FrameBuffer::destroy() {
 	delete this;
 }
 
-FrameBuffer::FrameBuffer(i32 w, i32 h, i32 bpp) {
+FrameBuffer::FrameBuffer(i32 w, i32 h, i32 bpp) :
+		This(nullptr, w, h, bpp) {
+
+}
+
+FrameBuffer::FrameBuffer(byte *fb, i32 w, i32 h, i32 bpp) {
+	reset(fb, w, h, bpp);
+}
+
+void FrameBuffer::reset(byte *fb, i32 w, i32 h, i32 bpp) {
+	// 更新基本成员信息
 	this->w = w;
 	this->h = h;
 	this->bpp = bpp;
 
-	reset(w, h, bpp);
-}
-
-void FrameBuffer::reset(i32 w, i32 h, i32 bpp) {
-	if (this->lineSize == w * this->bpp / 8 and this->fbSize == this->lineSize * this->h)
-		return;
-
-	// 参数设定
+	// 更新成员lineSize
 	this->lineSize = w * this->bpp / 8;
-	this->fbSize = this->lineSize * this->h;
 
-	// 创建tmpfb和tmpfbX并将tmpfbX映射到tmpfb
-	u8 *tmpfb = new u8[this->fbSize];
-	u8 **tmpfbX = new u8*[this->h];
+	if (this->fbSize == w * h * bpp / 8) { // this->fbSize
+		if (fb == nullptr and this->fb != nullptr)
+			return;
+	} else { // 更新成员fbSize
+		this->fbSize = this->lineSize * this->h;
+	}
 
-	for (i32 i = 0; i < this->h; i++)
-		tmpfbX[i] = &(tmpfb[this->lineSize * i]);
+	byte *tmpfb = nullptr;
+	byte **tmpfbX = nullptr;
 
-	// 如果fb非空的话, 将其内容复制到tmpfb
-	if (this->fb != nullptr)
-		;
+	if (fb == nullptr) { // 新建this->fb
+		tmpfb = new byte[this->fbSize];
+	} else {
+		tmpfb = fb;
+	}
+
+	{ // tmpfbX的创建与映射
+		tmpfbX = new byte*[this->h];
+		for (i32 i = 0; i < this->h; i++) {
+			tmpfbX[i] = &(tmpfb[this->lineSize * i]);
+		}
+	}
 
 	// 交换缓冲区指针
 	// 上锁
@@ -80,32 +94,43 @@ i32 FrameBuffer::getBpp() {
 }
 
 i32 FrameBuffer::readPixel(i32 x, i32 y) {
+	i32 color = 0;
+
 	switch (this->bpp) {
-	case 8:
-		return *(((u8*) ((this->fbX[y]))) + x);
-	case 16:
-		return *(((u16*) ((this->fbX[y]))) + x);
+	case 8: {
+		color = *(((u8*) ((this->fbX[y]))) + x);
+		break;
+	}
+	case 16: {
+		color = *(((u16*) ((this->fbX[y]))) + x);
+		break;
+	}
 	case 24: {
-		u8 *p = (((u8*) (this->fbX[y])) + 3 * x);
-		return (*p << 16) | (*(p + 1) << 8) | *(p + 2);
+		byte *p = (((u8*) (this->fbX[y])) + 3 * x);
+		color = (*p << 16) | (*(p + 1) << 8) | *(p + 2);
+		break;
 	}
-	case 32:
-		return *(((u32*) ((this->fbX[y]))) + x);
-	default:
-		return 0;
+	case 32: {
+		color = *(((u32*) ((this->fbX[y]))) + x);
+		break;
 	}
+	}
+
+	return color;
 }
 
 void FrameBuffer::writePixel(i32 x, i32 y, i32 color) {
 	switch (this->bpp) {
-	case 8:
+	case 8: {
 		*(((u8*) ((this->fbX[y]))) + x) = (u8) (color);
 		break;
-	case 16:
+	}
+	case 16: {
 		*(((u16*) ((this->fbX[y]))) + x) = (u16) (color);
 		break;
+	}
 	case 24: {
-		u8 *p = (((u8*) (this->fbX[y])) + 3 * x);
+		byte *p = (((u8*) (this->fbX[y])) + 3 * x);
 		*(p + 0) = 0xff & (color >> 16);
 		*(p + 1) = 0xff & (color >> 8);
 		*(p + 2) = 0xff & (color >> 0);
@@ -120,26 +145,60 @@ void FrameBuffer::writePixel(i32 x, i32 y, i32 color) {
 void FrameBuffer::writeRow(i32 x0, i32 y0, i32 w, i32 color) {
 	i32 x1 = x0 + w - 1;
 
-	for (i32 x = x0; x <= x1; x++)
+	for (i32 x = x0; x <= x1; x++) {
 		writePixel(x, y0, color);
+	}
 }
 
 void FrameBuffer::writeCol(i32 x0, i32 y0, i32 h, i32 color) {
 	i32 y1 = y0 + h - 1;
 
-	for (i32 y = y0; y <= y1; y++)
+	for (i32 y = y0; y <= y1; y++) {
 		writePixel(x0, y, color);
+	}
 }
 
 void FrameBuffer::writeRect(i32 x0, i32 y0, i32 w, i32 h, i32 color) {
 	i32 y1 = y0 + h - 1;
 
-	for (i32 y = y0; y <= y1; y++)
+	for (i32 y = y0; y <= y1; y++) {
 		writeRow(x0, y, w, color);
+	}
 }
 
 void FrameBuffer::clear(i32 color) {
 	writeRect(0, 0, this->w, this->h, color);
+}
+
+void FrameBuffer::copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
+	if (other->bpp != this->bpp) { // 像素位数必须一致，否则报错
+		throw new Error(S("Inconsistent bpp"));
+	} else if (w <= 0 or h <= 0) { // 矩形区域面积必须大于0
+		throw new Error(S("Illegal Parameter: The area of the rect must be greater than 0"));
+	} else if (x0 < 0 or y0 < 0 or x0 + w > other->w or y0 + h > other->h) { // 复制的矩形区域必须位于other所拥有的内存空间内
+		throw new Error(S("Illegal Parameter: Attempt to read illegal memory area"));
+	} else if (x1 < 0 or y1 < 0 or x1 + w > this->w or y1 + h > this->h) { // 复制后的矩形区域必须位于本实例所拥有的内存空间内
+		throw new Error(S("Illegal Parameter: Attempt to write to illegal memory area"));
+	} else {
+		i32 lineSize = w * this->bpp / 8;
+		for (i32 i = 0; i < h; i++) {
+			Copy(other->fbX[y0 + i] + x0, this->fbX[y1 + i] + x1, 1, lineSize);
+		}
+	}
+}
+
+void FrameBuffer::copyFrom(EFrameBuffer other) {
+	if (other->fbSize != this->fbSize) { // 缓冲区大小必须一致，否则报错
+		throw new Error(S("Inconsistent fbSize"));
+	} else {
+		if (this->ownBuf == false or other->ownBuf == false) {
+			for (i32 i = 0; i < h; i++) {
+				Copy(other->fbX[i], this->fbX[i], 1, this->lineSize);
+			}
+		} else {
+			Copy(other->fb, this->fb, 1, this->fbSize);
+		}
+	}
 }
 
 }

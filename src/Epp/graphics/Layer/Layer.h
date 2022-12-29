@@ -31,6 +31,7 @@ private:
 	using FrameBuffer::writeRow;
 	using FrameBuffer::writeCol;
 	using FrameBuffer::writeRect;
+	using FrameBuffer::clear;
 
 public:
 	Rot getRot();
