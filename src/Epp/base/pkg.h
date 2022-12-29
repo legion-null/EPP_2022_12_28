@@ -10,6 +10,8 @@
 
 #include "Class/Class.h"
 
+#include "Exception/Exception.h"
+
 #include "String/String.h"
 
 // ---> OS

@@ -146,7 +146,7 @@ void String::destroy() {
 }
 
 String::String(const c8 *str) :
-		String(str, 0, strlen(str)) {
+		This(str, 0, strlen(str)) {
 
 }
 

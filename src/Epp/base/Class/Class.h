@@ -13,6 +13,8 @@ class Class: extends Object {
 
 // 对于Class类，不使用宏进行声明
 public:
+	typedef Class This; /* 本类型重定义 */\
+
 	typedef Object Base; /* 父类型重定义 */
 	typedef Class *E(Class); /* E类型定义 */
 
@@ -23,7 +25,11 @@ private:
 	static void Static(); /* 静态块 */
 
 protected:
-	virtual ~Class() {/* 保护型析构函数，不做任何事，仅用于防止创建在栈上的实例 */
+	virtual ~Class() {} /* 保护型析构函数，强制对象动态创建 */
+
+public:
+	virtual base::EClass getClass() {
+		return This::ClassInfo;
 	}
 
 public:

@@ -17,7 +17,7 @@ void Screen_SDL2::Static() { // 静态块，类初始化时将会执行块内代
 }
 
 Screen_SDL2::Screen_SDL2() :
-		Screen_SDL2(800, 600, Color::ARGB8888, Rot_0) {
+		This(800, 600, Color::ARGB8888, Rot_0) {
 
 }
 
@@ -26,7 +26,7 @@ void Screen_SDL2::destroy() {
 }
 
 Screen_SDL2::Screen_SDL2(i32 w, i32 h, Color::Type colorType, Rot rot) :
-		Screen_SDL2(S("Epp SDL2_ScreenSimulator Author:legion"), w, h, colorType, rot) {
+		This(S("Epp SDL2_ScreenSimulator Author:legion"), w, h, colorType, rot) {
 }
 
 Screen_SDL2::Screen_SDL2(base::EString title, i32 w, i32 h, Color::Type colorType, Rot rot) :
@@ -34,7 +34,7 @@ Screen_SDL2::Screen_SDL2(base::EString title, i32 w, i32 h, Color::Type colorTyp
 
 	this->title = title->clone();
 
-	if(this->csdl2 == nullptr)
+	if (this->csdl2 == nullptr)
 		this->csdl2 = new CSDL2;
 	//SafeNew(this->csdl2, 1);
 

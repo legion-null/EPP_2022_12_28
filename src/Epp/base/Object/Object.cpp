@@ -16,7 +16,11 @@ Object::Object() {
 }
 
 void Object::destroy() {
-	delete this;
+
+	if(this->getClass() == This::ClassInfo){
+		OS::Printf(S("~Exception()\n"));
+		delete this;
+	}
 }
 
 EObject Object::clone() {
@@ -34,7 +38,7 @@ EString Object::toString() {
 void Object::printContent() {
 	OS::Printf(S("\n\n\n"));
 	OS::Printf(S("--------------------------------------------------------------------------------\n"));
-	OS::Printf(S("ClassName: %s\n"), this->ClassInfo->getFullClassName()->getValue());
+	OS::Printf(S("ClassName: %s\n"), this->getClass()->getFullClassName()->getValue());
 	OS::Printf(S("Address = 0x%0x16x   Size = %-5d\n"), (u64) this, sizeof(Object));
 	OS::Printf(S("--------------------------------------------------------------------------------\n"));
 
@@ -48,7 +52,6 @@ void Object::printContent() {
 
 	OS::Printf(S("--------------------------------------------------------------------------------\n"));
 }
-
 }
 
 bool SafeDestroy(base::EObject obj) {
@@ -56,5 +59,4 @@ bool SafeDestroy(base::EObject obj) {
 }
 
 }
-
 

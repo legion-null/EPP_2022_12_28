@@ -15,6 +15,8 @@ E_CLASS_DEC(Object,Object)
 
 public:
 	Object();
+
+public:
 	virtual void destroy();
 
 public:
