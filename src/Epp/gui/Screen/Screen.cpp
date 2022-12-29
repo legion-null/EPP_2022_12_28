@@ -28,7 +28,7 @@ Screen::Screen(i32 w, i32 h, Color::Type colorType, Rot rot) :
 
 Screen::Screen(byte *fb, i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Base(w, h, colorType, rot) {
-	if (fb != nullptr){
+	if (fb != nullptr) {
 		this->display = new FrameBuffer(fb, w, h, Color::GetBPP(colorType));
 	}
 }
@@ -48,7 +48,17 @@ void Screen::test() {
 
 	for (i32 i = 0;; i++) {
 		clear(testColor[i % 7]);
-		refresh();
+
+		for (i32 sideLength = 50, y = 0; y < this->h; y += sideLength) {
+			for (i32 x = 0; x < this->w; x += sideLength) {
+				if (i % 2 == 0 and Diff(x, y) % (2 * sideLength) == 0) {
+					refreshRect(x, y, sideLength, sideLength);
+				} else if (i % 2 == 1 and Diff(x, y) % (2 * sideLength) == sideLength) {
+					refreshRect(x, y, sideLength, sideLength);
+				}
+			}
+		}
+		Thread::Sleep(1);
 	}
 }
 

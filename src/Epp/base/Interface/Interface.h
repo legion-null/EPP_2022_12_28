@@ -12,7 +12,8 @@ interface Interface {
 E_IF_DEC(Interface,Interface)
 
 public:
-	virtual void destory();
+	Interface();
+	virtual void destroy();
 
 };
 

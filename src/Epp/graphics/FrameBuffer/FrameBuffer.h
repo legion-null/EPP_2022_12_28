@@ -17,6 +17,7 @@ protected:
 	i8 bpp = 0;
 
 protected:
+	i32 pixelSize = 0;
 	i32 lineSize = 0;
 	i32 fbSize = 0;
 

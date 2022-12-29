@@ -39,8 +39,8 @@ void FrameBuffer::reset(byte *fb, i32 w, i32 h, i32 bpp) {
 	this->h = h;
 	this->bpp = bpp;
 
-	// 更新成员lineSize
-	this->lineSize = w * this->bpp / 8;
+	this->pixelSize = this->bpp / 8;		// 更新成员pixelSize
+	this->lineSize = w * this->pixelSize;	// 更新成员lineSize
 
 	if (this->fbSize == w * h * bpp / 8) { // this->fbSize
 		if (fb == nullptr and this->fb != nullptr)
@@ -182,7 +182,7 @@ void FrameBuffer::copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32
 	} else {
 		i32 lineSize = w * this->bpp / 8;
 		for (i32 i = 0; i < h; i++) {
-			Copy(other->fbX[y0 + i] + x0, this->fbX[y1 + i] + x1, 1, lineSize);
+			Copy(other->fbX[y0 + i] + x0 * this->pixelSize, this->fbX[y1 + i] + x1 * this->pixelSize, 1, lineSize);
 		}
 	}
 }
