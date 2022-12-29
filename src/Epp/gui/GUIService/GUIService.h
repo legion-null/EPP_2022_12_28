@@ -13,12 +13,13 @@ E_CLASS_DEC(GUIService,base::Object)
 
 public:
 	enum Type : i8 {
-		LinuxFB = 0,	// LinuxFB
-		SDL2 = 1,		// SDL2
-		X11 = 2,		// X11
-		Android = 3,	// Android
-		Windows = 4,	// Windows
-		MacOS = 5,		// MacOS
+		LinuxFB,	// LinuxFB
+		SDL2,		// SDL2
+		X11,		// X11
+		Windows,	// Windows
+		MacOS,		// MacOS
+		Android,	// Android
+		IOS,		// IOS
 	};
 
 public:
@@ -32,4 +33,6 @@ E_class(GUIService)
 }
 
 #include "SDL2/GUIService_SDL2.h"
+
+#include "Android/GUIService_Android.h"
 

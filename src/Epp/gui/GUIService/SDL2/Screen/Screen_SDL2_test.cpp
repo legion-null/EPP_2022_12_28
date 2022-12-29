@@ -1,5 +1,7 @@
 #include "Epp.h"
 
+#ifdef USE_LIB_SDL2
+
 using namespace Epp;
 using namespace Epp::base;
 
@@ -19,3 +21,5 @@ i32 gui_Screen_SDL2_test_main(i32 argc, c8 **argv) {
 
 	return 0;
 }
+
+#endif

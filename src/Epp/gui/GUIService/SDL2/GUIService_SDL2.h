@@ -2,6 +2,8 @@
 
 #include "gui/GUIService/GUIService.h"
 
+#ifdef USE_LIB_SDL2
+
 E_init
 
 namespace Epp {
@@ -25,3 +27,5 @@ E_class(GUIService_SDL2)
 }
 
 #include "Screen/Screen_SDL2.h"
+
+#endif

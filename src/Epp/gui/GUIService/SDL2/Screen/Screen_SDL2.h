@@ -2,6 +2,8 @@
 
 #include "gui/Screen/Screen.h"
 
+#ifdef USE_LIB_SDL2
+
 E_init
 
 namespace Epp {
@@ -12,8 +14,10 @@ class Screen_SDL2: extends Screen {
 E_CLASS_DEC(Screen_SDL2,Screen)
 
 protected:
-	struct CSDL2 *csdl2 = nullptr;
 	base::EString title = nullptr;
+
+protected:
+	struct CSDL2 *csdl2 = nullptr;
 
 public:
 	Screen_SDL2();
@@ -34,3 +38,4 @@ E_class(Screen_SDL2)
 }
 }
 
+#endif

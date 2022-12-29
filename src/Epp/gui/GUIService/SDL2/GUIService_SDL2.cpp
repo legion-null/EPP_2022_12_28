@@ -1,5 +1,7 @@
 #include "Epp.h"
 
+#ifdef USE_LIB_SDL2
+
 using namespace Epp;
 using namespace Epp::base;
 
@@ -22,3 +24,5 @@ void GUIService_SDL2::destroy() {
 
 }
 }
+
+#endif

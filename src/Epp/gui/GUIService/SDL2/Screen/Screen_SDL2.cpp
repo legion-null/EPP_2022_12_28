@@ -1,11 +1,14 @@
 #include "Epp.h"
 
+#ifdef USE_LIB_SDL2
+
 using namespace Epp;
 using namespace Epp::base;
 
 using namespace Epp::graphics;
 
 #include "../About_SDL2.h"
+
 
 namespace Epp {
 namespace gui {
@@ -34,7 +37,7 @@ Screen_SDL2::Screen_SDL2(base::EString title, i32 w, i32 h, Color::Type colorTyp
 
 	this->title = title->clone();
 
-	SafeNew(this->csdl2, 1);
+	SafeNew(this->csdl2);
 
 	::SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -62,3 +65,5 @@ void Screen_SDL2::refresh() {
 
 }
 }
+
+#endif
