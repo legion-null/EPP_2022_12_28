@@ -1,7 +1,10 @@
+#ifdef CURRENT_OS_ANDROID
+
 #include "Epp.h"
 
 using namespace Epp;
 using namespace Epp::base;
+
 using namespace Epp::graphics;
 
 #include "../About_Android.h"
@@ -15,55 +18,70 @@ void Screen_Android::Static() { // 静态块，类初始化时将会执行块内
 
 }
 
-Screen_Android::Screen_Android() {
-
+Screen_Android::Screen_Android() :
+		This(1080, 1920, colorType, rot) {
 }
 
 void Screen_Android::destroy() {
 	delete this;
 }
 
-Screen_Android::Screen_Android(i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) :
+Screen_Android::Screen_Android(i32 w, i32 h, Color::Type colorType, Rot rot) :
 		This(S("Epp Android_ScreenSimulator Author:legion"), w, h, colorType, rot) {
 }
 
-Screen_Android::Screen_Android(base::EString title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) :
+Screen_Android::Screen_Android(EString title, i32 w, i32 h, Color::Type colorType, Rot rot) :
+		This(::GetJAndroid(), title, w, h, colorType, rot) {
+
+}
+
+Screen_Android::Screen_Android(struct JAndroid *ja, EString title, i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Base(w, h, colorType, rot) {
-
 	this->title = title->clone();
+	this->jandroid = ja;
 
-	SafeNew(this->jandroid);
+	if (this->jandroid == nullptr)
+		; //SafeNew(this->jandroid);
 
 	// 建立映射
 	this->display = new FrameBuffer((byte*) 0x01, this->w, this->h, this->bpp);
 }
 
-void Screen_Android::unlockAndroidFb() {
+void Screen_Android::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
+	if (this->jandroid->run == false)
+		return;
+
 	::ANativeWindow_Buffer buffer;
 	::ANativeWindow_lock(this->jandroid->window, &buffer, 0);
 
 	// 地址重映射
-	this->display->fb = (byte*)(buffer.bits);
-}
+	this->display->fb = (byte*) (buffer.bits);
 
-void Screen_Android::lockAndroidFb() {
+	// 安卓像素格式 RGBA
+	Base::refreshRect(x0, y0, w, h);
+
 	::ANativeWindow_unlockAndPost(this->jandroid->window);
 }
 
-void Screen_Android::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
-	unlockAndroidFb();
-	// 安卓像素格式 RGBA
-	Base::refreshRect(x0, y0, w, h);
-	lockAndroidFb();
-}
-
 void Screen_Android::refresh() {
-	unlockAndroidFb();
+	if (this->jandroid->run == false)
+		return;
+
+	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
+
+	::ANativeWindow_Buffer buffer;
+	::ANativeWindow_lock(this->jandroid->window, &buffer, 0);
+
+	// 地址重映射
+	this->display->fb = (byte*) (buffer.bits);
+
+	// 安卓像素格式 RGBA
 	Base::refresh();
-	lockAndroidFb();
+
+	::ANativeWindow_unlockAndPost(this->jandroid->window);
 }
 
-
-
 }
 }
+
+#endif

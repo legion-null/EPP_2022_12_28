@@ -1,3 +1,5 @@
+#ifdef CURRENT_OS_ANDROID
+
 #include "Epp.h"
 
 using namespace Epp;
@@ -22,3 +24,5 @@ void GUIService_Android::destroy() {
 
 }
 }
+
+#endif

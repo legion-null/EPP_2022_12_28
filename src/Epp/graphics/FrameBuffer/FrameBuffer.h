@@ -21,7 +21,7 @@ protected:
 	i32 lineSize = 0;
 	i32 fbSize = 0;
 
-protected:
+public:
 	bool ownBuf = true;
 	byte *fb = nullptr;
 	byte **fbX = nullptr;

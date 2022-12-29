@@ -1,3 +1,5 @@
+#ifdef CURRENT_OS_ANDROID
+
 #include "Epp.h"
 
 using namespace Epp;
@@ -11,3 +13,5 @@ i32 gui_GUIService_Android_test_main(i32 argc, c8 **argv) {
 
 	return 0;
 }
+
+#endif

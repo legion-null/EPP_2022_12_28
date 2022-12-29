@@ -1,6 +1,6 @@
-#include "Epp.h"
-
 #ifdef USE_LIB_SDL2
+
+#include "Epp.h"
 
 using namespace Epp;
 using namespace Epp::base;

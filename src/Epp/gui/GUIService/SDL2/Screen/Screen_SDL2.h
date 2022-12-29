@@ -1,8 +1,8 @@
+#ifdef USE_LIB_SDL2
+
 #pragma once
 
 #include "gui/Screen/Screen.h"
-
-#ifdef USE_LIB_SDL2
 
 E_init
 

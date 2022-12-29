@@ -1,3 +1,5 @@
+#ifdef CURRENT_OS_ANDROID
+
 #pragma once
 
 #include "gui/Screen/Screen.h"
@@ -24,10 +26,7 @@ public:
 public:
 	Screen_Android(i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
 	Screen_Android(base::EString title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
-
-protected:
-	void unlockAndroidFb();
-	void lockAndroidFb();
+	Screen_Android(struct JAndroid *ja, base::EString title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
 
 public:
 	virtual void refreshRect(i32 x0, i32 y0, i32 w, i32 h) override;
@@ -40,3 +39,4 @@ E_class(Screen_Android)
 }
 }
 
+#endif

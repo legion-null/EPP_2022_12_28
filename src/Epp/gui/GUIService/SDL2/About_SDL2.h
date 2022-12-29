@@ -1,8 +1,8 @@
+#ifdef USE_LIB_SDL2
+
 #pragma once
 
 #include "Epp.hpp"
-
-#ifdef USE_LIB_SDL2
 
 #include <SDL2/SDL.h>
 

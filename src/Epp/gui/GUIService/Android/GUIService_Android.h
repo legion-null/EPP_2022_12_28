@@ -1,3 +1,5 @@
+#ifdef CURRENT_OS_ANDROID
+
 #pragma once
 
 #include "gui/GUIService/GUIService.h"
@@ -23,3 +25,5 @@ E_class(GUIService_Android)
 }
 
 #include "Screen/Screen_Android.h"
+
+#endif

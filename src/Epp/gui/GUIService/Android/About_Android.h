@@ -1,8 +1,28 @@
 #pragma once
 
+#ifdef CURRENT_OS_ANDROID
+
+#include "Epp.hpp"
+
 #include <jni.h>
+#include <android/log.h>
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
+
+namespace Epp {
+namespace gui {
+
+struct JAndroid {
+	// 屏幕相关
+	ANativeWindow *window = nullptr;
+	// 输入相关
+
+	// 状态相关
+	bool run = false;
+};
+
+}
+}
 
 extern "C" {
 /*
@@ -28,6 +48,10 @@ extern "C" {
  *
  */
 
+extern Epp::gui::JAndroid ja;
+
+Epp::gui::JAndroid* GetJAndroid();
+
 JNIEXPORT void JNICALL
 Java_com_legion_epp_EPP_SurfaceCreate(JNIEnv *env, jclass clazz, jobject surface);
 
@@ -40,22 +64,10 @@ Java_com_legion_epp_EPP_SurfaceDestroy(JNIEnv *env, jclass clazz, jobject surfac
 JNIEXPORT void JNICALL
 Java_com_legion_epp_EPP_TouchEvent(JNIEnv *env, jclass clazz, jint x, jint y, jboolean touch);
 
-}
-
-#include "Epp.hpp"
-
-namespace Epp {
-namespace gui {
-
-struct JAndroid {
-	// 屏幕相关
-	ANativeWindow *window;
-	// 输入相关
-
-	// 状态相关
-	bool run;
-};
 
 }
-}
+
+
+
+#endif
 
