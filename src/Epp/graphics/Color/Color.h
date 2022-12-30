@@ -13,9 +13,12 @@ E_CLASS_DEC(Color,base::Object)
 
 public:
 	enum Type : i8 {
-		RGB565 = 0,		// RGB565
-		RGB888 = 1,		// RGB888
-		ARGB8888 = 2,	// ARGB8888
+		RGB565,		// RGB565
+		RGB888,		// RGB888
+		XRGB8888,	// XRGB8888
+		ARGB8888,	// ARGB8888
+		RGBX8888,	// RGBX8888
+		RGBA8888,	// RGBA8888
 	};
 
 public:
@@ -24,12 +27,19 @@ public:
 protected:
 	struct RGB565 {
 		u16 __padding;
-		u32 r :5;
-		u32 g :6;
-		u32 b :5;
+		u8 r :5;
+		u8 g :6;
+		u8 b :5;
 	};
 
 	struct RGB888 {
+		u8 __padding;
+		u8 r;
+		u8 g;
+		u8 b;
+	};
+
+	struct XRGB8888 {
 		u8 __padding;
 		u8 r;
 		u8 g;
@@ -43,12 +53,29 @@ protected:
 		u8 b;
 	};
 
+	struct RGBX8888 {
+		u8 r;
+		u8 g;
+		u8 b;
+		u8 __padding;
+	};
+
+	struct RGBA8888 {
+		u8 r;
+		u8 g;
+		u8 b;
+		u8 a;
+	};
+
 protected:
 	union ColorValue {
 		i32 value;
 		struct RGB565 rgb565;
 		struct RGB888 rgb888;
+		struct XRGB8888 xrgb8888;
 		struct ARGB8888 argb8888;
+		struct RGBX8888 rgbx8888;
+		struct RGBA8888 rgba8888;
 	};
 
 public:
@@ -99,7 +126,7 @@ public:
 
 E_class(Color)
 
-inline EColor TColor(TypicalColor color) {
+inline EColor C(TypicalColor color) {
 	return new Color(color);
 }
 

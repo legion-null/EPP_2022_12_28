@@ -5,6 +5,8 @@ using namespace Epp::base;
 
 #include <unistd.h>
 
+#include "gui/GUIService/Android/About_Android.h"
+
 namespace Epp {
 namespace base {
 

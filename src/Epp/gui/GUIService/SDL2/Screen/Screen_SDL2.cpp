@@ -9,7 +9,6 @@ using namespace Epp::graphics;
 
 #include "../About_SDL2.h"
 
-
 namespace Epp {
 namespace gui {
 
@@ -20,12 +19,12 @@ void Screen_SDL2::Static() { // 静态块，类初始化时将会执行块内代
 }
 
 Screen_SDL2::Screen_SDL2() :
-		This(800, 600, Color::ARGB8888, Rot_0) {
+		This(800, 600, Color::XRGB8888, Rot_0) {
 
 }
 
 void Screen_SDL2::destroy() {
-	delete this;
+	SafeDelete(this->csdl2);
 }
 
 Screen_SDL2::Screen_SDL2(i32 w, i32 h, Color::Type colorType, Rot rot) :
@@ -37,7 +36,7 @@ Screen_SDL2::Screen_SDL2(base::EString title, i32 w, i32 h, Color::Type colorTyp
 
 	this->title = title->clone();
 
-	SafeNew(this->csdl2);
+	this->csdl2 = new struct CSDL2;
 
 	::SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -50,7 +49,7 @@ Screen_SDL2::Screen_SDL2(base::EString title, i32 w, i32 h, Color::Type colorTyp
 	this->csdl2->surface = SDL_GetWindowSurface((SDL_Window*) this->csdl2->window);
 
 	// 建立映射
-	this->display = new FrameBuffer((byte*) (this->csdl2->surface->pixels), this->w, this->h, this->bpp);
+	this->display = new Layer((byte*) (this->csdl2->surface->pixels), this->w, this->h, this->colorType, this->rot);
 }
 
 void Screen_SDL2::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {

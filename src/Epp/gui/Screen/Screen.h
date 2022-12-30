@@ -12,7 +12,7 @@ class Screen: extends graphics::Layer {
 E_CLASS_DEC(Screen,graphics::Layer)
 
 protected:
-	EFrameBuffer display = nullptr;
+	ELayer display = nullptr;
 
 public:
 	Screen();
@@ -20,7 +20,6 @@ public:
 
 public:
 	Screen(i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
-	Screen(byte *fb, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
 
 public:
 	virtual void refreshRect(i32 x0, i32 y0, i32 w, i32 h);

@@ -1,0 +1,13 @@
+public:
+	static base::EClass ClassInfo; /* 类型信息 */
+
+private:
+	static void Static(); /* 静态块 */
+
+protected:
+	virtual ~classX(){} /* 保护型析构函数，强制对象动态创建 */ 
+
+public:
+	virtual base::EClass getClass() {
+		return This::ClassInfo;
+	}

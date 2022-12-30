@@ -50,6 +50,30 @@ inline void iSwap(byte *a, byte *b, i32 elSize) {
 
 void Swap(byte *a, byte *b, i32 elSize);
 
+template<typename T>
+T GetMemory(void *mem) {
+	return *((T*) mem);
+}
+
+template<typename T>
+void SetMemory(T *mem, T value, i32 elNum) {
+	for (; elNum > 0; elNum--) {
+		*mem = value;
+		mem++;
+	}
+}
+
+inline void iSetMemory(byte *mem, byte *value, i32 elSize, i32 elNum) {
+	for (; elNum > 0; elNum--) {
+		for (i32 i = 0; i < elSize; i++) {
+			*mem = value[i];
+			mem++;
+		}
+	}
+}
+
+void SetMemory(byte *mem, byte *value, i32 elSize, i32 elNum);
+
 inline void iCopy(const byte *src, byte *dest, i32 elSize, i32 elNum) {
 	for (u64 i = 0; i < (u64) (elSize * elNum); i++) {
 		*dest = *src;

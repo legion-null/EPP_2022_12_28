@@ -22,7 +22,7 @@ Screen_Android::Screen_Android() :
 		This(GUIService_Android::JA, //
 				S("Epp Android_ScreenSimulator Author:legion"), //
 				GUIService_Android::JA->w, GUIService_Android::JA->h, //
-				Color::ARGB8888, //
+				Color::RGBX8888, //
 				Rot_0 //
 				) {
 }
@@ -35,46 +35,62 @@ Screen_Android::Screen_Android(struct JAndroid *ja, EString title, i32 w, i32 h,
 		Base(w, h, colorType, rot) {
 	this->title = title->clone();
 	this->jandroid = ja;
+}
 
-	if (this->jandroid == nullptr)
-		SafeNew(this->jandroid);
+void Screen_Android::lockSurfaceRect(i32 x0, i32 y0, i32 w, i32 h) {
+	::ARect rect = { .left = x0, .top = y0, .right = this->w - w - x0, .bottom = this->h - h - y0 };
 
-	// 建立映射
-	this->display = new FrameBuffer((byte*) 0x01, this->w, this->h, this->bpp);
+	::ANativeWindow_Buffer buffer;
+	::ANativeWindow_lock(this->jandroid->window, &buffer, &rect);
+
+	// 地址重映射
+	if (this->display == nullptr) {
+		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
+	} else if (this->display->getFb() != buffer.bits) {
+		__android_log_print(ANDROID_LOG_ERROR, "EPP", "更换fb(0x%016x -> 0x%016x)", buffer.bits, this->display->getFb());
+		this->display->destroy();
+		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
+	}
+}
+
+void Screen_Android::lockSurface() {
+	::ANativeWindow_Buffer buffer;
+	::ANativeWindow_lock(this->jandroid->window, &buffer, 0);
+
+	// 地址重映射
+	if (this->display == nullptr) {
+		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
+	} else if (this->display->getFb() != buffer.bits) {
+		__android_log_print(ANDROID_LOG_ERROR, "EPP", "更换fb(0x%016x -> 0x%016x)", buffer.bits, this->display->getFb());
+		this->display->destroy();
+		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
+	}
+}
+
+void Screen_Android::unlockSurface() {
+	::ANativeWindow_unlockAndPost(this->jandroid->window);
 }
 
 void Screen_Android::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
 	if (this->jandroid->running == false)
 		return;
 
-	::ANativeWindow_Buffer buffer;
-	::ANativeWindow_lock(this->jandroid->window, &buffer, 0);
-
-	// 地址重映射
-	this->display->fb = (byte*) (buffer.bits);
-
-	// 安卓像素格式 RGBA
+	lockSurface();
 	Base::refreshRect(x0, y0, w, h);
+	unlockSurface();
 
-	::ANativeWindow_unlockAndPost(this->jandroid->window);
+	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
 }
 
 void Screen_Android::refresh() {
 	if (this->jandroid->running == false)
 		return;
 
-	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
-
-	::ANativeWindow_Buffer buffer;
-	::ANativeWindow_lock(this->jandroid->window, &buffer, 0);
-
-	// 地址重映射
-	this->display->fb = (byte*) (buffer.bits);
-
-	// 安卓像素格式 RGBA
+	lockSurface();
 	Base::refresh();
+	unlockSurface();
 
-	::ANativeWindow_unlockAndPost(this->jandroid->window);
+	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
 }
 
 }

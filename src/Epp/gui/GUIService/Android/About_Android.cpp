@@ -48,7 +48,7 @@ Java_com_legion_epp_EPP_SurfaceChanged(JNIEnv *env, jclass clazz, jobject surfac
 	GUIService_Android::JA->h = height;
 
 	// 设置像素格式
-	::ANativeWindow_setBuffersGeometry(GUIService_Android::JA->window, 0, 0, WINDOW_FORMAT_RGBX_8888);
+	::ANativeWindow_setBuffersGeometry(GUIService_Android::JA->window, width, height, WINDOW_FORMAT_RGBX_8888);
 
 	// 设置启动标志
 	GUIService_Android::JA->running = true;
@@ -72,6 +72,7 @@ Java_com_legion_epp_EPP_TouchEvent(JNIEnv *env, jclass clazz, jint x, jint y, jb
 //	state.is_touched = touch;
 	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
 }
+
 }
 
 #endif

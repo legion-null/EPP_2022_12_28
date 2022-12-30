@@ -8,6 +8,10 @@ void Swap(byte *a, byte *b, i32 elSize) {
 	return iSwap(a, b, elSize);
 }
 
+void SetMemory(byte *mem, byte *value, i32 elSize, i32 elNum) {
+	return iSetMemory(mem, value, elSize, elNum);
+}
+
 void Copy(const byte *src, byte *dest, i32 elSize, i32 elNum) {
 	return iCopy(src, dest, elSize, elNum);
 }

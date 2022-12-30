@@ -17,8 +17,7 @@ FrameBuffer::FrameBuffer() {
 }
 
 void FrameBuffer::destroy() {
-	if (ownBuf == true)
-		SafeDelete(this->fb);
+	SafeDelete(this->fb);
 	SafeDelete(this->fbX);
 
 	delete this;
@@ -30,50 +29,27 @@ FrameBuffer::FrameBuffer(i32 w, i32 h, i32 bpp) :
 }
 
 FrameBuffer::FrameBuffer(byte *fb, i32 w, i32 h, i32 bpp) {
-	reset(fb, w, h, bpp);
-}
-
-void FrameBuffer::reset(byte *fb, i32 w, i32 h, i32 bpp) {
-	// 更新基本成员信息
+	// 设置基本成员信息
 	this->w = w;
 	this->h = h;
 	this->bpp = bpp;
 
-	this->pixelSize = this->bpp / 8;		// 更新成员pixelSize
-	this->lineSize = w * this->pixelSize;	// 更新成员lineSize
+	// 计算成员信息
+	this->pixelSize = this->bpp / 8;
+	this->lineSize = this->w * this->pixelSize;
+	this->fbSize = this->lineSize * this->h;
 
-	if (this->fbSize == w * h * bpp / 8) { // this->fbSize
-		if (fb == nullptr and this->fb != nullptr)
-			return;
-	} else { // 更新成员fbSize
-		this->fbSize = this->lineSize * this->h;
+	if (fb != nullptr) { // 如果传入非空指针，认为是从外界获取了了一块内存空间作为缓冲区，将指针直接传给this->fb
+		this->fb = fb;
+	} else { // 否则，自行申请一块内存空间作为缓冲区
+		this->fb = new byte[this->fbSize];
 	}
 
-	byte *tmpfb = nullptr;
-	byte **tmpfbX = nullptr;
-
-	if (fb == nullptr) { // 新建this->fb
-		tmpfb = new byte[this->fbSize];
-	} else {
-		tmpfb = fb;
+	// 创建和进行二级映射
+	this->fbX = new byte*[this->h];
+	for (i32 i = 0; i < this->h; i++) {
+		this->fbX[i] = &(this->fb[this->lineSize * i]);
 	}
-
-	{ // tmpfbX的创建与映射
-		tmpfbX = new byte*[this->h];
-		for (i32 i = 0; i < this->h; i++) {
-			tmpfbX[i] = &(tmpfb[this->lineSize * i]);
-		}
-	}
-
-	// 交换缓冲区指针
-	// 上锁
-	Swap(this->fb, tmpfb);
-	Swap(this->fbX, tmpfbX);
-	// 解锁
-
-	// 安全删除临时变量
-	SafeDelete(tmpfb);
-	SafeDelete(tmpfbX);
 }
 
 i32 FrameBuffer::getWidth() {
@@ -93,112 +69,268 @@ i32 FrameBuffer::getBpp() {
 	return this->bpp;
 }
 
-i32 FrameBuffer::readPixel(i32 x, i32 y) {
-	i32 color = 0;
+const byte* FrameBuffer::getFb() {
+	return this->fb;
+}
+
+bool FrameBuffer::check_off(i32 off) {
+	if (off < 0 or off >= this->fbSize) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+bool FrameBuffer::check_lineOff(i32 lineOff) {
+	if (lineOff < 0 or lineOff >= this->lineSize) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+bool FrameBuffer::check_x(i32 x) {
+	if (x < 0 or x >= this->w) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+bool FrameBuffer::check_y(i32 y) {
+	if (y < 0 or y >= this->h) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+byte* FrameBuffer::unchecked_getOff(i32 off) {
+	return this->fbX[off % this->lineSize, off / this->lineSize];
+}
+
+byte* FrameBuffer::getOff(i32 off) {
+	if (check_off(off) == false) {
+		throw new Exception();
+	}
+
+	return unchecked_getOff(off);
+}
+
+byte FrameBuffer::unchecked_readByte(i32 off) {
+	return this->fb[off];
+}
+
+void FrameBuffer::unchecked_writeByte(i32 off, byte value) {
+	this->fb[off] = value;
+}
+
+byte FrameBuffer::readByte(i32 off) {
+	if (check_off(off) == false) {
+		throw new Exception();
+	}
+
+	if (this->fb != nullptr) {
+		return unchecked_readByte(off);
+	} else {
+		return unchecked_readByte(off % this->lineSize, off / this->lineSize);
+	}
+}
+
+void FrameBuffer::writeByte(i32 off, byte value) {
+	if (check_off(off) == false) {
+		throw new Exception();
+	}
+
+	if (this->fb != nullptr) {
+		return unchecked_writeByte(off, value);
+	} else {
+		return unchecked_writeByte(off % this->lineSize, off / this->lineSize, value);
+	}
+}
+
+byte FrameBuffer::unchecked_readByte(i32 lineOff, i32 y) {
+	return this->fbX[y][lineOff];
+}
+
+void FrameBuffer::unchecked_writeByte(i32 lineOff, i32 y, byte value) {
+	this->fbX[y][lineOff] = value;
+}
+
+byte FrameBuffer::readByte(i32 lineOff, i32 y) {
+	if (check_lineOff(lineOff) == false or check_y(y) == false) {
+		throw new Exception();
+	}
+
+	return unchecked_readByte(lineOff, y);
+}
+
+void FrameBuffer::writeByte(i32 lineOff, i32 y, byte value) {
+	if (check_lineOff(lineOff) == false or check_y(y) == false) {
+		throw new Exception();
+	}
+
+	return unchecked_writeByte(lineOff, y, value);
+}
+
+i32 FrameBuffer::unchecked_readPixel(i32 x, i32 y) {
+	i32 value = 0;
 
 	switch (this->bpp) {
 	case 8: {
-		color = *(((u8*) ((this->fbX[y]))) + x);
+		value = *(((i8*) ((this->fbX[y]))) + x);
 		break;
 	}
 	case 16: {
-		color = *(((u16*) ((this->fbX[y]))) + x);
+		value = *(((i16*) ((this->fbX[y]))) + x);
 		break;
 	}
 	case 24: {
 		byte *p = (((u8*) (this->fbX[y])) + 3 * x);
-		color = (*p << 16) | (*(p + 1) << 8) | *(p + 2);
+		value = (*p << 16) | (*(p + 1) << 8) | *(p + 2);
 		break;
 	}
 	case 32: {
-		color = *(((u32*) ((this->fbX[y]))) + x);
+		value = *(((i32*) ((this->fbX[y]))) + x);
 		break;
 	}
 	}
 
-	return color;
+	return value;
 }
 
-void FrameBuffer::writePixel(i32 x, i32 y, i32 color) {
+void FrameBuffer::unchecked_writePixel(i32 x, i32 y, i32 value) {
 	switch (this->bpp) {
 	case 8: {
-		*(((u8*) ((this->fbX[y]))) + x) = (u8) (color);
+		*(((i8*) ((this->fbX[y]))) + x) = (i8) (value);
 		break;
 	}
 	case 16: {
-		*(((u16*) ((this->fbX[y]))) + x) = (u16) (color);
+		*(((i16*) ((this->fbX[y]))) + x) = (i16) (value);
 		break;
 	}
 	case 24: {
 		byte *p = (((u8*) (this->fbX[y])) + 3 * x);
-		*(p + 0) = 0xff & (color >> 16);
-		*(p + 1) = 0xff & (color >> 8);
-		*(p + 2) = 0xff & (color >> 0);
+		*(p + 0) = 0xff & (value >> 16);
+		*(p + 1) = 0xff & (value >> 8);
+		*(p + 2) = 0xff & (value >> 0);
 		break;
 	}
 	case 32:
-		*(((u32*) ((this->fbX[y]))) + x) = (u32) (color);
+		*(((i32*) ((this->fbX[y]))) + x) = value;
 		break;
 	}
 }
 
-void FrameBuffer::writeRow(i32 x0, i32 y0, i32 w, i32 color) {
+i32 FrameBuffer::readPixel(i32 x, i32 y) {
+	if (x < 0 or x >= this->w or y < 0 or y >= this->h) {
+		throw new Exception();
+	}
+
+	return unchecked_readPixel(x, y);
+}
+
+void FrameBuffer::writePixel(i32 x, i32 y, i32 value) {
+	if (x < 0 or x >= this->w or y < 0 or y >= this->h) {
+		throw new Exception();
+	}
+
+	return unchecked_writePixel(x, y, value);
+}
+
+void FrameBuffer::unchecked_writeRow(i32 x0, i32 y0, i32 w, i32 value) {
 	i32 x1 = x0 + w - 1;
-
 	for (i32 x = x0; x <= x1; x++) {
-		writePixel(x, y0, color);
+		unchecked_writePixel(x, y0, value);
 	}
 }
 
-void FrameBuffer::writeCol(i32 x0, i32 y0, i32 h, i32 color) {
+void FrameBuffer::unchecked_writeCol(i32 x0, i32 y0, i32 h, i32 value) {
 	i32 y1 = y0 + h - 1;
-
 	for (i32 y = y0; y <= y1; y++) {
-		writePixel(x0, y, color);
+		unchecked_writePixel(x0, y, value);
 	}
 }
 
-void FrameBuffer::writeRect(i32 x0, i32 y0, i32 w, i32 h, i32 color) {
+void FrameBuffer::unchecked_writeRect(i32 x0, i32 y0, i32 w, i32 h, i32 value) {
 	i32 y1 = y0 + h - 1;
-
 	for (i32 y = y0; y <= y1; y++) {
-		writeRow(x0, y, w, color);
+		unchecked_writeRow(x0, y, w, value);
 	}
 }
 
-void FrameBuffer::clear(i32 color) {
-	writeRect(0, 0, this->w, this->h, color);
+void FrameBuffer::writeRow(i32 x0, i32 y0, i32 w, i32 value) {
+	if (check_y(y0) == false or x0 < 0 or w <= 0 or x0 + w >= this->w) {
+		throw new Exception();
+	}
+
+	return unchecked_writeRow(x0, y0, w, value);
+}
+
+void FrameBuffer::writeCol(i32 x0, i32 y0, i32 h, i32 value) {
+	if (check_x(x0) == false or y0 < 0 or h <= 0 or y0 + h >= this->h) {
+		throw new Exception();
+	}
+
+	return unchecked_writeCol(x0, y0, h, value);
+}
+
+void FrameBuffer::writeRect(i32 x0, i32 y0, i32 w, i32 h, i32 value) {
+	if (x0 < 0 or w <= 0 or x0 + w >= this->w or y0 < 0 or h < 0 or y0 + h >= this->h) {
+		throw new Exception();
+	}
+
+	return unchecked_writeRect(x0, y0, w, h, value);
+}
+
+void FrameBuffer::clear(i32 value) {
+	if (this->fb != nullptr) {
+		SetMemory(this->fb, (byte*) &value, 4, this->w * this->h);
+	} else {
+		unchecked_writeRect(0, 0, this->w, this->h, value);
+	}
+}
+
+void FrameBuffer::unchecked_copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
+	i32 copySize = this->lineSize / 8;
+
+	for (i32 i = 0; i < h; i++) { // 执行行复制，以优化复制速度
+		Copy(other->fbX[y0 + i] + x0 * this->pixelSize, this->fbX[y1 + i] + x1 * this->pixelSize, 1, copySize);
+	}
+}
+
+void FrameBuffer::unchecked_copyFrom(EFrameBuffer other) {
+	if (this->fb == nullptr or other->fb == nullptr) { // 任意一个对象不具有实际缓冲区空间，通过fbX进行复制
+
+		for (i32 i = 0; i < h; i++) {
+			Copy(other->fbX[i], this->fbX[i], 1, this->lineSize);
+		}
+
+	} else { // 两个对象都具有实际缓冲区空间，执行最速复制
+		Copy(other->fb, this->fb, 1, this->fbSize);
+	}
 }
 
 void FrameBuffer::copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
 	if (other->bpp != this->bpp) { // 像素位数必须一致，否则报错
-		throw new Error(S("Inconsistent bpp"));
+		throw new Exception(S("Inconsistent bpp"));
 	} else if (w <= 0 or h <= 0) { // 矩形区域面积必须大于0
-		throw new Error(S("Illegal Parameter: The area of the rect must be greater than 0"));
+		throw new Exception(S("Illegal Parameter: The area of the rect must be greater than 0"));
 	} else if (x0 < 0 or y0 < 0 or x0 + w > other->w or y0 + h > other->h) { // 复制的矩形区域必须位于other所拥有的内存空间内
-		throw new Error(S("Illegal Parameter: Attempt to read illegal memory area"));
+		throw new Exception(S("Illegal Parameter: Attempt to read illegal memory area"));
 	} else if (x1 < 0 or y1 < 0 or x1 + w > this->w or y1 + h > this->h) { // 复制后的矩形区域必须位于本实例所拥有的内存空间内
-		throw new Error(S("Illegal Parameter: Attempt to write to illegal memory area"));
-	} else {
-		i32 lineSize = w * this->bpp / 8;
-		for (i32 i = 0; i < h; i++) {
-			Copy(other->fbX[y0 + i] + x0 * this->pixelSize, this->fbX[y1 + i] + x1 * this->pixelSize, 1, lineSize);
-		}
+		throw new Exception(S("Illegal Parameter: Attempt to write to illegal memory area"));
 	}
+
+	return unchecked_copyFrom(other, x0, y0, w, h, x1, y1);
 }
 
 void FrameBuffer::copyFrom(EFrameBuffer other) {
 	if (other->fbSize != this->fbSize) { // 缓冲区大小必须一致，否则报错
-		throw new Error(S("Inconsistent fbSize"));
-	} else {
-		if (this->ownBuf == false or other->ownBuf == false) {
-			for (i32 i = 0; i < h; i++) {
-				Copy(other->fbX[i], this->fbX[i], 1, this->lineSize);
-			}
-		} else {
-			Copy(other->fb, this->fb, 1, this->fbSize);
-		}
+		throw new Exception(S("Inconsistent fbSize"));
 	}
+
+	return unchecked_copyFrom(other);
 }
 
 }

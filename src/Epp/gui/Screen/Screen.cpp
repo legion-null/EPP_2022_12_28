@@ -23,14 +23,7 @@ void Screen::destroy() {
 }
 
 Screen::Screen(i32 w, i32 h, Color::Type colorType, Rot rot) :
-		This(nullptr, w, h, colorType, rot) {
-}
-
-Screen::Screen(byte *fb, i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Base(w, h, colorType, rot) {
-	if (fb != nullptr) {
-		this->display = new FrameBuffer(fb, w, h, Color::GetBPP(colorType));
-	}
 }
 
 void Screen::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
@@ -43,22 +36,21 @@ void Screen::refresh() {
 }
 
 void Screen::test() {
-	static const EColor testColor[7] = { TColor(Red), TColor(Orange), TColor(Yellow), TColor(Green), TColor(Cyan), TColor(
-			Blue), TColor(Purple) };
+	static const EColor testColor[7] = { C(Red), C(Orange), C(Yellow), C(Green), C(Cyan), C(Blue), C(Purple) };
 
 	for (i32 i = 0;; i++) {
-		clear(testColor[i % 7]);
+		Base::clear(testColor[i % 7]);
 
-		for (i32 sideLength = 10, y = 0; y < this->h; y += sideLength) {
-			for (i32 x = 0; x < this->w; x += sideLength) {
-				if (i % 2 == 0 and Diff(x, y) % (2 * sideLength) == 0) {
-					refreshRect(x, y, sideLength, sideLength);
-				} else if (i % 2 == 1 and Diff(x, y) % (2 * sideLength) == sideLength) {
-					refreshRect(x, y, sideLength, sideLength);
-				}
-			}
-		}
-		this->refresh();
+//		for (i32 sideLength = 100, y = 0; y + sideLength <= this->h; y += sideLength) {
+//			for (i32 x = 0; x + sideLength <= this->w; x += sideLength) {
+//				if (i % 2 == 0 and Diff(x, y) % (2 * sideLength) == 0) {
+//					refreshRect(x, y, sideLength, sideLength);
+//				} else if (i % 2 == 1 and Diff(x, y) % (2 * sideLength) == sideLength) {
+//					refreshRect(x, y, sideLength, sideLength);
+//				}
+//			}
+//		}
+		refresh();
 		//Thread::Sleep(1);
 	}
 }

@@ -1,4 +1,4 @@
-#ifdef CURRENT_OS_LINUX
+#ifdef CURRENT_OS_MACOS
 
 #include "Epp.h"
 

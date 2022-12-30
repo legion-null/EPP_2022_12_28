@@ -17,7 +17,7 @@ i32 Color::GetBPP(Type type) {
 		return 16;
 	} else if (type == RGB888) {
 		return 24;
-	} else if (type == ARGB8888) {
+	} else if (type == XRGB8888 or type == ARGB8888 or type == RGBX8888 or type == RGBA8888) {
 		return 32;
 	}
 
@@ -30,20 +30,38 @@ i32 Color::ToARGB8888(i32 value, Type src) {
 
 	ColorValue &color = (ColorValue&) value;
 	ColorValue ret;
+
 	if (src == RGB565) {
+		ret.argb8888.a = 0;
 		ret.argb8888.r = color.rgb565.r << 3;
 		ret.argb8888.g = color.rgb565.g << 2;
 		ret.argb8888.b = color.rgb565.b << 3;
 	} else if (src == RGB888) {
+		ret.argb8888.a = 0;
 		ret.argb8888.r = color.rgb888.r;
 		ret.argb8888.g = color.rgb888.g;
 		ret.argb8888.b = color.rgb888.b;
+	} else if (src == XRGB8888) {
+		ret.argb8888.a = 0;
+		ret.argb8888.r = color.xrgb8888.r;
+		ret.argb8888.g = color.xrgb8888.g;
+		ret.argb8888.b = color.xrgb8888.b;
+	} else if (src == RGBX8888) {
+		ret.argb8888.a = 0;
+		ret.argb8888.r = color.rgbx8888.r;
+		ret.argb8888.g = color.rgbx8888.g;
+		ret.argb8888.b = color.rgbx8888.b;
+	} else if (src == RGBA8888) {
+		ret.argb8888.a = color.rgba8888.a;
+		ret.argb8888.r = color.rgba8888.r;
+		ret.argb8888.g = color.rgba8888.g;
+		ret.argb8888.b = color.rgba8888.b;
 	}
 
 	return ret.value;
 }
 
-i32 Color::FormARGB8888(i32 value, Type dest) {
+i32 Color::FormARGB8888(i32 value, Type dest) { // 如果目标格式没有透明度通道，将损失透明度通道
 	if (dest == ARGB8888)
 		return value;
 
@@ -57,7 +75,21 @@ i32 Color::FormARGB8888(i32 value, Type dest) {
 		ret.rgb888.r = color.argb8888.r;
 		ret.rgb888.g = color.argb8888.g;
 		ret.rgb888.b = color.argb8888.b;
+	} else if (dest == XRGB8888) {
+		ret.xrgb8888.r = color.argb8888.r;
+		ret.xrgb8888.g = color.argb8888.g;
+		ret.xrgb8888.b = color.argb8888.b;
+	} else if (dest == RGBX8888) {
+		ret.rgbx8888.r = color.argb8888.r;
+		ret.rgbx8888.g = color.argb8888.g;
+		ret.rgbx8888.b = color.argb8888.b;
+	} else if (dest == RGBA8888) {
+		ret.rgba8888.a = color.argb8888.a;
+		ret.rgba8888.r = color.argb8888.r;
+		ret.rgba8888.g = color.argb8888.g;
+		ret.rgba8888.b = color.argb8888.b;
 	}
+
 	return ret.value;
 }
 
