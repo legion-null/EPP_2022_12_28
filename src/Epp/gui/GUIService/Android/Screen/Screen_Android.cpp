@@ -19,20 +19,16 @@ void Screen_Android::Static() { // 静态块，类初始化时将会执行块内
 }
 
 Screen_Android::Screen_Android() :
-		This(1080, 1920, colorType, rot) {
+		This(GUIService_Android::JA, //
+				S("Epp Android_ScreenSimulator Author:legion"), //
+				GUIService_Android::JA->w, GUIService_Android::JA->h, //
+				Color::ARGB8888, //
+				Rot_0 //
+				) {
 }
 
 void Screen_Android::destroy() {
-	delete this;
-}
-
-Screen_Android::Screen_Android(i32 w, i32 h, Color::Type colorType, Rot rot) :
-		This(S("Epp Android_ScreenSimulator Author:legion"), w, h, colorType, rot) {
-}
-
-Screen_Android::Screen_Android(EString title, i32 w, i32 h, Color::Type colorType, Rot rot) :
-		This(::GetJAndroid(), title, w, h, colorType, rot) {
-
+	Base::destroy();
 }
 
 Screen_Android::Screen_Android(struct JAndroid *ja, EString title, i32 w, i32 h, Color::Type colorType, Rot rot) :
@@ -41,14 +37,14 @@ Screen_Android::Screen_Android(struct JAndroid *ja, EString title, i32 w, i32 h,
 	this->jandroid = ja;
 
 	if (this->jandroid == nullptr)
-		; //SafeNew(this->jandroid);
+		SafeNew(this->jandroid);
 
 	// 建立映射
 	this->display = new FrameBuffer((byte*) 0x01, this->w, this->h, this->bpp);
 }
 
 void Screen_Android::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
-	if (this->jandroid->run == false)
+	if (this->jandroid->running == false)
 		return;
 
 	::ANativeWindow_Buffer buffer;
@@ -64,7 +60,7 @@ void Screen_Android::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
 }
 
 void Screen_Android::refresh() {
-	if (this->jandroid->run == false)
+	if (this->jandroid->running == false)
 		return;
 
 	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);

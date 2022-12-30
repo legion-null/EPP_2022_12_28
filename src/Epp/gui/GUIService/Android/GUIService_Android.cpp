@@ -5,6 +5,8 @@
 using namespace Epp;
 using namespace Epp::base;
 
+#include "About_Android.h"
+
 namespace Epp {
 namespace gui {
 
@@ -14,6 +16,12 @@ void GUIService_Android::Static() { // 静态块，类初始化时将会执行�
 
 }
 
+struct JAndroid *GUIService_Android::JA = new struct JAndroid;
+
+bool GUIService_Android::IsJAndroidReady() {
+	return JA->running;
+}
+
 GUIService_Android::GUIService_Android() {
 
 }
@@ -21,6 +29,8 @@ GUIService_Android::GUIService_Android() {
 void GUIService_Android::destroy() {
 	delete this;
 }
+
+
 
 }
 }

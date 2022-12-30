@@ -14,6 +14,15 @@ class GUIService_Android: extends GUIService {
 E_CLASS_DEC(GUIService_Android,GUIService)
 
 public:
+	static struct JAndroid *JA;
+
+public:
+	static bool IsJAndroidReady();
+
+protected:
+	struct JAndroid *jandroid = nullptr;
+
+public:
 	GUIService_Android();
 	virtual void destroy() override;
 

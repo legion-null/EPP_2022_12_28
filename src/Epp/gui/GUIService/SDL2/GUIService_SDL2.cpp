@@ -1,4 +1,4 @@
-#ifdef USE_LIB_SDL2
+#ifdef USE_SDL2_SUPPORT
 
 #include "Epp.h"
 

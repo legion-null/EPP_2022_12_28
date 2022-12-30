@@ -49,17 +49,17 @@ void Screen::test() {
 	for (i32 i = 0;; i++) {
 		clear(testColor[i % 7]);
 
-//		for (i32 sideLength = 100, y = 0; y < this->h; y += sideLength) {
-//			for (i32 x = 0; x < this->w; x += sideLength) {
-//				if (i % 2 == 0 and Diff(x, y) % (2 * sideLength) == 0) {
-//					refreshRect(x, y, sideLength, sideLength);
-//				} else if (i % 2 == 1 and Diff(x, y) % (2 * sideLength) == sideLength) {
-//					refreshRect(x, y, sideLength, sideLength);
-//				}
-//			}
-//		}
+		for (i32 sideLength = 10, y = 0; y < this->h; y += sideLength) {
+			for (i32 x = 0; x < this->w; x += sideLength) {
+				if (i % 2 == 0 and Diff(x, y) % (2 * sideLength) == 0) {
+					refreshRect(x, y, sideLength, sideLength);
+				} else if (i % 2 == 1 and Diff(x, y) % (2 * sideLength) == sideLength) {
+					refreshRect(x, y, sideLength, sideLength);
+				}
+			}
+		}
 		this->refresh();
-		Thread::Sleep(1);
+		//Thread::Sleep(1);
 	}
 }
 

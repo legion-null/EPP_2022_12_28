@@ -24,9 +24,7 @@ public:
 	virtual void destroy() override;
 
 public:
-	Screen_Android(i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
-	Screen_Android(base::EString title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
-	Screen_Android(struct JAndroid *ja, base::EString title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
+	Screen_Android(struct JAndroid *ja, base::EString title, i32 w, i32 h, graphics::Color::Type colorType,	graphics::Rot rot);
 
 public:
 	virtual void refreshRect(i32 x0, i32 y0, i32 w, i32 h) override;
