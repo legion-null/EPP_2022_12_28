@@ -1,8 +1,8 @@
-#ifdef USE_SDL2_SUPPORT
-
 #pragma once
 
 #include "gui/GUIService/GUIService.h"
+
+#if EPP_MODULE_SDL2_SUPPORT == EPP_TRUE
 
 E_init
 

@@ -7,7 +7,7 @@ E_init
 namespace Epp {
 namespace base {
 
-interface Interface {
+interface EPP_EXPORT Interface {
 
 E_IF_DEC(Interface,Interface)
 

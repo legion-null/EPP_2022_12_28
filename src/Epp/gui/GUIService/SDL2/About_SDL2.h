@@ -1,8 +1,8 @@
-#ifdef USE_SDL2_SUPPORT
-
 #pragma once
 
 #include "Epp.hpp"
+
+#if EPP_MODULE_SDL2_SUPPORT == EPP_TRUE
 
 #include <SDL2/SDL.h>
 

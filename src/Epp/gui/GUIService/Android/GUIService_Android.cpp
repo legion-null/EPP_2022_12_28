@@ -1,6 +1,6 @@
-#ifdef CURRENT_OS_ANDROID
-
 #include "Epp.h"
+
+#if EPP_CURRENT_OS == EPP_OS_ANDROID
 
 using namespace Epp;
 using namespace Epp::base;

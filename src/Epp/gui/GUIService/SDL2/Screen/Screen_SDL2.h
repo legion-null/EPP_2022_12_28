@@ -1,8 +1,9 @@
-#ifdef USE_SDL2_SUPPORT
-
 #pragma once
 
 #include "gui/Screen/Screen.h"
+
+#if EPP_MODULE_SDL2_SUPPORT == EPP_TRUE
+
 
 E_init
 

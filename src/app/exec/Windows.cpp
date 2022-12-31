@@ -1,6 +1,6 @@
-#ifdef CURRENT_OS_WINDOWS
-
 #include "Epp.h"
+
+#if EPP_CURRENT_OS == EPP_OS_WINDOWS
 
 extern i32 epp_application_main(i32 argc, c8 **argv);
 

@@ -1,8 +1,8 @@
-#ifdef CURRENT_OS_ANDROID
-
 #pragma once
 
 #include "gui/GUIService/GUIService.h"
+
+#if EPP_CURRENT_OS == EPP_OS_ANDROID
 
 E_init
 
@@ -18,6 +18,7 @@ public:
 
 public:
 	static bool IsJAndroidReady();
+	static void* GetJAndroidEFP();
 
 protected:
 	struct JAndroid *jandroid = nullptr;

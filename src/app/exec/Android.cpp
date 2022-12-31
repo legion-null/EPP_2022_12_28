@@ -1,12 +1,13 @@
-#ifdef CURRENT_OS_ANDROID
-
 #include "Epp.h"
+
+#if EPP_CURRENT_OS == EPP_OS_ANDROID
 
 #include <jni.h>
 
 extern i32 epp_application_main(i32 argc, c8 **argv);
 
-extern "C"
+extern "C" {
+
 JNIEXPORT jint JNICALL
 Java_com_legion_epp_EPP_EPPMain(JNIEnv *env, jclass clazz, jobjectArray args) {
 	i32 argc = 0;
@@ -19,4 +20,5 @@ Java_com_legion_epp_EPP_EPPMain(JNIEnv *env, jclass clazz, jobjectArray args) {
 	return epp_application_main(argc, argv);
 }
 
+}
 #endif

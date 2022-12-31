@@ -1,6 +1,6 @@
-#ifdef CURRENT_OS_ANDROID
-
 #pragma once
+
+#if EPP_CURRENT_OS == EPP_OS_ANDROID
 
 #include "gui/Screen/Screen.h"
 
@@ -41,5 +41,7 @@ E_class(Screen_Android)
 
 }
 }
+
+int gui_Screen_Android_test_main(i32 argc, c8 **argv);
 
 #endif

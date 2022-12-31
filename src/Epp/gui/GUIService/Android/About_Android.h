@@ -1,8 +1,8 @@
 #pragma once
 
-#ifdef CURRENT_OS_ANDROID
-
 #include "Epp.hpp"
+
+#if EPP_CURRENT_OS == EPP_OS_ANDROID
 
 #include <jni.h>
 #include <android/log.h>

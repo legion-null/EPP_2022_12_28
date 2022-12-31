@@ -2,7 +2,15 @@
 
 #include "defs.h"
 
-#define interface		class
+#define interface				class
+
+#define public_class			class EPP_EXPORT
+#define protected_class			class EPP_HIDDEN
+#define private_class			class EPP_HIDDEN
+
+#define public_interface		class EPP_EXPORT
+#define protected_interface		class EPP_HIDDEN
+#define private_interface		class EPP_HIDDEN
 
 #define extends			public
 #define implements		public virtual
