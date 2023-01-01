@@ -12,14 +12,14 @@
 #define protected_interface		class EPP_HIDDEN
 #define private_interface		class EPP_HIDDEN
 
-#define extends			public
-#define implements		public virtual
+#define extends					public
+#define implements				public virtual
 
-#define E(classX)					E_TOKEN_SPLICE(E,classX)
+#define E(classX)				EPP_TOKEN_SPLICE(E,classX)
 
 #define E_class(classX)	\
 \
-typedef classX::E(classX) E(classX); /* E类型定义 */\
+typedef classX* E(classX); /* E类型定义 */\
 \
 
 #define E_import_class(classX) \

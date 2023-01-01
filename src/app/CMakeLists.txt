@@ -4,6 +4,12 @@ project(
 	LANGUAGES CXX # 设置编程语言
 )
 
+# 设置构建环境
+set(EPP_BUILD_ENVIRONMENT "Default")
+
+# 设置编译目标
+set(EPP_TARGET "Android")
+
 # ----------------------------------------------------------------------------------------------------
 # 编译器相关信息（通用）：
 # ----------------------------------------------------------------------------------------------------
@@ -13,9 +19,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-#set(CMAKE_CXX_VISIBILITY_PRESET default)
-#set(CMAKE_VISIBILITY_INLINES_HIDDEN 0)
-
 # 编译器配置 代码地址无关性
 set(CMAKE_CXX_FLAGS "-fPIC")
 
@@ -23,7 +26,7 @@ set(CMAKE_CXX_FLAGS "-fPIC")
 add_definitions(-w)
 
 # 添加目标系统环境宏
-add_definitions(-DEPP_TARGET_OS_ANDROID)
+include("target_${EPP_TARGET}.cmake")
 
 # 设置此项目要包含的源文件（递归添加）
 file(GLOB_RECURSE EPP_SRC_FILES "./*.cpp")

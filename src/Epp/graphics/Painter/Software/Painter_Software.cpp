@@ -83,6 +83,11 @@ void Painter_Software::destroy() {
 	delete this;
 }
 
+Painter_Software::Painter_Software(ELayer layer) :
+		Base(layer) {
+
+}
+
 void Painter_Software::drawLine(i32 x0, i32 y0, i32 x1, i32 y1) {
 	if (x0 == x1) {
 		return this->layer->drawLineV(x0, Min(y0, y1), Abs(y1 - y0) + 1, this->color);
@@ -216,6 +221,7 @@ void Painter_Software::drawOval(i32 x0, i32 y0, i32 w, i32 h) {
 }
 
 void Painter_Software::drawCircle(i32 x, i32 y, i32 r) {
+	return drawOval(x - r, y - r, 2 * r, 2 * r);
 }
 
 void Painter_Software::drawRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r) {

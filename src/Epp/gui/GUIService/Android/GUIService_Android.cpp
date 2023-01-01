@@ -19,7 +19,7 @@ void GUIService_Android::Static() { // 静态块，类初始化时将会执行�
 struct JAndroid *GUIService_Android::JA = new struct JAndroid;
 
 bool GUIService_Android::IsJAndroidReady() {
-	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
+	EPP_CODE_LOCATE();
 	return JA->running;
 }
 

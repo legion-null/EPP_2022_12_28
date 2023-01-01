@@ -24,7 +24,11 @@ void Painter::destroy() {
 	delete this;
 }
 
-ELayer Painter::getLayer() {
+Painter::Painter(ELayer layer) {
+	this->layer = layer;
+}
+
+const ELayer Painter::getLayer() const {
 	return this->layer;
 }
 
@@ -51,67 +55,11 @@ void Painter::setFont(EFont font) {
 }
 
 void Painter::drawPixel(i32 x, i32 y) {
+	return this->layer->setPixel(x, y, this->color);
 }
 
 EColor Painter::getPixel(i32 x, i32 y) {
-	return new Color();
-}
-
-void Painter::drawLine(i32 x0, i32 y0, i32 x1, i32 y1) {
-}
-
-void Painter::drawRect(i32 x0, i32 y0, i32 w, i32 h) {
-}
-
-void Painter::drawTriangle(i32 x0, i32 y0, i32 x1, i32 y1, i32 x2, i32 y2) {
-}
-
-void Painter::drawPolyline(i32 *x, i32 *y, i32 n) {
-}
-
-void Painter::drawPolygon(i32 *x, i32 *y, i32 n) {
-}
-
-void Painter::drawArc(i32 x, i32 y, i32 w, i32 h, i32 startAngle, i32 endAngle) {
-}
-
-void Painter::drawArc(i32 x, i32 y, i32 r, i32 startAngle, i32 endAngle) {
-}
-
-void Painter::drawSector(i32 x, i32 y, i32 w, i32 h, i32 startAngle, i32 endAngle) {
-}
-
-void Painter::drawSector(i32 x, i32 y, i32 r, i32 startAngle, i32 endAngle) {
-}
-
-void Painter::drawOval(i32 x, i32 y, i32 w, i32 h) {
-}
-
-void Painter::drawCircle(i32 x, i32 y, i32 r) {
-}
-
-void Painter::drawRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r) {
-}
-
-void Painter::fillRect(i32 x, i32 y, i32 w, i32 h) {
-}
-
-void Painter::fillTriangle(i32 x0, i32 y0, i32 x1, i32 y1, i32 x2, i32 y2) {
-}
-
-void Painter::fillPolygon(i32 *x, i32 *y, i32 n) {
-}
-
-void Painter::fillSector(i32 x, i32 y, i32 w, i32 h, f64 startAngle, f64 endAngle) {
-}
-
-void Painter::fillOval(i32 x, i32 y, i32 w, i32 h) {
-}
-
-void Painter::fillCircle(i32 x, i32 y, i32 r) {
-}
-
-void Painter::fillRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r) {
+	return this->layer->getPixel(x, y);
 }
 
 void Painter::drawCharacter(i32 x, i32 y, i32 w, i32 h, i32 c) {

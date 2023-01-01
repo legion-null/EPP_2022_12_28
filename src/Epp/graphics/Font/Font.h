@@ -19,8 +19,8 @@ public:
 		OTF = 3,			// OTF字体
 	};
 
-private:
-	EFont real = nullptr;
+protected:
+	// 这里放一张字体表，字体加载到字体表中才可以使用
 
 public:
 	Font();
@@ -35,4 +35,7 @@ E_class(Font)
 
 }
 }
+
+#include "CMF/Font_CMF.h"
+#include "SMF/Font_SMF.h"
 

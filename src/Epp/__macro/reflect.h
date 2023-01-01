@@ -30,7 +30,7 @@ public:\
 
 #define	E_REFLECT_DEF(classX) /* 反射定义 */ \
 \
-EClass classX::ClassInfo = Class::Register<classX>(new String(E_STR(classX))); /* 类型信息初始化 */\
+EClass classX::ClassInfo = Class::Register<classX>(new String(EPP_STR(classX))); /* 类型信息初始化 */\
 \
 
 //::printf("do delete 0x%016x %s\n", (u64)this, this->ClassInfo->getFullClassName()->getValue());

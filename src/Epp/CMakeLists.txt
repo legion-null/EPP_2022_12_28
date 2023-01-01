@@ -19,11 +19,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-#set(CMAKE_CXX_VISIBILITY_PRESET default)
-#set(CMAKE_VISIBILITY_INLINES_HIDDEN 0)
-
 # 编译器配置 代码地址无关性 共享库
-set(CMAKE_CXX_FLAGS "-fPIC -shared")
+set(CMAKE_CXX_FLAGS "-fPIC")
 
 # 忽略警告
 add_definitions(-w)

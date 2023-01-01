@@ -19,6 +19,9 @@ public:
 	virtual void destroy() override;
 
 public:
+	Painter_Software(ELayer layer);
+
+public:
 	virtual void drawLine(i32 x0, i32 y0, i32 x1, i32 y1) override;
 	virtual void drawRect(i32 x0, i32 y0, i32 w, i32 h) override;
 	virtual void drawTriangle(i32 x0, i32 y0, i32 x1, i32 y1, i32 x2, i32 y2) override;

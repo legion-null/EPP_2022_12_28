@@ -21,7 +21,8 @@ Class::Class(EString fullClassName) {
 	this->hashCode = String::CalculateHash(this->fullClassName->getValue());
 
 	// 输出类型注册信息
-	OS::Printf(S("Registering class: [ %-30s HashCode = 0x%08x ]\n"), this->fullClassName->getValue(), this->hashCode);
+	EPP_DEBUG("%s", "Registering class: ");
+	EPP_DEBUG("[ %-30s HashCode = 0x%08x ]\n", this->fullClassName->getValue(), this->hashCode);
 }
 
 EString Class::getFullClassName() {

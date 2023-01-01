@@ -38,7 +38,7 @@ JNIEXPORT void JNICALL
 Java_com_legion_epp_EPP_SurfaceCreate(JNIEnv *env, jclass clazz, jobject surface) {
 	GUIService_Android::JA->window = ::ANativeWindow_fromSurface(env, surface);
 
-	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
+	EPP_CODE_LOCATE();
 }
 
 JNIEXPORT void JNICALL
@@ -52,8 +52,6 @@ Java_com_legion_epp_EPP_SurfaceChanged(JNIEnv *env, jclass clazz, jobject surfac
 
 	// 设置启动标志
 	GUIService_Android::JA->running = true;
-
-	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
 }
 
 JNIEXPORT void JNICALL
@@ -62,7 +60,7 @@ Java_com_legion_epp_EPP_SurfaceDestroy(JNIEnv *env, jclass clazz, jobject surfac
 	// 设置启动标志
 	GUIService_Android::JA->running = false;
 
-	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
+	EPP_CODE_LOCATE();
 }
 
 JNIEXPORT void JNICALL
@@ -70,7 +68,6 @@ Java_com_legion_epp_EPP_TouchEvent(JNIEnv *env, jclass clazz, jint x, jint y, jb
 //	state.x = x;
 //	state.y = y;
 //	state.is_touched = touch;
-	__android_log_print(ANDROID_LOG_ERROR, "EPP", "func:%s", __func__);
 }
 
 }

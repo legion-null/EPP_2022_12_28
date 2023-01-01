@@ -14,6 +14,9 @@ class Object {
 E_CLASS_DEC(Object,Object)
 
 public:
+	//static void* operator =();
+
+public:
 	Object();
 
 public:

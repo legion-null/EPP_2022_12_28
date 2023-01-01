@@ -20,9 +20,19 @@ typedef unsigned d16 u16;
 typedef unsigned d32 u32;
 typedef unsigned d64 u64;
 
-// CPU架构相关类型 长度和指针类型长度相等的整数类型
-//typedef i64 iSize;
-//typedef u64 uSize;
+// __pointer_length = sizeof(void*)
+#define __pointer_length 	4
+
+// CPU架构相关类型 长度和指针类型长度相等的整数类型 对应C库的size_t
+#if __pointer_length == 4
+typedef i32 iSize;
+typedef u32 uSize;
+#endif
+
+#if __pointer_length == 8
+typedef i64 iSize;
+typedef u64 uSize;
+#endif
 
 // 浮点数类型
 typedef float f32;

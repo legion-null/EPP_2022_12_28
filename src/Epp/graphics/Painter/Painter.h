@@ -19,16 +19,13 @@ E_CLASS_DEC(Painter,base::Object)
 
 public:
 	enum Type : i8 {
-		Software = 0,	// 软件实现
-		OpenGL = 1,		// OpenGL实现
+		Software,		// 软件实现
+		OpenGL,			// OpenGL实现
 	};
-
-private:
-	EPainter real = nullptr;
 
 protected:
 	ELayer layer = nullptr;
-	EColor color = nullptr;
+	EColor color = C(Black);
 	EFont font = nullptr;
 
 public:
@@ -36,7 +33,10 @@ public:
 	virtual void destroy() override;
 
 public:
-	ELayer getLayer();
+	Painter(ELayer layer);
+
+public:
+	const ELayer getLayer() const;
 	void setLayer(ELayer layer);
 
 public:
@@ -52,27 +52,27 @@ public:
 	void setFont(EFont font);
 
 public:
-	virtual void drawLine(i32 x0, i32 y0, i32 x1, i32 y1);
-	virtual void drawRect(i32 x0, i32 y0, i32 w, i32 h);
-	virtual void drawTriangle(i32 x0, i32 y0, i32 x1, i32 y1, i32 x2, i32 y2);
-	virtual void drawPolyline(i32 *x, i32 *y, i32 n);
-	virtual void drawPolygon(i32 *x, i32 *y, i32 n);
-	virtual void drawArc(i32 x, i32 y, i32 w, i32 h, i32 startAngle, i32 endAngle);
-	virtual void drawArc(i32 x, i32 y, i32 r, i32 startAngle, i32 endAngle);
-	virtual void drawSector(i32 x, i32 y, i32 w, i32 h, i32 startAngle, i32 endAngle);
-	virtual void drawSector(i32 x, i32 y, i32 r, i32 startAngle, i32 endAngle);
-	virtual void drawOval(i32 x, i32 y, i32 w, i32 h);
-	virtual void drawCircle(i32 x, i32 y, i32 r);
-	virtual void drawRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r);
+	virtual void drawLine(i32 x0, i32 y0, i32 x1, i32 y1) = 0;
+	virtual void drawRect(i32 x0, i32 y0, i32 w, i32 h) = 0;
+	virtual void drawTriangle(i32 x0, i32 y0, i32 x1, i32 y1, i32 x2, i32 y2) = 0;
+	virtual void drawPolyline(i32 *x, i32 *y, i32 n) = 0;
+	virtual void drawPolygon(i32 *x, i32 *y, i32 n) = 0;
+	virtual void drawArc(i32 x, i32 y, i32 w, i32 h, i32 startAngle, i32 endAngle) = 0;
+	virtual void drawArc(i32 x, i32 y, i32 r, i32 startAngle, i32 endAngle) = 0;
+	virtual void drawSector(i32 x, i32 y, i32 w, i32 h, i32 startAngle, i32 endAngle) = 0;
+	virtual void drawSector(i32 x, i32 y, i32 r, i32 startAngle, i32 endAngle) = 0;
+	virtual void drawOval(i32 x, i32 y, i32 w, i32 h) = 0;
+	virtual void drawCircle(i32 x, i32 y, i32 r) = 0;
+	virtual void drawRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r) = 0;
 
 public:
-	virtual void fillRect(i32 x, i32 y, i32 w, i32 h);
-	virtual void fillTriangle(i32 x0, i32 y0, i32 x1, i32 y1, i32 x2, i32 y2);
-	virtual void fillPolygon(i32 *x, i32 *y, i32 n);
-	virtual void fillSector(i32 x, i32 y, i32 w, i32 h, f64 startAngle, f64 endAngle);
-	virtual void fillOval(i32 x, i32 y, i32 w, i32 h);
-	virtual void fillCircle(i32 x, i32 y, i32 r);
-	virtual void fillRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r);
+	virtual void fillRect(i32 x, i32 y, i32 w, i32 h) = 0;
+	virtual void fillTriangle(i32 x0, i32 y0, i32 x1, i32 y1, i32 x2, i32 y2) = 0;
+	virtual void fillPolygon(i32 *x, i32 *y, i32 n) = 0;
+	virtual void fillSector(i32 x, i32 y, i32 w, i32 h, f64 startAngle, f64 endAngle) = 0;
+	virtual void fillOval(i32 x, i32 y, i32 w, i32 h) = 0;
+	virtual void fillCircle(i32 x, i32 y, i32 r) = 0;
+	virtual void fillRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r) = 0;
 
 public:
 	virtual void drawCharacter(i32 x, i32 y, i32 w, i32 h, i32 c);
