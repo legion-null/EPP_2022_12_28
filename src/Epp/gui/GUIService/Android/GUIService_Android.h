@@ -23,10 +23,11 @@ protected:
 
 public:
 	GUIService_Android();
-	
+
+public:
+	virtual Epp::gui::Screen* getDefaultScreen() const override;
 
 };
-
 
 }
 }

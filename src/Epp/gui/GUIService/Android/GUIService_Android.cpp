@@ -24,6 +24,10 @@ GUIService_Android::GUIService_Android() {
 
 }
 
+Epp::gui::Screen* GUIService_Android::getDefaultScreen() const {
+	return new Screen_Android();
+}
+
 }
 }
 

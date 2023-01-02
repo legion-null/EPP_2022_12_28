@@ -7,6 +7,8 @@ using namespace Epp::base;
 
 using namespace Epp::gui;
 
+#include <jni.h>
+
 #include "About_Android.h"
 
 extern "C" {
@@ -36,13 +38,15 @@ extern "C" {
 
 JNIEXPORT void JNICALL
 Java_com_legion_epp_EPP_SurfaceCreate(JNIEnv *env, jclass clazz, jobject surface) {
-	GUIService_Android::JA->window = ::ANativeWindow_fromSurface(env, surface);
-
 	EPP_CODE_LOCATE();
+
+	GUIService_Android::JA->window = ::ANativeWindow_fromSurface(env, surface);
 }
 
 JNIEXPORT void JNICALL
 Java_com_legion_epp_EPP_SurfaceChanged(JNIEnv *env, jclass clazz, jobject surface, jint width, jint height) {
+	EPP_CODE_LOCATE();
+
 	// 设置屏幕分辨率
 	GUIService_Android::JA->w = width;
 	GUIService_Android::JA->h = height;
@@ -56,15 +60,16 @@ Java_com_legion_epp_EPP_SurfaceChanged(JNIEnv *env, jclass clazz, jobject surfac
 
 JNIEXPORT void JNICALL
 Java_com_legion_epp_EPP_SurfaceDestroy(JNIEnv *env, jclass clazz, jobject surface) {
+	EPP_CODE_LOCATE();
 
 	// 设置启动标志
 	GUIService_Android::JA->running = false;
-
-	EPP_CODE_LOCATE();
 }
 
 JNIEXPORT void JNICALL
 Java_com_legion_epp_EPP_TouchEvent(JNIEnv *env, jclass clazz, jint x, jint y, jboolean touch) {
+	EPP_CODE_LOCATE();
+
 //	state.x = x;
 //	state.y = y;
 //	state.is_touched = touch;

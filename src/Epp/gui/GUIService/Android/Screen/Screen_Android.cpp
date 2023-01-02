@@ -40,7 +40,6 @@ void Screen_Android::lockSurfaceRect(i32 x0, i32 y0, i32 w, i32 h) {
 	if (this->display == nullptr) {
 		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
 	} else if (this->display->getFb() != buffer.bits) {
-		EPP_DEBUG("更换fb(0x%016x -> 0x%016x)", buffer.bits, this->display->getFb());
 		delete this->display;
 		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
 	}
@@ -54,7 +53,6 @@ void Screen_Android::lockSurface() {
 	if (this->display == nullptr) {
 		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
 	} else if (this->display->getFb() != buffer.bits) {
-		EPP_DEBUG("更换fb(0x%016x -> 0x%016x)", buffer.bits, this->display->getFb());
 		delete this->display;
 		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
 	}
@@ -82,8 +80,6 @@ void Screen_Android::refresh() {
 	lockSurface();
 	Screen::refresh();
 	unlockSurface();
-
-	EPP_CODE_LOCATE();
 }
 
 }

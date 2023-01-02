@@ -9,7 +9,7 @@ extern const c8* __GetFileBaseName(const c8 *path);
 
 // 字符串拼接
 #define __EPP_TOKEN_SPLICE(A,B)		A##B
-#define EPP_TOKEN_SPLICE(A,B)			__EPP_TOKEN_SPLICE(A,B)
+#define EPP_TOKEN_SPLICE(A,B)		__EPP_TOKEN_SPLICE(A,B)
 
 // 代码定位相关
 #define EPP_FILE_LOC0				__FILE__

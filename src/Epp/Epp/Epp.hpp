@@ -3,7 +3,6 @@
 #include "defs.h"
 
 namespace Epp {
-
 void __Debug(const c8 *fmt, ...);
 
 template<typename T>

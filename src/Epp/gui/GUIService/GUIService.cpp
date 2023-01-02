@@ -76,7 +76,7 @@ GUIService* GUIService::GetGUIService(Type type) {
 #endif
 		break;
 	case SDL2:
-#if EPP_MODULE_SDL2_SUPPORT == EPP_FALSE
+#if EPP_MODULE_SDL2_SUPPORT == EPP_TRUE
 		return new GUIService_SDL2();
 #endif
 		break;
