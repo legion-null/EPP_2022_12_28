@@ -12,13 +12,11 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
+const base::Class * Screen_Android::ClassInfo = base::Class::Register<Screen_Android, Screen>("Epp::gui::Screen_Android", nullptr);
 
-void Screen_Android::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
 
 Screen_Android::Screen_Android() :
-		This(GUIService_Android::JA, //
+		Screen_Android(GUIService_Android::JA, //
 				S("Epp Android_ScreenSimulator Author:legion"), //
 				GUIService_Android::JA->w, GUIService_Android::JA->h, //
 				Color::RGBX8888, //
@@ -27,7 +25,7 @@ Screen_Android::Screen_Android() :
 }
 
 Screen_Android::Screen_Android(struct JAndroid *ja, String* title, i32 w, i32 h, Color::Type colorType, Rot rot) :
-		Base(w, h, colorType, rot) {
+		Screen(w, h, colorType, rot) {
 	this->title = title->clone();
 	this->jandroid = ja;
 }
@@ -71,7 +69,7 @@ void Screen_Android::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
 		return;
 
 	lockSurface();
-	Base::refreshRect(x0, y0, w, h);
+	Screen::refreshRect(x0, y0, w, h);
 	unlockSurface();
 
 	EPP_CODE_LOCATE();
@@ -82,7 +80,7 @@ void Screen_Android::refresh() {
 		return;
 
 	lockSurface();
-	Base::refresh();
+	Screen::refresh();
 	unlockSurface();
 
 	EPP_CODE_LOCATE();

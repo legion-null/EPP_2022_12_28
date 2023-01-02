@@ -28,7 +28,7 @@ extern const c8* __GetFileBaseName(const c8 *path);
 	#define EPP_DEBUG(fmt,...)
 #endif
 
-#define EPP_CODE_LOCATE(...)		EPP_DEBUG("-----> %-s:%-4d %s\n", EPP_FILE_LOC, EPP_LINE_LOC, EPP_FUNC_LOC)
+#define EPP_CODE_LOCATE(...)		EPP_DEBUG("-----> %s:%d   %s\n", EPP_FILE_LOC, EPP_LINE_LOC, EPP_FUNC_LOC)
 
 // 导出符号相关宏
 #if EPP_CURRENT_COMPILER == EPP_COMPILER_GCC

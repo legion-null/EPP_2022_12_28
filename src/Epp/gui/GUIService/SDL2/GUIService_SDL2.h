@@ -14,6 +14,8 @@ EPP_CLASS_INFO
 public:
 	GUIService_SDL2();
 
+public:
+	virtual Epp::gui::Screen* getDefaultScreen() const override;
 };
 
 }

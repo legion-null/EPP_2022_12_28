@@ -54,7 +54,7 @@ void Class::finishRegister() {
 	}
 
 	// 展示类元信息
-	EPP_DEBUG("Class: %s\n", this->fullClassName->getValue());
+	//EPP_DEBUG("Class: %s\n", this->fullClassName->getValue());
 }
 
 }

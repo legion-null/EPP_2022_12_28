@@ -10,10 +10,8 @@ using namespace Epp::base;
 namespace Epp {
 namespace gui {
 
+const base::Class * GUIService_Android::ClassInfo = base::Class::Register<GUIService_Android, GUIService>("Epp::gui::GUIService_Android", nullptr);
 
-void GUIService_Android::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
 
 struct JAndroid *GUIService_Android::JA = new struct JAndroid;
 

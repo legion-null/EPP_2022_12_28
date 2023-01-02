@@ -8,7 +8,12 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
-const base::Class *Screen::ClassInfo = base::Class::Register<Screen, Screen>("Epp::gui::Screen", nullptr);
+const Class *Screen::ClassInfo = Class::Register<Screen, Layer>("Epp::gui::Screen", nullptr);
+
+Screen* Screen::GetDefaultScreen() {
+	EPP_CODE_LOCATE();
+	return GUIService::GetDefaultGUIService()->getDefaultScreen();
+}
 
 Screen::Screen() {
 
@@ -16,6 +21,19 @@ Screen::Screen() {
 
 Screen::Screen(i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Layer(w, h, colorType, rot) {
+}
+
+Screen::Screen(String *title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) :
+		Layer(w, h, colorType, rot) {
+	this->title = title;
+}
+
+String* Screen::getTitle() {
+	return this->title;
+}
+
+void Screen::setTitle(String *title) {
+	this->title = title;
 }
 
 void Screen::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {

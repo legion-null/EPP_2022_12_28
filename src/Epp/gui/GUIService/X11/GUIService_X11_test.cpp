@@ -1,5 +1,7 @@
 #include "Epp.h"
 
+#if EPP_MODULE_X11_SUPPORT == EPP_TRUE
+
 using namespace Epp;
 using namespace Epp::base;
 
@@ -11,3 +13,5 @@ i32 gui_GUIService_X11_test_main(i32 argc, c8 **argv) {
 
 	return 0;
 }
+
+#endif

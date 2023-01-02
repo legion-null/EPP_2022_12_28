@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Epp.hpp"
+#include "defs.h"
 
 #if EPP_CURRENT_OS == EPP_OS_ANDROID
 

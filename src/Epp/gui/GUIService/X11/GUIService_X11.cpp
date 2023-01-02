@@ -1,5 +1,7 @@
 #include "Epp.h"
 
+#if EPP_MODULE_X11_SUPPORT == EPP_TRUE
+
 using namespace Epp;
 using namespace Epp::base;
 
@@ -15,5 +17,12 @@ GUIService_X11::GUIService_X11() {
 
 }
 
+Epp::gui::Screen* GUIService_X11::getDefaultScreen() const {
+	EPP_CODE_LOCATE();
+	return new Screen_X11();
+}
+
 }
 }
+
+#endif

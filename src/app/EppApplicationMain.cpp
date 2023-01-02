@@ -1,7 +1,7 @@
 #include "Epp.h"
 
 // 单元测试
-#define TEST_UNIT	gui_Screen_SDL2_test_main
+#define TEST_UNIT	graphics_Painter_test_main
 
 // 声明单元测试入口函数
 extern i32 TEST_UNIT(i32 argc, c8 **argv);
