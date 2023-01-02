@@ -52,6 +52,7 @@ Color* Painter::getPixel(i32 x, i32 y) {
 }
 
 void Painter::drawCharacter(i32 x, i32 y, i32 w, i32 h, i32 c) {
+	return drawImage(x, y, w, h, this->font->getCharacterImage(c));
 }
 
 void Painter::drawCharacter(Rect2D *limitBox, i32 c) {
@@ -64,6 +65,9 @@ void Painter::drawString(Rect2D *limitBox, base::String *str) {
 }
 
 void Painter::drawImage(i32 x, i32 y, i32 w, i32 h, Image *img) {
+	EnsureExists(img);
+
+	this->layer->copyFrom(img, 0, 0, w, h, x, y);
 }
 
 void Painter::drawImage(Rect2D *limitBox, Image *img) {

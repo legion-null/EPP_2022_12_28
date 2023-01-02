@@ -12,9 +12,15 @@ Font::Font() {
 
 }
 
+Image* Font::getCharacterImage(i32 c) {
+	return nullptr;
+}
+
 Font* Font::clone() {
 	return new Font();
 }
+
+
 
 }
 }

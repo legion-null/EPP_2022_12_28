@@ -25,8 +25,7 @@ i32 Color::ToARGB8888(i32 value, Type src) {
 		return value;
 
 	ColorValue &color = (ColorValue&) value;
-	ColorValue ret;
-
+	ColorValue ret = { .value = 0 };
 	if (src == RGB565) {
 		ret.argb8888.a = 0;
 		ret.argb8888.r = color.rgb565.r << 3;
@@ -62,7 +61,7 @@ i32 Color::FormARGB8888(i32 value, Type dest) { // 如果目标格式没有透�
 		return value;
 
 	ColorValue &color = (ColorValue&) value;
-	ColorValue ret;
+	ColorValue ret = { .value = 0 };
 	if (dest == RGB565) {
 		ret.rgb565.r = color.argb8888.r >> 3;
 		ret.rgb565.g = color.argb8888.g >> 2;
@@ -124,7 +123,7 @@ Color::Color(i32 value, Type src) :
 		Color(ToARGB8888(value, src)) {
 }
 
-i32 Color::getValue() {
+u32 Color::getValue() {
 	return this->value.value;
 }
 

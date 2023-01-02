@@ -15,7 +15,7 @@ namespace gui {
 const Class *Screen_X11::ClassInfo = Class::Register<Screen_X11, Screen>("Epp::gui::Screen_X11", nullptr);
 
 Screen_X11::Screen_X11() :
-		Screen_X11(800, 600, Color::ARGB8888, Rot_0) {
+		Screen_X11(800, 600, Color::XRGB8888, Rot_0) {
 
 }
 

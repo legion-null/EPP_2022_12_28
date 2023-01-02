@@ -12,13 +12,48 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 
 	EPP_CODE_LOCATE();
 
-	Screen* scr = Screen::GetDefaultScreen();
-	Painter* painter = new Painter_Software(scr);
+	Screen *scr = Screen::GetDefaultScreen();
+	Painter *painter = new Painter_Software(scr);
 
-	painter->setColor(C(White));
-	painter->drawRect(100, 100, 500, 500);
-	painter->fillRect(200, 200, 200, 200);
-	painter->drawCircle(400, 400, 100);
+//	painter->setColor(C(White));
+//	painter->drawRect(100, 100, 500, 500);
+//	painter->fillRect(200, 200, 200, 200);
+//	painter->drawCircle(400, 400, 100);
+
+	i32 size = 2;
+	u32 *fb = new u32[size * size];
+
+	for (i32 x = 0; x < size; x++)
+		for (i32 y = 0; y < size; y++) {
+			if (y < size / 2) { // 上半
+				if (x >= 0 and x < size / 2) { // 左上
+					fb[y * size + x] = Red;
+				} else { //右上
+					fb[y * size + x] = Green;
+				}
+			} else { // 下半
+				if (x >= 0 and x < size / 2) { //左下
+					fb[y * size + x] = Blue;
+				} else { //右下
+					fb[y * size + x] = Yellow;
+				}
+			}
+
+		}
+
+	Image *img1 = new Image((byte*) fb, size, size, Color::XRGB8888); // 原色
+	Image *img2 = new Image((byte*) fb, size, size, Color::RGBX8888); // R G 0 B
+	Image *img3 = new Image((byte*) fb, size, size, Color::ARGB8888); //
+	Image *img4 = new Image((byte*) fb, size, size, Color::RGBA8888);
+
+	EPP_DEBUG("%s", "1:");
+	painter->drawImage(0, 0, size, size, img1);
+	EPP_DEBUG("%s", "2:");
+	painter->drawImage(0, 200, size, size, img2);
+	EPP_DEBUG("%s", "3:");
+	painter->drawImage(200, 0, size, size, img3);
+	EPP_DEBUG("%s", "4:");
+	painter->drawImage(200, 200, size, size, img4);
 
 	while (true)
 		scr->refresh();

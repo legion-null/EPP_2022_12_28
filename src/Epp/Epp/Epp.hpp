@@ -8,6 +8,7 @@ void __Debug(const c8 *fmt, ...);
 template<typename T>
 inline bool EnsureExists(T *ptr) {
 	if (ptr == nullptr) {
+		throw 0;
 		return false;
 	}
 	return true;

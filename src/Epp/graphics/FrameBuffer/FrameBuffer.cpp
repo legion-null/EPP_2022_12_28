@@ -281,7 +281,7 @@ void FrameBuffer::clear(i32 value) {
 }
 
 void FrameBuffer::unchecked_copyFrom(FrameBuffer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
-	i32 copySize = this->lineSize / 8;
+	i32 copySize = this->pixelSize * w;
 
 	for (i32 i = 0; i < h; i++) { // 执行行复制，以优化复制速度
 		Copy(other->fbX[y0 + i] + x0 * this->pixelSize, this->fbX[y1 + i] + x1 * this->pixelSize, 1, copySize);

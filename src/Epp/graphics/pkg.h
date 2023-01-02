@@ -10,4 +10,6 @@
 
 #include "Layer/Layer.h"
 
+#include "Image/Image.h"
+
 #include "Painter/Painter.h"

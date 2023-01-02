@@ -67,7 +67,7 @@ protected:
 
 protected:
 	union ColorValue {
-		i32 value;
+		u32 value;
 		struct RGB565 rgb565;
 		struct RGB888 rgb888;
 		struct XRGB8888 xrgb8888;
@@ -97,7 +97,7 @@ public:
 	Color(i32 value, Type src);
 
 public:
-	i32 getValue();
+	u32 getValue();
 
 public:
 	i32 getA();
