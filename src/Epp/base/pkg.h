@@ -1,12 +1,12 @@
 #pragma once
 
-#include "base.hpp"
+#include "base/base.hpp"
 
-// 最终基类接口 Interface
-#include "Interface/Interface.h"
 
 // 最终基类 Object
 #include "Object/Object.h"
+
+#include "Interface/Interface.h"
 
 #include "Class/Class.h"
 

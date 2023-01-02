@@ -7,8 +7,7 @@ i32 base_Error_test_main(i32 argc, c8 **argv) {
 	(void) argc;
 	(void) argv;
 
-	EError e = Error::UnknownError();
-	e->destroy();
+	Error* e = Error::UnknownError();
 
 	return 0;
 }

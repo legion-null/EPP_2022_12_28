@@ -6,11 +6,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-E_CLASS_DEF(Epp::graphics::Color)
-
-void Color::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
+const base::Class *Color::ClassInfo = base::Class::Register<Color, base::Object>("Epp::graphics::Color", nullptr);
 
 i32 Color::GetBPP(Type type) {
 	if (type == RGB565) {
@@ -104,10 +100,6 @@ Color::Color() {
 
 }
 
-void Color::destroy() {
-	delete this;
-}
-
 Color::Color(i32 value) {
 	this->value.value = value;
 }
@@ -194,7 +186,7 @@ void Color::getRGBF(f32 &r, f32 &g, f32 &b) {
 	b = getBF();
 }
 
-Color::EColor Color::clone() {
+Color* Color::clone() {
 	return new Color(this->value.value);
 }
 

@@ -1,21 +1,23 @@
 #pragma once
 
+#include "graphics/graphics/graphics.hpp"
+
 #include "base/Object/Object.h"
 
-E_init
+#include "graphics/Color/Color.h"
 
 namespace Epp {
 namespace graphics {
 
-E_import_class(Color)
-E_import_class(Layer)
-E_import_class(Font)
-E_import_class(Image)
-E_import_class(Rect2D)
+class Layer;
+class Color;
+class Font;
+class Image;
+class Rect2D;
 
 class Painter: extends base::Object {
 
-E_CLASS_DEC(Painter,base::Object)
+EPP_CLASS_INFO
 
 public:
 	enum Type : i8 {
@@ -24,32 +26,31 @@ public:
 	};
 
 protected:
-	ELayer layer = nullptr;
-	EColor color = C(Black);
-	EFont font = nullptr;
+	Layer *layer = nullptr;
+	Color *color = C(Black);
+	Font *font = nullptr;
 
 public:
 	Painter();
-	virtual void destroy() override;
 
 public:
-	Painter(ELayer layer);
+	Painter(Layer *layer);
 
 public:
-	const ELayer getLayer() const;
-	void setLayer(ELayer layer);
+	const Layer* getLayer() const;
+	void setLayer(Layer *layer);
 
 public:
-	EColor getColor();
-	void setColor(EColor color);
+	Color* getColor();
+	void setColor(Color *color);
 
 public:
 	void drawPixel(i32 x, i32 y);
-	EColor getPixel(i32 x, i32 y);
+	Color* getPixel(i32 x, i32 y);
 
 public:
-	EFont getFont();
-	void setFont(EFont font);
+	Font* getFont();
+	void setFont(Font *font);
 
 public:
 	virtual void drawLine(i32 x0, i32 y0, i32 x1, i32 y1) = 0;
@@ -76,18 +77,16 @@ public:
 
 public:
 	virtual void drawCharacter(i32 x, i32 y, i32 w, i32 h, i32 c);
-	virtual void drawCharacter(ERect2D limitBox, i32 c);
+	virtual void drawCharacter(Rect2D *limitBox, i32 c);
 
 public:
-	virtual void drawString(i32 x, i32 y, i32 w, i32 h, base::EString str);
-	virtual void drawString(ERect2D limitBox, base::EString str);
+	virtual void drawString(i32 x, i32 y, i32 w, i32 h, base::String *str);
+	virtual void drawString(Rect2D *limitBox, base::String *str);
 
 public:
-	virtual void drawImage(i32 x, i32 y, i32 w, i32 h, EImage img);
-	virtual void drawImage(ERect2D limitBox, EImage img);
+	virtual void drawImage(i32 x, i32 y, i32 w, i32 h, Image *img);
+	virtual void drawImage(Rect2D *limitBox, Image *img);
 };
-
-E_class(Painter)
 
 }
 }

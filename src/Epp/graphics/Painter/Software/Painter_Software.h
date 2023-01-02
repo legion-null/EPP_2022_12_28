@@ -2,24 +2,21 @@
 
 #include "graphics/Painter/Painter.h"
 
-E_init
-
 namespace Epp {
 namespace graphics {
 
 class Painter_Software: extends Painter {
 
-E_CLASS_DEC(Painter_Software,Painter)
+EPP_CLASS_INFO
 
 public:
 	static void GetLinePixel(i32 x0, i32 y0, i32 x1, i32 y1, i32 **px, i32 **py, i32 &n);
 
 public:
 	Painter_Software();
-	virtual void destroy() override;
 
 public:
-	Painter_Software(ELayer layer);
+	Painter_Software(Layer *layer);
 
 public:
 	virtual void drawLine(i32 x0, i32 y0, i32 x1, i32 y1) override;
@@ -45,8 +42,6 @@ public:
 	virtual void fillRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r) override;
 
 };
-
-E_class(Painter_Software)
 
 }
 }

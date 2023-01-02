@@ -8,11 +8,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace base {
 
-E_CLASS_DEF(Epp::base::String)
-
-void String::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
+const Class *String::ClassInfo = Class::Register<String, Object>("Epp::base::String", nullptr);
 
 const void* String::memchr(const void *str, i32 c, i32 n) {
 	return ::memchr(str, c, n);
@@ -98,44 +94,44 @@ i32 String::CalculateHash(const c8 *str) {
 	return hash;
 }
 
-EString String::ValueOf(bool data) {
+String* String::ValueOf(bool data) {
 	return new String(data ? "true" : "false");
 }
 
-EString String::ValueOf(c8 data) {
+String* String::ValueOf(c8 data) {
 	c8 str[2] = { data, 0 };
 	return new String(str);
 }
 
-EString String::ValueOf(c8 data[]) {
+String* String::ValueOf(c8 data[]) {
 	return ValueOf(data, 0, strlen(data));
 }
 
-EString String::ValueOf(c8 data[], i32 off, i32 len) {
+String* String::ValueOf(c8 data[], i32 off, i32 len) {
 	return new String("");
 }
 
-EString String::ValueOf(c32 data) {
+String* String::ValueOf(c32 data) {
 	return new String("Char.ToString(data)");
 }
 
-EString String::ValueOf(i32 data) {
+String* String::ValueOf(i32 data) {
 	return new String("Integer.ToString(data)");
 }
 
-EString String::ValueOf(i64 data) {
+String* String::ValueOf(i64 data) {
 	return new String("Integer.ToString(data)");
 }
 
-EString String::ValueOf(f32 data) {
+String* String::ValueOf(f32 data) {
 	return new String("Float.ToString(data)");
 }
 
-EString String::ValueOf(f64 data) {
+String* String::ValueOf(f64 data) {
 	return new String("Float.ToString(data)");
 }
 
-EString String::ValueOf(EObject data) {
+String* String::ValueOf(Object *data) {
 	return data->toString();
 }
 
@@ -143,12 +139,8 @@ String::String() {
 
 }
 
-void String::destroy() {
-	SafeDelete(this->value);
-}
-
 String::String(const c8 *str) :
-		This(str, 0, strlen(str)) {
+		String(str, 0, strlen(str)) {
 
 }
 
@@ -173,16 +165,16 @@ i32 String::getLength() {
 	return strlen(this->value);
 }
 
-EString String::clone() {
+String* String::clone() {
 	return new String(this->value);
 }
 
-bool String::equalTo(EObject other) {
-	Base::equalTo(other);
+bool String::equalTo(Object *other) {
+	Object::equalTo(other);
 	return true;
 }
 
-EString String::toString() {
+String* String::toString() {
 	return this;
 }
 

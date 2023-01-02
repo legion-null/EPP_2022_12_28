@@ -2,14 +2,12 @@
 
 #include "base/Object/Object.h"
 
-E_init
-
 namespace Epp {
 namespace graphics {
 
 class Color: extends base::Object {
 
-E_CLASS_DEC(Color,base::Object)
+EPP_CLASS_INFO
 
 public:
 	enum Type : i8 {
@@ -88,7 +86,6 @@ protected:
 
 public:
 	Color();
-	virtual void destroy() override;
 
 public:
 	Color(i32 value);
@@ -121,10 +118,8 @@ public:
 	void getRGBF(f32 &r, f32 &g, f32 &b);
 
 public:
-	virtual EColor clone() override;
+	virtual Color* clone() override;
 };
-
-E_class(Color)
 
 enum TypicalColor : i32 {
 	Black = 0x00000000,		// 黑色
@@ -377,7 +372,7 @@ enum TypicalColor : i32 {
 	White = 0x00FFFFFF,		// 白色
 };
 
-inline EColor C(TypicalColor color) {
+inline Color* C(TypicalColor color) {
 	return new Color(color);
 }
 

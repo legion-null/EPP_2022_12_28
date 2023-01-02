@@ -35,8 +35,6 @@
 	#define EPP_CURRENT_COMPILER	EPP_COMPILER_TCC
 #endif
 
-#undef EPP_BUILD_COMPILER_GCC
-
 
 // 架构相关宏
 #define EPP_ARCH_AARCH64		0
@@ -197,7 +195,6 @@
 	#define EPP_CURRENT_ARCH	EPP_ARCH_XTENSAEB
 #endif
 
-#undef EPP_TARGET_OS_LINUX
 
 // 系统相关宏
 #define EPP_OS_LINUX			0
@@ -209,27 +206,22 @@
 // 宏转换
 #ifdef EPP_TARGET_OS_LINUX
 	#define EPP_CURRENT_OS		EPP_OS_LINUX
-	#undef EPP_TARGET_OS_LINUX
 #endif
 
 #ifdef EPP_TARGET_OS_WINDOWS
 	#define EPP_CURRENT_OS		EPP_OS_WINDOWS
-	#undef EPP_TARGET_OS_WINDOWS
 #endif
 
 #ifdef EPP_TARGET_OS_MACOS
 	#define EPP_CURRENT_OS		EPP_OS_MACOS
-	#undef EPP_TARGET_OS_MACOS
 #endif
 
 #ifdef EPP_TARGET_OS_IOS
 	#define EPP_CURRENT_OS		EPP_OS_IOS
-	#undef EPP_TARGET_OS_IOS
 #endif
 
 #ifdef EPP_TARGET_OS_ANDROID
 	#define EPP_CURRENT_OS		EPP_OS_ANDROID
-	#undef EPP_TARGET_OS_ANDROID
 #endif
 
 
@@ -238,7 +230,6 @@
 // SDL2模块
 #ifdef EPP_USE_SDL2_SUPPORT
 	#define EPP_MODULE_SDL2_SUPPORT		EPP_TRUE
-	#undef EPP_USE_SDL2_SUPPORT
 #else
 	#define EPP_MODULE_SDL2_SUPPORT		EPP_FALSE
 #endif
@@ -246,7 +237,6 @@
 // X11模块
 #ifdef EPP_USE_X11_SUPPORT
 	#define EPP_MODULE_X11_SUPPORT		EPP_TRUE
-	#undef EPP_USE_X11_SUPPORT
 #else
 	#define EPP_MODULE_X11_SUPPORT		EPP_FALSE
 #endif

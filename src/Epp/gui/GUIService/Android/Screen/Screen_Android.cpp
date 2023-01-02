@@ -12,7 +12,6 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
-E_CLASS_DEF(Epp::gui::Screen_Android)
 
 void Screen_Android::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
 
@@ -27,11 +26,7 @@ Screen_Android::Screen_Android() :
 				) {
 }
 
-void Screen_Android::destroy() {
-	Base::destroy();
-}
-
-Screen_Android::Screen_Android(struct JAndroid *ja, EString title, i32 w, i32 h, Color::Type colorType, Rot rot) :
+Screen_Android::Screen_Android(struct JAndroid *ja, String* title, i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Base(w, h, colorType, rot) {
 	this->title = title->clone();
 	this->jandroid = ja;
@@ -48,7 +43,7 @@ void Screen_Android::lockSurfaceRect(i32 x0, i32 y0, i32 w, i32 h) {
 		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
 	} else if (this->display->getFb() != buffer.bits) {
 		EPP_DEBUG("更换fb(0x%016x -> 0x%016x)", buffer.bits, this->display->getFb());
-		this->display->destroy();
+		delete this->display;
 		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
 	}
 }
@@ -62,7 +57,7 @@ void Screen_Android::lockSurface() {
 		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
 	} else if (this->display->getFb() != buffer.bits) {
 		EPP_DEBUG("更换fb(0x%016x -> 0x%016x)", buffer.bits, this->display->getFb());
-		this->display->destroy();
+		delete this->display;
 		this->display = new Layer((byte*) buffer.bits, this->w, this->h, this->colorType, this->rot);
 	}
 }

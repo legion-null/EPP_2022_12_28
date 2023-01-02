@@ -2,14 +2,12 @@
 
 #include "base/Object/Object.h"
 
-E_init
-
 namespace Epp {
 namespace base {
 
 class String: extends Object {
 
-E_CLASS_DEC(String, Object)
+EPP_CLASS_INFO
 
 public:
 	static const void* memchr(const void *str, i32 c, i32 n);
@@ -36,16 +34,16 @@ public:
 	static i32 CalculateHash(const c8 *str);
 
 public:
-	static EString ValueOf(bool data);
-	static EString ValueOf(c8 data);
-	static EString ValueOf(c8 data[]);
-	static EString ValueOf(c8 data[], i32 off, i32 len);
-	static EString ValueOf(c32 data);
-	static EString ValueOf(i32 data);
-	static EString ValueOf(i64 data);
-	static EString ValueOf(f32 data);
-	static EString ValueOf(f64 data);
-	static EString ValueOf(EObject data);
+	static String* ValueOf(bool data);
+	static String* ValueOf(c8 data);
+	static String* ValueOf(c8 data[]);
+	static String* ValueOf(c8 data[], i32 off, i32 len);
+	static String* ValueOf(c32 data);
+	static String* ValueOf(i32 data);
+	static String* ValueOf(i64 data);
+	static String* ValueOf(f32 data);
+	static String* ValueOf(f64 data);
+	static String* ValueOf(Object* data);
 
 protected:
 	c8 *value = nullptr;
@@ -53,7 +51,6 @@ protected:
 
 public:
 	String();
-	virtual void destroy() override;
 
 public:
 	String(const c8 *str);
@@ -64,19 +61,18 @@ public:
 	i32 getLength();
 
 public:
-	virtual EString clone() override;
+	virtual String* clone() override;
 
 public:
-	virtual bool equalTo(EObject other) override;
+	virtual bool equalTo(Object* other) override;
 
 public:
-	virtual EString toString() override;
+	virtual String* toString() override;
 
 };
 
-E_class(String)
 
-inline EString S(const c8 *str) {
+inline String* S(const c8 *str) {
 	return new String(str);
 }
 

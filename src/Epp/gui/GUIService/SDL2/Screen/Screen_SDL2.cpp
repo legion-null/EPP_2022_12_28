@@ -12,31 +12,24 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
-E_CLASS_DEF(Epp::gui::Screen_SDL2)
+const base::Class * Screen_SDL2::ClassInfo = base::Class::Register<Screen_SDL2, Screen>("Epp::gui::Screen_SDL2", nullptr);
 
-void Screen_SDL2::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
 
 Screen_SDL2::Screen_SDL2() :
-		This(800, 600, Color::XRGB8888, Rot_0) {
+		Screen_SDL2(800, 600, Color::XRGB8888, Rot_0) {
 
-}
-
-void Screen_SDL2::destroy() {
-	SafeDelete(this->csdl2);
 }
 
 Screen_SDL2::Screen_SDL2(i32 w, i32 h, Color::Type colorType, Rot rot) :
-		This(S("Epp SDL2_ScreenSimulator Author:legion"), w, h, colorType, rot) {
+		Screen_SDL2(S("Epp SDL2_ScreenSimulator Author:legion"), w, h, colorType, rot) {
 }
 
-Screen_SDL2::Screen_SDL2(base::EString title, i32 w, i32 h, Color::Type colorType, Rot rot) :
-		Base(w, h, colorType, rot) {
+Screen_SDL2::Screen_SDL2(String* title, i32 w, i32 h, Color::Type colorType, Rot rot) :
+		Screen(w, h, colorType, rot) {
 
 	this->title = title->clone();
 
-	this->csdl2 = new struct CSDL2;
+	this->csdl2 = new CSDL2;
 
 	::SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -46,19 +39,19 @@ Screen_SDL2::Screen_SDL2(base::EString title, i32 w, i32 h, Color::Type colorTyp
 			this->w, this->h, //
 			SDL_WINDOW_SHOWN);
 
-	this->csdl2->surface = SDL_GetWindowSurface((SDL_Window*) this->csdl2->window);
+	this->csdl2->surface = ::SDL_GetWindowSurface((SDL_Window*) this->csdl2->window);
 
 	// 建立映射
 	this->display = new Layer((byte*) (this->csdl2->surface->pixels), this->w, this->h, this->colorType, this->rot);
 }
 
 void Screen_SDL2::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
-	Base::refreshRect(x0, y0, w, h);
+	Screen::refreshRect(x0, y0, w, h);
 	::SDL_UpdateWindowSurface(this->csdl2->window);
 }
 
 void Screen_SDL2::refresh() {
-	Base::refresh();
+	Screen::refresh();
 	::SDL_UpdateWindowSurface(this->csdl2->window);
 }
 

@@ -6,35 +6,55 @@ using namespace Epp::base;
 namespace Epp {
 namespace base {
 
-E_CLASS_DEF(Epp::base::Class)
+const Class *Class::ClassInfo = Class::Register<Class, Object>("Epp::base::Class", nullptr);
 
-void Class::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
+Class::Class(const c8 *fullClassName, i32 baseClassN, void (*classStaticInitFunc)(void)) {
+	this->fullClassName = new String(fullClassName);
+	this->baseClassN = baseClassN;
+	this->classStaticInitFunc = classStaticInitFunc;
 
-}
+	this->baseClassInfoList = new const Class*[this->baseClassN];
 
-Class::Class() {
-
-}
-
-Class::Class(EString fullClassName) {
-	this->fullClassName = fullClassName;
 	this->hashCode = String::CalculateHash(this->fullClassName->getValue());
 
-	// 输出类型注册信息
-	EPP_DEBUG("%s", "Registering class: ");
-	EPP_DEBUG("[ %-30s HashCode = 0x%08x ]\n", this->fullClassName->getValue(), this->hashCode);
+	this->baseClassN = 0; // 将这个变量作为计数使用
 }
 
-EString Class::getFullClassName() {
+String* Class::getFullClassName() {
 	return this->fullClassName;
 }
 
-EString Class::getClassName() {
+String* Class::getClassName() {
 	return getFullClassName();
 }
 
 i32 Class::getHashCode() {
 	return this->hashCode;
+}
+
+i32 Class::getNumberOfBaseClass() const {
+	return this->baseClassN;
+}
+
+const Class* Class::getBaseClassInfo(i8 index) const{
+	if(index<0 or index >=getNumberOfBaseClass()){
+		throw 0;
+	}
+
+	return this->baseClassInfoList[index];
+}
+
+const Class* Class::getBaseClassInfo() const{
+	return getBaseClassInfo(0);
+}
+
+void Class::finishRegister() {
+	if (this->classStaticInitFunc != nullptr) {
+		(*classStaticInitFunc)();
+	}
+
+	// 展示类元信息
+	EPP_DEBUG("Class: %s\n", this->fullClassName->getValue());
 }
 
 }

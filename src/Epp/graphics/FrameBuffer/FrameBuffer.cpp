@@ -6,25 +6,14 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-E_CLASS_DEF(Epp::graphics::FrameBuffer)
-
-void FrameBuffer::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
+const base::Class *FrameBuffer::ClassInfo = base::Class::Register<FrameBuffer, base::Object>("Epp::graphics::FrameBuffer", nullptr);
 
 FrameBuffer::FrameBuffer() {
 
 }
 
-void FrameBuffer::destroy() {
-	SafeDelete(this->fb);
-	SafeDelete(this->fbX);
-
-	delete this;
-}
-
 FrameBuffer::FrameBuffer(i32 w, i32 h, i32 bpp) :
-		This(nullptr, w, h, bpp) {
+		FrameBuffer(nullptr, w, h, bpp) {
 
 }
 
@@ -291,7 +280,7 @@ void FrameBuffer::clear(i32 value) {
 	}
 }
 
-void FrameBuffer::unchecked_copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
+void FrameBuffer::unchecked_copyFrom(FrameBuffer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
 	i32 copySize = this->lineSize / 8;
 
 	for (i32 i = 0; i < h; i++) { // 执行行复制，以优化复制速度
@@ -299,7 +288,7 @@ void FrameBuffer::unchecked_copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, 
 	}
 }
 
-void FrameBuffer::unchecked_copyFrom(EFrameBuffer other) {
+void FrameBuffer::unchecked_copyFrom(FrameBuffer *other) {
 	if (this->fb == nullptr or other->fb == nullptr) { // 任意一个对象不具有实际缓冲区空间，通过fbX进行复制
 
 		for (i32 i = 0; i < h; i++) {
@@ -311,7 +300,7 @@ void FrameBuffer::unchecked_copyFrom(EFrameBuffer other) {
 	}
 }
 
-void FrameBuffer::copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
+void FrameBuffer::copyFrom(FrameBuffer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
 	if (other->bpp != this->bpp) { // 像素位数必须一致，否则报错
 		throw new Exception(S("Inconsistent bpp"));
 	} else if (w <= 0 or h <= 0) { // 矩形区域面积必须大于0
@@ -325,7 +314,7 @@ void FrameBuffer::copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32
 	return unchecked_copyFrom(other, x0, y0, w, h, x1, y1);
 }
 
-void FrameBuffer::copyFrom(EFrameBuffer other) {
+void FrameBuffer::copyFrom(FrameBuffer *other) {
 	if (other->fbSize != this->fbSize) { // 缓冲区大小必须一致，否则报错
 		throw new Exception(S("Inconsistent fbSize"));
 	}

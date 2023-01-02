@@ -2,14 +2,12 @@
 
 #include "base/Object/Object.h"
 
-E_init
-
 namespace Epp {
 namespace gui {
 
 class GUIService: extends base::Object {
 
-E_CLASS_DEC(GUIService,base::Object)
+EPP_CLASS_INFO
 
 public:
 	enum Type : i8 {
@@ -27,12 +25,10 @@ public:
 
 };
 
-E_class(GUIService)
-
 }
 }
 
 #include "SDL2/GUIService_SDL2.h"
-
+//#include "X11/GUIService_X11.h"
 #include "Android/GUIService_Android.h"
 

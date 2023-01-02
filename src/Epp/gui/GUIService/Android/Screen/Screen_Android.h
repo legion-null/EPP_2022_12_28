@@ -4,27 +4,25 @@
 
 #include "gui/Screen/Screen.h"
 
-E_init
 
 namespace Epp {
 namespace gui {
 
 class Screen_Android: extends Screen {
 
-E_CLASS_DEC(Screen_Android,Screen)
 
 protected:
-	base::EString title = nullptr;
+	base::String* title = nullptr;
 
 protected:
 	struct JAndroid *jandroid = nullptr;
 
 public:
 	Screen_Android();
-	virtual void destroy() override;
+	
 
 public:
-	Screen_Android(struct JAndroid *ja, base::EString title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
+	Screen_Android(struct JAndroid *ja, base::String* title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
 
 protected:
 	void lockSurfaceRect(i32 x0, i32 y0, i32 w, i32 h);
@@ -37,7 +35,6 @@ public:
 
 };
 
-E_class(Screen_Android)
 
 }
 }

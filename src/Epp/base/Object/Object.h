@@ -1,49 +1,47 @@
 #pragma once
 
-#include "base/base.hpp"
-
-E_init
+#include "defs.h"
+#include "base/base/base.hpp"
 
 namespace Epp {
 namespace base {
 
-E_import_class(String)
+class Class;
+class String;
 
 class Object {
+public:\
+	static const Epp::base::Class *ClassInfo;
 
-E_CLASS_DEC(Object,Object)
+	virtual const Epp::base::Class* getClassInfo() const;
 
 public:
-	//static void* operator =();
+	const Epp::base::Class* getBaseClassInfo(i32 index) const;
+	const Epp::base::Class* getBaseClassInfo() const;
 
 public:
 	Object();
+	virtual ~Object();
 
 public:
-	virtual void destroy();
+	virtual Object* clone();
+	virtual bool equalTo(Object *other);
 
 public:
-	virtual EObject clone();
-	virtual bool equalTo(EObject other);
-
-public:
-	virtual EString toString();
+	virtual String* toString();
 	virtual void printContent();
 };
-
-E_class(Object)
-
 }
 
-inline bool iSafeDestroy(base::EObject obj) {
+inline bool iSafeDestroy(base::Object *obj) {
 	if (obj == nullptr)
 		return false;
 
-	obj->destroy();
+	delete obj;
 	return true;
 }
 
-bool SafeDestroy(base::EObject obj);
+bool SafeDestroy(base::Object *obj);
 
 }
 

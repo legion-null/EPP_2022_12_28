@@ -8,18 +8,11 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
-E_CLASS_DEF(Epp::gui::Item)
+const base::Class * Item::ClassInfo = base::Class::Register<Item, base::Object>("Epp::gui::Item", nullptr);
 
-void Item::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
 
 Item::Item() {
 
-}
-
-void Item::destroy() {
-	delete this;
 }
 
 i32 Item::getX() {
@@ -74,17 +67,17 @@ void Item::setSize(i32 w, i32 h) {
 	this->h = h;
 }
 
-EItem Item::getParent() {
+Item* Item::getParent() {
 	return this->parent;
 }
 
-void Item::setParent(EItem parent) {
+void Item::setParent(Item* parent) {
 	this->parent = parent;
 }
 
 i32 Item::getAbsX() {
 	i32 absX = 0;
-	for (EItem item = this; item != nullptr;) {
+	for (Item* item = this; item != nullptr;) {
 		absX = absX + item->x;
 		item = item->parent;
 	}
@@ -93,7 +86,7 @@ i32 Item::getAbsX() {
 
 i32 Item::getAbsY() {
 	i32 absY = 0;
-	for (EItem item = this; item != nullptr;) {
+	for (Item* item = this; item != nullptr;) {
 		absY = absY + item->y;
 		item = item->parent;
 	}
@@ -103,14 +96,14 @@ i32 Item::getAbsY() {
 void Item::getAbsPos(i32 &absX, i32 &absY) {
 	absX = 0;
 	absY = 0;
-	for (EItem item = this; item != nullptr;) {
+	for (Item* item = this; item != nullptr;) {
 		absX = absX + item->x;
 		absY = absY + item->y;
 		item = item->parent;
 	}
 }
 
-void Item::paint(EPainter painter) {
+void Item::paint(Painter* painter) {
 }
 
 }

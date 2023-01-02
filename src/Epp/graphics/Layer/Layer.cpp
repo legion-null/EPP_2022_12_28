@@ -6,30 +6,23 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-E_CLASS_DEF(Epp::graphics::Layer)
+const base::Class * Layer::ClassInfo = base::Class::Register<Layer, FrameBuffer>("Epp::graphics::Layer", nullptr);
 
-void Layer::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
 
 Layer::Layer() {
 
 }
 
-void Layer::destroy() {
-	delete this;
-}
-
 Layer::Layer(i32 w, i32 h, Color::Type colorType) :
-		This(w, h, colorType, Rot_0) {
+		Layer(w, h, colorType, Rot_0) {
 }
 
 Layer::Layer(i32 w, i32 h, Color::Type colorType, Rot rot) :
-		This(nullptr, w, h, colorType, rot) {
+		Layer(nullptr, w, h, colorType, rot) {
 }
 
 Layer::Layer(byte *fb, i32 w, i32 h, Color::Type colorType, Rot rot) :
-		Base(fb, w, h, Color::GetBPP(colorType)) {
+		FrameBuffer(fb, w, h, Color::GetBPP(colorType)) {
 	this->rot = rot;
 
 }
@@ -46,61 +39,61 @@ void Layer::rMapPixel(i32 &x, i32 &y) {
 	return RMapPixel(x, y, this->w, this->h, this->rot);
 }
 
-EColor Layer::getPixel(i32 x, i32 y) {
+Color* Layer::getPixel(i32 x, i32 y) {
 	rMapPixel(x, y);
-	return new Color(Base::readPixel(x, y), this->colorType);
+	return new Color(FrameBuffer::readPixel(x, y), this->colorType);
 }
 
-void Layer::setPixel(i32 x, i32 y, EColor color) {
+void Layer::setPixel(i32 x, i32 y, Color* color) {
 	rMapPixel(x, y);
-	return Base::writePixel(x, y, color->getValue());
+	return FrameBuffer::writePixel(x, y, color->getValue());
 }
 
-void Layer::drawLineH(i32 x0, i32 y0, i32 w, EColor color) {
+void Layer::drawLineH(i32 x0, i32 y0, i32 w, Color* color) {
 	rMapPixel(x0, y0);
 	switch (this->rot) {
 	case Rot::Rot_0:
-		return Base::writeRow(x0, y0, w, color->getValue());
+		return FrameBuffer::writeRow(x0, y0, w, color->getValue());
 	case Rot::Rot_90:
-		return Base::writeCol(x0, y0, w, color->getValue());
+		return FrameBuffer::writeCol(x0, y0, w, color->getValue());
 	case Rot::Rot_180:
-		return Base::writeRow(x0, y0, w, color->getValue());
+		return FrameBuffer::writeRow(x0, y0, w, color->getValue());
 	case Rot::Rot_270:
-		return Base::writeCol(x0, y0, w, color->getValue());
+		return FrameBuffer::writeCol(x0, y0, w, color->getValue());
 	}
 }
 
-void Layer::drawLineV(i32 x0, i32 y0, i32 h, EColor color) {
+void Layer::drawLineV(i32 x0, i32 y0, i32 h, Color* color) {
 	rMapPixel(x0, y0);
 	switch (this->rot) {
 	case Rot::Rot_0:
-		return Base::writeCol(x0, y0, h, color->getValue());
+		return FrameBuffer::writeCol(x0, y0, h, color->getValue());
 	case Rot::Rot_90:
-		return Base::writeRow(x0, y0, h, color->getValue());
+		return FrameBuffer::writeRow(x0, y0, h, color->getValue());
 	case Rot::Rot_180:
-		return Base::writeCol(x0, y0, h, color->getValue());
+		return FrameBuffer::writeCol(x0, y0, h, color->getValue());
 	case Rot::Rot_270:
-		return Base::writeRow(x0, y0, h, color->getValue());
+		return FrameBuffer::writeRow(x0, y0, h, color->getValue());
 	}
 }
 
-void Layer::fillRect(i32 x0, i32 y0, i32 w, i32 h, EColor color) {
+void Layer::fillRect(i32 x0, i32 y0, i32 w, i32 h, Color* color) {
 	rMapPixel(x0, y0);
-	return Base::writeRect(x0, y0, w, h, color->getValue());
+	return FrameBuffer::writeRect(x0, y0, w, h, color->getValue());
 }
 
-void Layer::clear(EColor color) {
-	Base::clear(color->getValue());
+void Layer::clear(Color* color) {
+	FrameBuffer::clear(color->getValue());
 }
 
-void Layer::unchecked_copyFrom(ELayer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
+void Layer::unchecked_copyFrom(Layer* other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
 	if (w == this->w and h == this->h and other->w == this->w and other->h == this->h) { // 特殊情况
 		return unchecked_copyFrom(other);
 	}
 
 	if (other->bpp == this->bpp) { // 如果像素位数一致
 		if (other->colorType == this->colorType) { // 如果颜色类型一致，执行缓冲区复制
-			return Base::unchecked_copyFrom(other, x0, y0, w, h, x1, y1);
+			return FrameBuffer::unchecked_copyFrom(other, x0, y0, w, h, x1, y1);
 		} else { // 像素位数一致但颜色类型不一致，针对特定颜色映射，执行偏字节最速复制
 			if (other->colorType == Color::RGBX8888 and this->colorType == Color::XRGB8888) { // RGBX8888 -> XRGB8888
 
@@ -128,14 +121,14 @@ void Layer::unchecked_copyFrom(ELayer other, i32 x0, i32 y0, i32 w, i32 h, i32 x
 	// 像素位数不一致，只能执行逐点复制
 	for (i32 y = 0; y < h; y++)
 		for (i32 x = 0; x < w; x++) {
-			Base::unchecked_writePixel(x, y, Color::Transform(other->unchecked_readPixel(x, y), other->colorType, this->colorType));
+			FrameBuffer::unchecked_writePixel(x, y, Color::Transform(other->unchecked_readPixel(x, y), other->colorType, this->colorType));
 		}
 }
 
-void Layer::unchecked_copyFrom(ELayer other) {
+void Layer::unchecked_copyFrom(Layer* other) {
 	if (other->bpp == this->bpp) { // 如果像素位数一致
 		if (other->colorType == this->colorType) { // 如果颜色类型一致，执行缓冲区复制
-			return Base::unchecked_copyFrom(other);
+			return FrameBuffer::unchecked_copyFrom(other);
 		} else { // 像素位数一致但颜色类型不一致，针对特定颜色映射，执行最速复制
 			if (other->fb == nullptr or this->fb == nullptr) { // 任意一个对象不具有实际缓冲区空间，通过fbX进行复制
 				if (other->colorType == Color::RGBX8888 and this->colorType == Color::XRGB8888) { // RGBX8888 -> XRGB8888
@@ -180,11 +173,11 @@ void Layer::unchecked_copyFrom(ELayer other) {
 	// 像素位数不一致，只能执行逐点复制
 	for (i32 y = 0; y < this->h; y++)
 		for (i32 x = 0; x < this->w; x++) {
-			Base::unchecked_writePixel(x, y, Color::Transform(other->unchecked_readPixel(x, y), other->colorType, this->colorType));
+			FrameBuffer::unchecked_writePixel(x, y, Color::Transform(other->unchecked_readPixel(x, y), other->colorType, this->colorType));
 		}
 }
 
-void Layer::copyFrom(ELayer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
+void Layer::copyFrom(Layer* other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
 	if (w <= 0 or h <= 0) { // 矩形区域面积必须大于0
 		throw new Exception(S("Illegal Parameter: The area of the rect must be greater than 0"));
 	} else if (x0 < 0 or y0 < 0 or x0 + w > other->w or y0 + h > other->h) { // 复制的矩形区域必须位于other所拥有的内存空间内
@@ -196,7 +189,7 @@ void Layer::copyFrom(ELayer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1)
 	return unchecked_copyFrom(other, x0, y0, w, h, x1, y1);
 }
 
-void Layer::copyFrom(ELayer other) {
+void Layer::copyFrom(Layer* other) {
 	if (other->w != this->w or other->h != this->h) { // 图层大小必须一致，否则报错
 		throw new Exception(S("Inconsistent Size"));
 	}

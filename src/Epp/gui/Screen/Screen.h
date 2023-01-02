@@ -2,21 +2,20 @@
 
 #include "graphics/Layer/Layer.h"
 
-E_init
+#include "graphics/Color/Color.h"
 
 namespace Epp {
 namespace gui {
 
 class Screen: extends graphics::Layer {
 
-E_CLASS_DEC(Screen,graphics::Layer)
+EPP_CLASS_INFO
 
 protected:
-	ELayer display = nullptr;
+	Layer *display = nullptr;
 
 public:
 	Screen();
-	virtual void destroy() override;
 
 public:
 	Screen(i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
@@ -29,8 +28,6 @@ public:
 	virtual void test();
 
 };
-
-E_class(Screen)
 
 }
 }

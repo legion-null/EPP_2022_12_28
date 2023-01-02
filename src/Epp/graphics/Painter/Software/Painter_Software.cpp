@@ -6,11 +6,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-E_CLASS_DEF(Epp::graphics::Painter_Software)
-
-void Painter_Software::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
+const base::Class *Painter_Software::ClassInfo = base::Class::Register<Painter_Software, Painter>("Epp::graphics::Painter_Software", nullptr);
 
 void Painter_Software::GetLinePixel(i32 x0, i32 y0, i32 x1, i32 y1, i32 **px, i32 **py, i32 &n) {
 	i32 x = x0;
@@ -79,12 +75,8 @@ Painter_Software::Painter_Software() {
 
 }
 
-void Painter_Software::destroy() {
-	delete this;
-}
-
-Painter_Software::Painter_Software(ELayer layer) :
-		Base(layer) {
+Painter_Software::Painter_Software(Layer *layer) :
+		Painter(layer) {
 
 }
 

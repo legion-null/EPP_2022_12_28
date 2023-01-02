@@ -2,18 +2,16 @@
 
 #include "base/Object/Object.h"
 
-E_init
-
 namespace Epp {
 namespace graphics {
 
 /*
- * 考虑到FrameBuffer的运行效率在图像显示方面有着重要意义，FrameBuffer类对象的一些成员方法没有对输入进行校验，在继承FrameBuffer时需要
+ * 考虑到FrameBuffer的运行效率在图像显示方面有着重要意义，FrameBuffer类对象的一些成员方法没有对输入进行校验，需要谨慎的继承FrameBuffer
  */
 
 class FrameBuffer: extends base::Object {
 
-E_CLASS_DEC(FrameBuffer,base::Object)
+EPP_CLASS_INFO
 
 protected:
 	i32 w = 0;
@@ -31,7 +29,6 @@ protected:
 
 public:
 	FrameBuffer();
-	virtual void destroy() override;
 
 public:
 	FrameBuffer(i32 w, i32 h, i32 bpp);
@@ -99,16 +96,14 @@ public:
 	void clear(i32 value);
 
 protected:
-	void unchecked_copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1);
-	void unchecked_copyFrom(EFrameBuffer other);
+	void unchecked_copyFrom(FrameBuffer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1);
+	void unchecked_copyFrom(FrameBuffer *other);
 
 public:
-	void copyFrom(EFrameBuffer other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1);
-	void copyFrom(EFrameBuffer other);
+	void copyFrom(FrameBuffer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1);
+	void copyFrom(FrameBuffer *other);
 
 };
-
-E_class(FrameBuffer)
 
 }
 }

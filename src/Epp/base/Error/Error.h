@@ -2,28 +2,23 @@
 
 #include "base/Exception/Exception.h"
 
-E_init
-
 namespace Epp {
 namespace base {
 
 class Error: extends Exception {
 
-E_CLASS_DEC(Error,Exception)
+EPP_CLASS_INFO
 
 public:
-	static EError UnknownError();
+	static Error* UnknownError();
 
 public:
 	Error();
-	virtual void destroy() override;
 
 public:
-	Error(EString info);
+	Error(String* info);
 
 };
-
-E_class(Error)
 
 }
 }

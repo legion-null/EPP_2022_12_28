@@ -7,8 +7,7 @@ i32 base_Exception_test_main(i32 argc, c8 **argv) {
 	(void) argc;
 	(void) argv;
 
-	EException e = Exception::UnknownException();
-	e->destroy();
+	Exception* e = Exception::UnknownException();
 
 	return 0;
 }

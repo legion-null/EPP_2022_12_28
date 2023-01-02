@@ -6,13 +6,9 @@ using namespace Epp::base;
 namespace Epp {
 namespace base {
 
-E_CLASS_DEF(Epp::base::Error)
+const Class *Error::ClassInfo = Class::Register<Error, Exception>("Epp::base::Error", nullptr);
 
-void Error::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
-
-}
-
-EError Error::UnknownError() {
+Error* Error::UnknownError() {
 	return new Error(S("Unknown Error"));
 }
 
@@ -20,7 +16,7 @@ Error::Error() {
 
 }
 
-Error::Error(EString info) {
+Error::Error(String *info) {
 	static const i8 重置所有属性 = 0;
 	static const i8 高亮_加粗 = 1;
 	static const i8 暗淡 = 2;
@@ -49,10 +45,6 @@ Error::Error(EString info) {
 
 	OS::Printf(S("\033[%d;%dm%s\033[0m"), 隐藏, 红色字体, info->getValue());
 	OS::Printf(S("\n"));
-}
-
-void Error::destroy() {
-	delete this;
 }
 
 }

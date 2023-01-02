@@ -2,17 +2,14 @@
 
 #include "base/Object/Object.h"
 
-E_init
-
 namespace Epp {
 namespace graphics {
-E_import_class(Painter)
 }
 namespace gui {
 
 class Item: extends Epp::base::Object {
 
-E_CLASS_DEC(Item, base::Object)
+EPP_CLASS_INFO
 
 protected:
 	i16 x = 0;
@@ -23,11 +20,10 @@ protected:
 protected:
 
 protected:
-	EItem parent = nullptr;
+	Item *parent = nullptr;
 
 public:
 	Item();
-	virtual void destroy() override;
 
 public:
 	i32 getX();
@@ -54,8 +50,8 @@ public:
 	void setSize(i32 width, i32 height);
 
 public:
-	EItem getParent();
-	void setParent(EItem parent);
+	Item* getParent();
+	void setParent(Item *parent);
 
 public:
 	i32 getAbsX();
@@ -64,11 +60,9 @@ public:
 	void getAbsPos(i32 &absX, i32 &absY);
 
 public:
-	virtual void paint(graphics::EPainter painter);
+	virtual void paint(graphics::Painter *painter);
 
 };
-
-E_class(Item)
 
 }
 }

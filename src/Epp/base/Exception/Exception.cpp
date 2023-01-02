@@ -6,13 +6,10 @@ using namespace Epp::base;
 namespace Epp {
 namespace base {
 
-E_CLASS_DEF(Epp::base::Exception)
+const Class *Exception::ClassInfo = Class::Register<Exception, Object>("Epp::base::Exception", nullptr);
 
-void Exception::Static() { // 静态块，类初始化时将会执行块内代码，为了防止Epp类型构建系统出错，静态块内的代码必须与类型加载顺序无关
 
-}
-
-EException Exception::UnknownException() {
+Exception* Exception::UnknownException() {
 	return new Exception(S("Unknown Exception"));
 }
 
@@ -20,11 +17,7 @@ Exception::Exception() {
 
 }
 
-void Exception::destroy() {
-	Base::destroy();
-}
-
-Exception::Exception(EString info) {
+Exception::Exception(String* info) {
 	static const i8 重置所有属性 = 0;
 	static const i8 高亮_加粗 = 1;
 	static const i8 暗淡 = 2;

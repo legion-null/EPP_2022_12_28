@@ -2,30 +2,26 @@
 
 #include "base/Object/Object.h"
 
-E_init
 
 namespace Epp {
 namespace base {
 
-E_import_class(String)
 
-class Exception: extends base::Object {
+class Exception: extends Object {
 
-E_CLASS_DEC(Exception,base::Object)
+EPP_CLASS_INFO
 
 public:
-	static EException UnknownException();
+	static Exception* UnknownException();
 
 public:
 	Exception();
-	virtual void destroy() override;
 
 public:
-	Exception(EString info);
+	Exception(String* info);
 
 };
 
-E_class(Exception)
 
 }
 }

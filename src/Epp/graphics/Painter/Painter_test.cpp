@@ -12,8 +12,8 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 
 	EPP_CODE_LOCATE();
 
-	EScreen scr = new Screen_SDL2();
-	EPainter painter = new Painter_Software(scr);
+	Screen* scr = new Screen_SDL2();
+	Painter* painter = new Painter_Software(scr);
 
 	painter->setColor(C(White));
 	painter->drawRect(100, 100, 100, 100);

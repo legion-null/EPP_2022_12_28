@@ -1,23 +1,15 @@
 #pragma once
 
-#include "base/base.hpp"
-
-E_init
+#include "base/Object/Object.h"
 
 namespace Epp {
 namespace base {
 
-interface EPP_EXPORT Interface {
+class Interface: implements Object {
 
-E_IF_DEC(Interface,Interface)
-
-public:
-	Interface();
-	virtual void destroy();
+EPP_CLASS_INFO
 
 };
-
-E_class(Interface)
 
 }
 }

@@ -2,14 +2,13 @@
 
 #include "base/Object/Object.h"
 
-E_init
 
 namespace Epp {
 namespace graphics {
 
 class Font: extends base::Object {
 
-E_CLASS_DEC(Font,base::Object)
+EPP_CLASS_INFO
 
 public:
 	enum Type : i8 {
@@ -24,14 +23,13 @@ protected:
 
 public:
 	Font();
-	virtual void destroy() override;
+	
 
 public:
-	virtual EFont clone() override;
+	virtual Font* clone() override;
 
 };
 
-E_class(Font)
 
 }
 }

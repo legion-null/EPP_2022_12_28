@@ -2,22 +2,16 @@
 
 #include "base/Interface/Interface.h"
 
-E_init
-
 namespace Epp {
 namespace base {
 
 class Runnable: extends Interface {
 
-E_IF_DEC(Runnable,Interface)
+EPP_CLASS_INFO
 
 public:
-	Runnable();
-	virtual void destroy() override;
-
+	virtual void run() = 0;
 };
-
-E_class(Runnable)
 
 }
 }

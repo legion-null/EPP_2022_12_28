@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Epp.hpp"
+#include "defs.h"
 
 #if EPP_MODULE_SDL2_SUPPORT == EPP_TRUE
 
 #include <SDL2/SDL.h>
 
-namespace Epp {
-namespace gui {
+namespace Epp{
+namespace gui{
 
 struct CSDL2 {
 	// 屏幕相关

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Epp.hpp"
+#include "defs.h"
 
 namespace Epp {
 

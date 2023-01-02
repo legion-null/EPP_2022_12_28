@@ -2,25 +2,20 @@
 
 #include "base/Object/Object.h"
 
-E_init
-
 namespace Epp {
 namespace base {
 
-class Thread: extends base::Object {
+class Thread: extends Object, implements Runnable {
 
-E_CLASS_DEC(Thread,base::Object)
+EPP_CLASS_INFO
 
 public:
 	static void Sleep(i32 sec);
 
 public:
 	Thread();
-	virtual void destroy() override;
 
 };
-
-E_class(Thread)
 
 }
 }
