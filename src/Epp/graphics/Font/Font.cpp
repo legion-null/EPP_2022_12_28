@@ -29,9 +29,8 @@ bool Font::hasCharacter(i32 c) {
 
 Image* Font::getUnavailableCharacterImage(i32 c) {
 	EPP_FUNC_LOCATE("%d", c);
+
 	if (this->w < 0 or this->h < 0) {
-		EPP_CODE_LOCATE();
-		EPP_DEBUG("w = %d, h = %d\n", w, h);
 		throw new Exception();
 	}
 
@@ -49,6 +48,8 @@ Image* Font::getUnavailableCharacterImage(i32 c) {
 	if (this->w >= 16 and this->h >= 16) {
 		painter->drawRect(0, 0, this->w, this->h);
 		painter->drawRect(2, 2, this->w - 4, this->h - 4);
+		painter->drawLine(0, 0, this->w - 1, this->h - 1);
+		painter->drawLine(0, this->h - 1, this->w - 1, 0);
 	}
 
 	EPP_CODE_LOCATE();

@@ -94,8 +94,9 @@ Font* Painter::getFont() {
 }
 
 void Painter::setFont(Font *font) {
-	SafeDestroy(this->font);
-	this->font = font->clone();
+	this->font = font;
+	//SafeDestroy(this->font);
+	//this->font = font->clone();
 }
 
 void Painter::drawPixel(i32 x, i32 y) {

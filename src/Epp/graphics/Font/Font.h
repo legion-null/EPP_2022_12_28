@@ -24,8 +24,8 @@ protected:
 	// 这里放一张字体表（链表或哈希表），字体加载到字体表中才可以使用
 
 protected:
-	i32 w = 100;
-	i32 h = 100;
+	i32 w = 20;
+	i32 h = 20;
 
 public:
 	Font();
@@ -38,10 +38,8 @@ public:
 public:
 	virtual bool hasCharacter(i32 c);
 
-protected:
-	Image* getUnavailableCharacterImage(i32 c);
-
 public:
+	virtual Image* getUnavailableCharacterImage(i32 c);
 	virtual Image* getCharacterImage(i32 c);
 
 public:
@@ -51,4 +49,6 @@ public:
 
 }
 }
+
+#include "Bitmap/Font_Bitmap.h"
 
