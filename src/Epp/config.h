@@ -36,6 +36,10 @@
 #endif
 
 
+// 大小端相关宏
+// 默认为小端
+#define EPP_ENDION_LITTLE       EPP_TRUE
+
 // 架构相关宏
 #define EPP_ARCH_AARCH64		0
 #define EPP_ARCH_ALPHA			1

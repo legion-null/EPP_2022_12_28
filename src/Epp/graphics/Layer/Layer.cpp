@@ -122,12 +122,9 @@ void Layer::unchecked_copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x
 	}
 
 	// 只能执行逐点复制
-	EPP_DEBUG("%s", "只能逐点复制\n");
+	EPP_DEBUG("只能逐点复制 复制区域 %dx%d\n", w, h);
 	for (i32 y = 0; y < h; y++)
 		for (i32 x = 0; x < w; x++) {
-			i32 raw = other->unchecked_readPixel(x + x0, y + y0);
-			i32 dest = Color::Transform(other->unchecked_readPixel(x + x0, y + y0), other->colorType, this->colorType);
-			EPP_DEBUG("0x%08X -> 0x%08X\n", raw, dest);
 			FrameBuffer::unchecked_writePixel(x + x1, y + y1, Color::Transform(other->unchecked_readPixel(x + x0, y + y0), other->colorType, this->colorType));
 		}
 }

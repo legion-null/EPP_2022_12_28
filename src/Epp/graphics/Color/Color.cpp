@@ -8,6 +8,25 @@ namespace graphics {
 
 const base::Class *Color::ClassInfo = base::Class::Register<Color, base::Object>("Epp::graphics::Color", nullptr);
 
+String* Color::GetTypeName(Type type) {
+	switch (type) {
+	case RGB565:
+		return S(EPP_STR(Color::RGB565));
+	case RGB888:
+		return S(EPP_STR(Color::RGB888));
+	case XRGB8888:
+		return S(EPP_STR(Color::XRGB8888));
+	case ARGB8888:
+		return S(EPP_STR(Color::ARGB8888));
+	case RGBX8888:
+		return S(EPP_STR(Color::RGBX8888));
+	case RGBA8888:
+		return S(EPP_STR(Color::RGBA8888));
+	default:
+		return S(EPP_STR(Color::Unknown));
+	}
+}
+
 i32 Color::GetBPP(Type type) {
 	if (type == RGB565) {
 		return 16;
@@ -20,34 +39,29 @@ i32 Color::GetBPP(Type type) {
 	return 0;
 }
 
-i32 Color::ToARGB8888(i32 value, Type src) {
+color_t Color::ToARGB8888(color_t value, Type src) {
 	if (src == ARGB8888)
 		return value;
 
-	ColorValue &color = (ColorValue&) value;
-	ColorValue ret = { .value = 0 };
+	ColorData &color = (ColorData&) value;
+	ColorData ret = { .value = 0 };
 	if (src == RGB565) {
-		ret.argb8888.a = 0;
 		ret.argb8888.r = color.rgb565.r << 3;
 		ret.argb8888.g = color.rgb565.g << 2;
 		ret.argb8888.b = color.rgb565.b << 3;
 	} else if (src == RGB888) {
-		ret.argb8888.a = 0;
 		ret.argb8888.r = color.rgb888.r;
 		ret.argb8888.g = color.rgb888.g;
 		ret.argb8888.b = color.rgb888.b;
 	} else if (src == XRGB8888) {
-		ret.argb8888.a = 0;
 		ret.argb8888.r = color.xrgb8888.r;
 		ret.argb8888.g = color.xrgb8888.g;
 		ret.argb8888.b = color.xrgb8888.b;
 	} else if (src == RGBX8888) {
-		ret.argb8888.a = 0;
 		ret.argb8888.r = color.rgbx8888.r;
 		ret.argb8888.g = color.rgbx8888.g;
 		ret.argb8888.b = color.rgbx8888.b;
 	} else if (src == RGBA8888) {
-		ret.argb8888.a = color.rgba8888.a;
 		ret.argb8888.r = color.rgba8888.r;
 		ret.argb8888.g = color.rgba8888.g;
 		ret.argb8888.b = color.rgba8888.b;
@@ -56,12 +70,12 @@ i32 Color::ToARGB8888(i32 value, Type src) {
 	return ret.value;
 }
 
-i32 Color::FormARGB8888(i32 value, Type dest) { // 如果目标格式没有透明度通道，将损失透明度通道
+color_t Color::FormARGB8888(color_t value, Type dest) { // 如果目标格式没有透明度通道，将损失透明度通道
 	if (dest == ARGB8888)
 		return value;
 
-	ColorValue &color = (ColorValue&) value;
-	ColorValue ret = { .value = 0 };
+	ColorData &color = (ColorData&) value;
+	ColorData ret = { .value = 0 };
 	if (dest == RGB565) {
 		ret.rgb565.r = color.argb8888.r >> 3;
 		ret.rgb565.g = color.argb8888.g >> 2;
@@ -88,10 +102,18 @@ i32 Color::FormARGB8888(i32 value, Type dest) { // 如果目标格式没有透�
 	return ret.value;
 }
 
-i32 Color::Transform(i32 value, Type src, Type dest) {
+color_t Color::Transform(color_t value, Type src, Type dest) {
+//	EPP_DEBUG("%s -> %s\n", GetTypeName(src)->getValue(), GetTypeName(dest)->getValue());
 	if (src == dest)
 		return value;
 
+//	color_t newValue = FormARGB8888(ToARGB8888(value, src), dest);
+//
+//	EPP_CODE_LOCATE();
+//	EPP_DEBUG("0x%08X ---> 0x%08X\n", value, newValue);
+//
+//	return newValue;
+//
 	return FormARGB8888(ToARGB8888(value, src), dest);
 }
 
@@ -123,7 +145,7 @@ Color::Color(i32 value, Type src) :
 		Color(ToARGB8888(value, src)) {
 }
 
-u32 Color::getValue() {
+color_t Color::getValue() {
 	return this->value.value;
 }
 

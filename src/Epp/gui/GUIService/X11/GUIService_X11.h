@@ -15,7 +15,7 @@ public:
 	GUIService_X11();
 
 public:
-	virtual Epp::gui::Screen* getDefaultScreen() const override;
+	virtual Epp::gui::Screen* getScreen() const override;
 
 };
 

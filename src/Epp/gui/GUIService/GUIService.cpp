@@ -97,7 +97,7 @@ GUIService::GUIService() {
 
 }
 
-Screen* GUIService::getDefaultScreen() const {
+Screen* GUIService::getScreen() const {
 	EPP_CODE_LOCATE();
 	return nullptr;
 }

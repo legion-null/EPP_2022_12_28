@@ -46,7 +46,7 @@ public:
 	GUIService();
 
 public:
-	virtual Screen* getDefaultScreen() const;
+	virtual Screen* getScreen() const;
 };
 
 }

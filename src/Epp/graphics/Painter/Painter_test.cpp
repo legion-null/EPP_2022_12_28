@@ -20,8 +20,8 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 //	painter->fillRect(200, 200, 200, 200);
 //	painter->drawCircle(400, 400, 100);
 
-	i32 size = 2;
-	u32 *fb = new u32[size * size];
+	i32 size = 100;
+	u32* fb = new u32[size * size];
 
 	for (i32 x = 0; x < size; x++)
 		for (i32 y = 0; y < size; y++) {
@@ -46,14 +46,16 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 	Image *img3 = new Image((byte*) fb, size, size, Color::ARGB8888); //
 	Image *img4 = new Image((byte*) fb, size, size, Color::RGBA8888);
 
+
+
 	EPP_DEBUG("%s", "1:");
 	painter->drawImage(0, 0, size, size, img1);
 	EPP_DEBUG("%s", "2:");
-	painter->drawImage(0, 200, size, size, img2);
+	painter->drawImage(110, 0, size, size, img2);
 	EPP_DEBUG("%s", "3:");
-	painter->drawImage(200, 0, size, size, img3);
+	painter->drawImage(220, 0, size, size, img3);
 	EPP_DEBUG("%s", "4:");
-	painter->drawImage(200, 200, size, size, img4);
+	painter->drawImage(330, 0, size, size, img4);
 
 	while (true)
 		scr->refresh();

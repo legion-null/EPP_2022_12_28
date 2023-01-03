@@ -12,7 +12,7 @@ const Class *Screen::ClassInfo = Class::Register<Screen, Layer>("Epp::gui::Scree
 
 Screen* Screen::GetDefaultScreen() {
 	EPP_CODE_LOCATE();
-	return GUIService::GetDefaultGUIService()->getDefaultScreen();
+	return GUIService::GetDefaultGUIService()->getScreen();
 }
 
 Screen::Screen() {

@@ -14,7 +14,7 @@ GUIService_SDL2::GUIService_SDL2() {
 
 }
 
-Screen* GUIService_SDL2::getDefaultScreen() const {
+Screen* GUIService_SDL2::getScreen() const {
 	return new Screen_SDL2();
 }
 

@@ -15,7 +15,7 @@ EPP_CLASS_INFO
 
 protected:
 	Rot rot = Rot_0;
-	Color::Type colorType = Color::ARGB8888;
+	Color::Type colorType = Color::XRGB8888;
 
 public:
 	Layer();

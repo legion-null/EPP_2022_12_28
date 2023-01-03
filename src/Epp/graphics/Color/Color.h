@@ -5,84 +5,132 @@
 namespace Epp {
 namespace graphics {
 
+// 声明一个新的类型
+using color_t = u32;
+
 class Color: extends base::Object {
 
 EPP_CLASS_INFO
 
 public:
 	enum Type : i8 {
-		RGB565,		// RGB565
+		RGB565 = 0,	// RGB565
 		RGB888,		// RGB888
 		XRGB8888,	// XRGB8888
-		ARGB8888,	// ARGB8888
 		RGBX8888,	// RGBX8888
+		ARGB8888,	// ARGB8888
 		RGBA8888,	// RGBA8888
 	};
+
+public:
+	static base::String* GetTypeName(Type type);
 
 public:
 	static i32 GetBPP(Type type);
 
 protected:
 	struct RGB565 {
-		u16 __padding;
-		u8 r :5;
-		u8 g :6;
-		u8 b :5;
+#if EPP_ENDION_LITTLE == EPP_TRUE
+		color_t b :5;
+		color_t g :6;
+		color_t r :5;
+		color_t x:16;
+#else
+		color_t x:16;
+		color_t r :5;
+		color_t g :6;
+		color_t b :5;
+#endif
 	};
 
 	struct RGB888 {
-		u8 __padding;
-		u8 r;
-		u8 g;
-		u8 b;
+#if EPP_ENDION_LITTLE == EPP_TRUE
+		color_t b :8;
+		color_t g :8;
+		color_t r :8;
+		color_t x:8;
+#else
+		color_t x:8;
+		color_t r :8;
+		color_t g :8;
+		color_t b :8;
+#endif
 	};
 
 	struct XRGB8888 {
-		u8 __padding;
-		u8 r;
-		u8 g;
-		u8 b;
+#if EPP_ENDION_LITTLE == EPP_TRUE
+		color_t b :8;
+		color_t g :8;
+		color_t r :8;
+		color_t x:8;
+#else
+		color_t x:8;
+		color_t r :8;
+		color_t g :8;
+		color_t b :8;
+#endif
 	};
 
 	struct ARGB8888 {
-		u8 a;
-		u8 r;
-		u8 g;
-		u8 b;
+#if EPP_ENDION_LITTLE == EPP_TRUE
+		color_t b :8;
+		color_t g :8;
+		color_t r :8;
+		color_t a :8;
+#else
+		color_t a :8;
+		color_t r :8;
+		color_t g :8;
+		color_t b :8;
+#endif
 	};
 
 	struct RGBX8888 {
-		u8 r;
-		u8 g;
-		u8 b;
-		u8 __padding;
+#if EPP_ENDION_LITTLE == EPP_TRUE
+		color_t x :8;
+		color_t b :8;
+		color_t g :8;
+		color_t r :8;
+#else
+		color_t r :8;
+		color_t g :8;
+		color_t b :8;
+		color_t x :8;
+#endif
 	};
 
 	struct RGBA8888 {
-		u8 r;
-		u8 g;
-		u8 b;
-		u8 a;
+#if EPP_ENDION_LITTLE == EPP_TRUE
+		color_t a :8;
+		color_t b :8;
+		color_t g :8;
+		color_t r :8;
+#else
+		color_t r :8;
+		color_t g :8;
+		color_t b :8;
+		color_t a :8;
+#endif
 	};
 
 protected:
-	union ColorValue {
-		u32 value;
+	union ColorData {
 		struct RGB565 rgb565;
 		struct RGB888 rgb888;
 		struct XRGB8888 xrgb8888;
-		struct ARGB8888 argb8888;
 		struct RGBX8888 rgbx8888;
+		struct ARGB8888 argb8888;
 		struct RGBA8888 rgba8888;
+		color_t value;
 	};
 
 public:
-	static i32 ToARGB8888(i32, Type src);
-	static i32 FormARGB8888(i32, Type dest);
-	static i32 Transform(i32, Type src, Type dest);
+	static color_t ToARGB8888(color_t value, Type src);
+	static color_t FormARGB8888(color_t valie, Type dest);
+	static color_t Transform(color_t value, Type src, Type dest);
 
 protected:
-	union ColorValue value;
+	union ColorData value;
 
 public:
 	Color();
@@ -97,7 +145,7 @@ public:
 	Color(i32 value, Type src);
 
 public:
-	u32 getValue();
+	color_t getValue();
 
 public:
 	i32 getA();
@@ -121,7 +169,7 @@ public:
 	virtual Color* clone() override;
 };
 
-enum TypicalColor : i32 {
+enum TypicalColor : color_t {
 	Black = 0x00000000,		// 黑色
 	NavyBlue = 0x00000080,		// 藏青色
 	DarkBlue = 0x0000008B,		// 暗蓝色

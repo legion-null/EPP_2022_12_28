@@ -71,29 +71,29 @@ protected:
 	void unchecked_writeByte(i32 lineOff, i32 y, byte value);
 
 public:
-	byte readByte(i32 lineOff, i32 y);
-	void writeByte(i32 lineOff, i32 y, byte value);
+	u8 readByte(i32 lineOff, i32 y);
+	void writeByte(i32 lineOff, i32 y, u8 value);
 
 protected:
-	i32 unchecked_readPixel(i32 x, i32 y);
-	void unchecked_writePixel(i32 x, i32 y, i32 value);
+	color_t unchecked_readPixel(i32 x, i32 y);
+	void unchecked_writePixel(i32 x, i32 y, color_t value);
 
 public:
-	i32 readPixel(i32 x, i32 y);
-	void writePixel(i32 x, i32 y, i32 value);
+	color_t readPixel(i32 x, i32 y);
+	void writePixel(i32 x, i32 y, color_t value);
 
 protected:
-	void unchecked_writeRow(i32 x0, i32 y0, i32 w, i32 value);
-	void unchecked_writeCol(i32 x0, i32 y0, i32 h, i32 value);
-	void unchecked_writeRect(i32 x0, i32 y0, i32 w, i32 h, i32 value);
+	void unchecked_writeRow(i32 x0, i32 y0, i32 w, color_t value);
+	void unchecked_writeCol(i32 x0, i32 y0, i32 h, color_t value);
+	void unchecked_writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t value);
 
 public:
-	void writeRow(i32 x0, i32 y0, i32 w, i32 value);
-	void writeCol(i32 x0, i32 y0, i32 h, i32 value);
-	void writeRect(i32 x0, i32 y0, i32 w, i32 h, i32 value);
+	void writeRow(i32 x0, i32 y0, i32 w, color_t value);
+	void writeCol(i32 x0, i32 y0, i32 h, color_t value);
+	void writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t value);
 
 public:
-	void clear(i32 value);
+	void clear(color_t value);
 
 protected:
 	void unchecked_copyFrom(FrameBuffer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1);
