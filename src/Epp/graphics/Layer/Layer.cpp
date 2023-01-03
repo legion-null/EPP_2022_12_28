@@ -93,29 +93,33 @@ void Layer::unchecked_copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x
 
 	if (other->bpp == this->bpp) { // 如果像素位数一致
 		if (other->colorType == this->colorType) { // 如果颜色类型一致，执行缓冲区复制
-			EPP_DEBUG("%s", "颜色类型一致\n");
+			//EPP_DEBUG("%s", "颜色类型一致\n");
 			return FrameBuffer::unchecked_copyFrom(other, x0, y0, w, h, x1, y1);
 		} else { // 像素位数一致但颜色类型不一致，针对特定颜色映射，执行偏字节最速复制
-			EPP_DEBUG("%s", "颜色类型不一致\n");
+			//EPP_DEBUG("%s", "颜色类型不一致\n");
 			if (other->colorType == Color::RGBX8888 and this->colorType == Color::XRGB8888) { // RGBX8888 -> XRGB8888
-				EPP_DEBUG("%s", "使用快速复制RGBX8888->XRGB8888\n");
+			//EPP_DEBUG("%s", "使用快速复制RGBX8888->XRGB8888\n");
 
 				i32 copySize = w * this->pixelSize - 1;
-				EPP_DEBUG("每行复制字节数 %d\n", copySize);
+				//EPP_DEBUG("每行复制字节数 %d\n", copySize);
 
 				for (i32 i = 0; i < h; i++) { // 执行行复制，以优化复制速度
-					Copy(other->fbX[i + y0] + x0 * this->pixelSize, this->fbX[y1 + i] + x1 * this->pixelSize + 1, 1, copySize);
+					// 小端 [x] [b][g][r] ---> [b][g][r] [x]
+					// 大端 [r][g][b] [x] ---> [x] [r][g][b]
+					Copy(other->fbX[i + y0] + x0 * this->pixelSize + EPP_ENDION_LITTLE, this->fbX[y1 + i] + x1 * this->pixelSize + EPP_ENDION_BIG, 1, copySize);
 					// 行首字节可选赋值为0，这里考虑到运行效率，弃置
 				}
 
 				return;
 			} else if (other->colorType == Color::XRGB8888 and this->colorType == Color::RGBX8888) { // XRGB8888 -> RGBX8888
-				EPP_DEBUG("%s", "使用快速复制XRGB8888->RGBX8888\n");
+			//EPP_DEBUG("%s", "使用快速复制XRGB8888->RGBX8888\n");
 
 				i32 copySize = w * this->pixelSize - 1;
 
 				for (i32 i = 0; i < h; i++) { // 执行行复制，以优化复制速度
-					Copy(other->fbX[i + y0] + x0 * this->pixelSize + 1, this->fbX[y1 + i] + x1 * this->pixelSize, 1, copySize);
+					// 小端 [r][g][b] [x] ---> [x] [b][g][r]
+					// 大端 [x] [r][g][b] ---> [r][g][b] [x]
+					Copy(other->fbX[i + y0] + x0 * this->pixelSize + EPP_ENDION_BIG, this->fbX[y1 + i] + x1 * this->pixelSize + EPP_ENDION_LITTLE, 1, copySize);
 					// 行尾字节可选赋值为0，这里考虑到运行效率，弃置
 				}
 
@@ -125,10 +129,16 @@ void Layer::unchecked_copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x
 	}
 
 	// 只能执行逐点复制
-	EPP_DEBUG("只能逐点复制 复制区域 %dx%d\n", w, h);
+	//EPP_DEBUG("只能逐点复制 复制区域 %dx%d\n", w, h);
 	for (i32 y = 0; y < h; y++)
 		for (i32 x = 0; x < w; x++) {
-			FrameBuffer::unchecked_writePixel(x + x1, y + y1, Color::Transform(other->unchecked_readPixel(x + x0, y + y0), other->colorType, this->colorType));
+			color_t src = other->unchecked_readPixel(x + x0, y + y0);
+			color_t dest = Color::Transform(src, other->colorType, this->colorType);
+			// EPP_DEBUG("\t0x%08X ---> 0x%08X\n", src, dest);
+			if (dest == 0xFFFFFF00)
+				FrameBuffer::unchecked_writePixel(x + x1, y + y1, 0x00FFFFFF);
+			else
+				FrameBuffer::unchecked_writePixel(x + x1, y + y1, dest);
 		}
 }
 
@@ -143,13 +153,9 @@ void Layer::unchecked_copyFrom(Layer *other) {
 					i32 copySize = this->lineSize - 1;
 
 					for (i32 i = 0; i < this->h; i++) { // 执行行复制，以优化复制速度
-#if EPP_ENDION_LITTLE == EPP_TRUE
-						// [x] [b][g][r] ---> [b][g][r] [x]
-						Copy(other->fbX[i] + 1, this->fbX[i], 1, copySize);
-#else
-						// [r][g][b] [x] ---> [x] [r][g][b]
-						Copy(other->fbX[i], this->fbX[i] + 1, 1, copySize);
-#endif
+						// 小端 [x] [b][g][r] ---> [b][g][r] [x]
+						// 大端 [r][g][b] [x] ---> [x] [r][g][b]
+						Copy(other->fbX[i] + EPP_ENDION_LITTLE, this->fbX[i] + EPP_ENDION_BIG, 1, copySize);
 						// 行首字节可选赋值为0，这里考虑到运行效率，弃置
 					}
 					return;
@@ -158,13 +164,9 @@ void Layer::unchecked_copyFrom(Layer *other) {
 					i32 copySize = this->lineSize - 1;
 
 					for (i32 i = 0; i < this->h; i++) { // 执行行复制，以优化复制速度
-#if EPP_ENDION_LITTLE == EPP_TRUE
-						// [b][g][r] [x] ---> [x] [b][g][r]
-						Copy(other->fbX[i], this->fbX[i] + 1, 1, copySize);
-#else
-						// [x] [r][g][b] ---> [r][g][b] [x]
-						Copy(other->fbX[i] + 1, this->fbX[i], 1, copySize);
-#endif
+						// 小端 [b][g][r] [x] ---> [x] [b][g][r]
+						// 大端 [x] [r][g][b] ---> [r][g][b] [x]
+						Copy(other->fbX[i] + EPP_ENDION_BIG, this->fbX[i] + EPP_ENDION_LITTLE, 1, copySize);
 						// 行尾字节可选赋值为0，这里考虑到运行效率，弃置
 					}
 
@@ -172,14 +174,16 @@ void Layer::unchecked_copyFrom(Layer *other) {
 				}
 			} else { // 两个对象都具有实际缓冲区空间，执行最速复制
 				if (other->colorType == Color::RGBX8888 and this->colorType == Color::XRGB8888) { // RGBX8888 -> XRGB8888
-
-					Copy(other->fb, this->fb + 1, 1, this->fbSize - 1);
+				// 小端 [x] [b][g][r] ---> [b][g][r] [x]
+				// 大端 [r][g][b] [x] ---> [x] [r][g][b]
+					Copy(other->fb + EPP_ENDION_LITTLE, this->fb + EPP_ENDION_BIG, 1, this->fbSize - 1);
 					// 缓冲区首字节可选赋值为0，这里考虑到运行效率，弃置
 
 					return;
 				} else if (other->colorType == Color::XRGB8888 and this->colorType == Color::RGBX8888) { // XRGB8888 -> RGBX8888
-
-					Copy(other->fb + 1, this->fb, 1, this->fbSize - 1);
+				// 小端 [b][g][r] [x] ---> [x] [b][g][r]
+				// 大端 [x] [r][g][b] ---> [r][g][b] [x]
+					Copy(other->fb + EPP_ENDION_BIG, this->fb + EPP_ENDION_LITTLE, 1, this->fbSize - 1);
 					// 缓冲区尾字节可选赋值为0，这里考虑到运行效率，弃置
 
 					return;
@@ -196,7 +200,7 @@ void Layer::unchecked_copyFrom(Layer *other) {
 }
 
 void Layer::copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
-	EPP_FUNC_LOCATE("0x%016X, %d, %d, %d, %d, %d, %d", other, x0, y0, w, h, x1, y1);
+	// EPP_FUNC_LOCATE("0x%016X, %d, %d, %d, %d, %d, %d", other, x0, y0, w, h, x1, y1);
 	if (w <= 0 or h <= 0) { // 矩形区域面积必须大于0
 		throw new Exception(S("Illegal Parameter: The area of the rect must be greater than 0"));
 	} else if (x0 < 0 or y0 < 0 or x0 + w > other->w or y0 + h > other->h) { // 复制的矩形区域必须位于other所拥有的内存空间内

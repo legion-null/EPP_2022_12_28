@@ -124,6 +124,8 @@ void Painter::drawString(i32 x, i32 y, i32 w, i32 h, String *str) {
 	for (i32 i = 0; i < str->getLength(); i++) {
 		drawCharacter(x, y, w, h, str->getValue()[i]);
 		x = x + this->font->getWidth();
+		if (x + this->font->getWidth() > w)
+			return;
 	}
 }
 
@@ -131,9 +133,10 @@ void Painter::drawString(Rect2D *limitBox, String *str) {
 }
 
 void Painter::drawImage(i32 x, i32 y, i32 w, i32 h, Image *img) {
+	EPP_FUNC_LOCATE("%d, %d, %d, %d, 0x%016x", x, y, w, h, img);
+
 	EnsureExists(img);
 
-	EPP_CODE_LOCATE();
 	this->layer->copyFrom(img, 0, 0, w, h, x, y);
 }
 

@@ -15,10 +15,10 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 	Screen *scr = Screen::GetDefaultScreen();
 	Painter *painter = scr->getPainter();
 
-//	painter->setColor(C(White));
-//	painter->drawRect(100, 100, 500, 500);
-//	painter->fillRect(200, 200, 200, 200);
-//	painter->drawCircle(400, 400, 100);
+	painter->setColor(C(White));
+	painter->drawRect(100, 100, 500, 500);
+	painter->fillRect(200, 200, 200, 200);
+	painter->drawCircle(400, 400, 100);
 
 	i32 size = 100;
 	u32* fb = new u32[size * size];
@@ -45,8 +45,6 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 	Image *img2 = new Image((byte*) fb, size, size, Color::RGBX8888); // R G 0 B
 	Image *img3 = new Image((byte*) fb, size, size, Color::ARGB8888); //
 	Image *img4 = new Image((byte*) fb, size, size, Color::RGBA8888);
-
-
 
 	EPP_DEBUG("%s", "1:");
 	painter->drawImage(0, 0, size, size, img1);

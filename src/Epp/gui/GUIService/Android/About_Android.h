@@ -1,6 +1,7 @@
 #pragma once
 
 #include "defs.h"
+#include "graphics/Color/Color.h"
 
 #if EPP_CURRENT_OS == EPP_OS_ANDROID
 
@@ -15,6 +16,7 @@ struct JAndroid {
 	ANativeWindow *window = nullptr;
 	i32 w = 0;
 	i32 h = 0;
+	graphics::Color::Type colorType;
 	// 输入相关
 
 	// 状态相关

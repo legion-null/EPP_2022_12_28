@@ -19,7 +19,7 @@ i32 graphics_Color_test_main(i32 argc, c8 **argv) {
 			type1 = (Color::Type) i;
 			type2 = (Color::Type) j;
 			c2 = Color::Transform(c1, type1, type2);
-			OS::Printf(S("%s ---> %s 0x%08X ---> 0x%08X"), Color::GetTypeName(type1)->getValue(), Color::GetTypeName(type2)->getValue(), c1, c2);
+			OS::Printf(S("%s ---> %s 0x%08X ---> 0x%08X"), Color::GetTypeName(type1), Color::GetTypeName(type2), c1, c2);
 			if (type1 == type2) {
 				if (c1 == c2) {
 					OS::Printf(S("\tT"));

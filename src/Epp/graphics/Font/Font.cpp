@@ -28,6 +28,7 @@ bool Font::hasCharacter(i32 c) {
 }
 
 Image* Font::getUnavailableCharacterImage(i32 c) {
+	EPP_FUNC_LOCATE("%d", c);
 	if (this->w < 0 or this->h < 0) {
 		EPP_CODE_LOCATE();
 		EPP_DEBUG("w = %d, h = %d\n", w, h);
@@ -38,13 +39,9 @@ Image* Font::getUnavailableCharacterImage(i32 c) {
 	Image *img = new Image(this->w, this->h, Color::GetDefaultColorType());
 	Painter *painter = img->getPainter();
 
-	EPP_CODE_LOCATE();
-	EPP_DEBUG("XXX%d\n", 1);
 	// 填充白色
 	painter->setColor(C(White));
-	EPP_DEBUG("XXX%d\n", 2);
 	painter->fillRect(0, 0, this->w, this->h);
-	EPP_DEBUG("XXX%d\n", 3);
 
 	// 绘制边框（两层）
 	painter->setColor(C(Black));
@@ -62,8 +59,8 @@ Image* Font::getUnavailableCharacterImage(i32 c) {
 }
 
 Image* Font::getCharacterImage(i32 c) {
+	EPP_FUNC_LOCATE("%d", c);
 	if (hasCharacter(c) == false) {
-		EPP_CODE_LOCATE();
 		return getUnavailableCharacterImage(c);
 	}
 

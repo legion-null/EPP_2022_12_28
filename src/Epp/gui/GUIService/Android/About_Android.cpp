@@ -5,6 +5,7 @@
 using namespace Epp;
 using namespace Epp::base;
 
+using namespace Epp::graphics;
 using namespace Epp::gui;
 
 #include <jni.h>
@@ -45,14 +46,15 @@ Java_com_legion_epp_EPP_SurfaceCreate(JNIEnv *env, jclass clazz, jobject surface
 
 JNIEXPORT void JNICALL
 Java_com_legion_epp_EPP_SurfaceChanged(JNIEnv *env, jclass clazz, jobject surface, jint width, jint height) {
-	EPP_CODE_LOCATE();
-
-	// 设置屏幕分辨率
-	GUIService_Android::JA->w = width;
-	GUIService_Android::JA->h = height;
+	EPP_FUNC_LOCATE("___, %d, %d", width, height);
 
 	// 设置像素格式
 	::ANativeWindow_setBuffersGeometry(GUIService_Android::JA->window, width, height, WINDOW_FORMAT_RGBX_8888);
+
+	// 设置屏幕分辨率等信息
+	GUIService_Android::JA->w = width;
+	GUIService_Android::JA->h = height;
+	GUIService_Android::JA->colorType = Color::RGBX8888;
 
 	// 设置启动标志
 	GUIService_Android::JA->running = true;

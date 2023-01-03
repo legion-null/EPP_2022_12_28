@@ -11,13 +11,17 @@ namespace base {
 
 const Class *OS::ClassInfo = Class::Register<OS, Object>("Epp::base::OS", nullptr);
 
+bool OS::IsLittleEndian() {
+	return (LittleEndian == 1);
+}
+
 void OS::Printf(String *fmt, ...) {
 	::va_list args;
 	::va_start(args,fmt);
 	::vprintf(fmt->getValue(), args);
 	::va_end(args);
 
-	::fflush (stdout);
+	::fflush(stdout);
 }
 
 void OS::PrintMemory(byte *address, i32 len) {

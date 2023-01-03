@@ -18,22 +18,22 @@ void Color::SetDefaultColorType(Type type) {
 	DefaultColorType = type;
 }
 
-String* Color::GetTypeName(Type type) {
+const c8* Color::GetTypeName(Type type) {
 	switch (type) {
 	case RGB565:
-		return S(EPP_STR(Color::RGB565));
+		return EPP_STR(Color::RGB565);
 	case RGB888:
-		return S(EPP_STR(Color::RGB888));
+		return EPP_STR(Color::RGB888);
 	case XRGB8888:
-		return S(EPP_STR(Color::XRGB8888));
+		return EPP_STR(Color::XRGB8888);
 	case ARGB8888:
-		return S(EPP_STR(Color::ARGB8888));
+		return EPP_STR(Color::ARGB8888);
 	case RGBX8888:
-		return S(EPP_STR(Color::RGBX8888));
+		return EPP_STR(Color::RGBX8888);
 	case RGBA8888:
-		return S(EPP_STR(Color::RGBA8888));
+		return EPP_STR(Color::RGBA8888);
 	default:
-		return S(EPP_STR(Color::Unknown));
+		return EPP_STR(Color::Unknown);
 	}
 }
 
@@ -113,17 +113,16 @@ color_t Color::FormARGB8888(color_t value, Type dest) { // 如果目标格式没
 }
 
 color_t Color::Transform(color_t value, Type src, Type dest) {
-//	EPP_DEBUG("%s -> %s\n", GetTypeName(src)->getValue(), GetTypeName(dest)->getValue());
+	EPP_FUNC_LOCATE("0x%08X, %s, %s", value, GetTypeName(src), GetTypeName(dest));
 	if (src == dest)
 		return value;
-
-//	color_t newValue = FormARGB8888(ToARGB8888(value, src), dest);
 //
-//	EPP_CODE_LOCATE();
-//	EPP_DEBUG("0x%08X ---> 0x%08X\n", value, newValue);
+//	color_t newValue = FormARGB8888(ToARGB8888(value, src), dest);
+//	EPP_FUNC_LOCATE("0x%08X, %s, %s", value, GetTypeName(src), GetTypeName(dest));
+//	EPP_DEBUG("\treturn 0x%08X", newValue);
 //
 //	return newValue;
-//
+
 	return FormARGB8888(ToARGB8888(value, src), dest);
 }
 

@@ -185,13 +185,11 @@ color_t FrameBuffer::unchecked_readPixel(i32 x, i32 y) {
 	}
 	}
 
-//	EPP_CODE_LOCATE();
-//	EPP_DEBUG("\treturn 0x%08X\n", color);
-
 	return color;
 }
 
 void FrameBuffer::unchecked_writePixel(i32 x, i32 y, color_t color) {
+	//EPP_FUNC_LOCATE("%d, %d, 0x%08X", x, y, color);
 	switch (this->bpp) {
 	case 8: {
 		*(((u8*) ((this->fbX[y]))) + x) = (u8) (color);
@@ -252,7 +250,7 @@ void FrameBuffer::unchecked_writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t colo
 }
 
 void FrameBuffer::writeRow(i32 x0, i32 y0, i32 w, color_t color) {
-	EPP_FUNC_LOCATE("%d, %d, %d, %d", x0, y0, w, color);
+	//EPP_FUNC_LOCATE("%d, %d, %d, %d", x0, y0, w, color);
 	if (check_y(y0) == false or x0 < 0 or w <= 0 or x0 + w > this->w) {
 		throw new Exception();
 	}

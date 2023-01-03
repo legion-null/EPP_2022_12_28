@@ -30,7 +30,7 @@ public:
 	static void SetDefaultColorType(Type type);
 
 public:
-	static base::String* GetTypeName(Type type);
+	static const c8* GetTypeName(Type type);
 
 public:
 	static i32 GetBPP(Type type);
