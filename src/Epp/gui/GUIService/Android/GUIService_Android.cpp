@@ -10,7 +10,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace gui {
 
-const base::Class * GUIService_Android::ClassInfo = base::Class::Register<GUIService_Android, GUIService>("Epp::gui::GUIService_Android", nullptr);
+const Class * GUIService_Android::ClassInfo = Class::Register<GUIService_Android, GUIService>("Epp::gui::GUIService_Android", nullptr);
 
 
 struct JAndroid *GUIService_Android::JA = new struct JAndroid;
@@ -24,7 +24,7 @@ GUIService_Android::GUIService_Android() {
 
 }
 
-Epp::gui::Screen* GUIService_Android::getDefaultScreen() const {
+Screen* GUIService_Android::getScreen() const {
 	return new Screen_Android();
 }
 

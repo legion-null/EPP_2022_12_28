@@ -143,17 +143,28 @@ void Layer::unchecked_copyFrom(Layer *other) {
 					i32 copySize = this->lineSize - 1;
 
 					for (i32 i = 0; i < this->h; i++) { // 执行行复制，以优化复制速度
+#if EPP_ENDION_LITTLE == EPP_TRUE
+						// [x] [b][g][r] ---> [b][g][r] [x]
+						Copy(other->fbX[i] + 1, this->fbX[i], 1, copySize);
+#else
+						// [r][g][b] [x] ---> [x] [r][g][b]
 						Copy(other->fbX[i], this->fbX[i] + 1, 1, copySize);
+#endif
 						// 行首字节可选赋值为0，这里考虑到运行效率，弃置
 					}
-
 					return;
 				} else if (other->colorType == Color::XRGB8888 and this->colorType == Color::RGBX8888) { // XRGB8888 -> RGBX8888
 
 					i32 copySize = this->lineSize - 1;
 
 					for (i32 i = 0; i < this->h; i++) { // 执行行复制，以优化复制速度
+#if EPP_ENDION_LITTLE == EPP_TRUE
+						// [b][g][r] [x] ---> [x] [b][g][r]
+						Copy(other->fbX[i], this->fbX[i] + 1, 1, copySize);
+#else
+						// [x] [r][g][b] ---> [r][g][b] [x]
 						Copy(other->fbX[i] + 1, this->fbX[i], 1, copySize);
+#endif
 						// 行尾字节可选赋值为0，这里考虑到运行效率，弃置
 					}
 

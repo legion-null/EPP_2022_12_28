@@ -49,7 +49,7 @@ public:
 	GUIService();
 
 public:
-	virtual Screen* getScreen(i32 index) const;
+	Screen* getScreen(i32 index) const;
 	virtual Screen* getScreen() const;
 };
 
