@@ -145,7 +145,7 @@ String::String(const c8 *str) :
 }
 
 String::String(const c8 *str, i32 off, i32 len) {
-	SafeCopy(str + off, this->value, len);
+	SafeCopy(str + off, this->value, len + 1);
 
 	/*
 	 if (strlen(str + off) < len) {

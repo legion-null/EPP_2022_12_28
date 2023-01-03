@@ -8,7 +8,7 @@ namespace gui {
 
 const base::Class *GUIService::ClassInfo = base::Class::Register<GUIService, GUIService>("Epp::gui::GUIService", nullptr);
 
-const bool GUIService::ValidityOfSupportInterfaces[GUIService::NumberOfSupportInterfaces] = { (EPP_CURRENT_OS == EPP_OS_WINDOWS),	//
+const bool GUIService::ValidityOfIM[GUIService::NumberOfIM] = { (EPP_CURRENT_OS == EPP_OS_WINDOWS),	//
 		(EPP_CURRENT_OS == EPP_OS_MACOS),	//
 		(EPP_CURRENT_OS == EPP_OS_ANDROID),	//
 		(EPP_CURRENT_OS == EPP_OS_IOS),		//
@@ -17,37 +17,41 @@ const bool GUIService::ValidityOfSupportInterfaces[GUIService::NumberOfSupportIn
 		false //
 		};
 
-bool GUIService::IsAvailable(Type type) {
-	return ValidityOfSupportInterfaces[type];
+bool GUIService::IsAvailable(IMType type) {
+	return ValidityOfIM[type];
 }
 
-GUIService::Type GUIService::DefaultGuiServiceType = GUIService::InitDefaultGuiServiceType();
+GUIService::IMType GUIService::DefaultIMType = GUIService::InitDefaultIMType();
 
-GUIService::Type GUIService::InitDefaultGuiServiceType() {
-	EPP_CODE_LOCATE();
-	for (i32 i = 0; i < NumberOfSupportInterfaces; i++) {
-		if (ValidityOfSupportInterfaces[i] == true)
-			return (Type) i;
+GUIService::IMType GUIService::InitDefaultIMType() {
+	// EPP_CODE_LOCATE();
+	for (i32 i = 0; i < NumberOfIM; i++) {
+		if (ValidityOfIM[i] == true)
+			return (IMType) i;
 	}
 
 	return Unavailable;
 }
 
-GUIService::Type GUIService::GetDefaultGuiServiceType() {
+GUIService::IMType GUIService::GetDefaultIMType() {
 	EPP_CODE_LOCATE();
-	return DefaultGuiServiceType;
+	return DefaultIMType;
 }
 
-void GUIService::SetDefaultGuiServiceType(Type type) {
+void GUIService::SetDefaultIMType(IMType type) {
 	EPP_CODE_LOCATE();
 	if (IsAvailable(type) == false)
-		throw 0;
+		throw new Exception();
 
-	DefaultGuiServiceType = type;
+	DefaultIMType = type;
 }
 
-GUIService* GUIService::GetGUIService(Type type) {
+GUIService* GUIService::GetIM(IMType type) {
 	EPP_CODE_LOCATE();
+
+	if(IsAvailable(type) == false){
+		throw new Exception();
+	}
 
 	switch (type) {
 	case Windows:
@@ -81,15 +85,18 @@ GUIService* GUIService::GetGUIService(Type type) {
 #endif
 		break;
 	case LinuxFB:
+#if EPP_MODULE_LINUXFB_SUPPORT == EPP_TRUE
+		return new GUIService_SDL2();
+#endif
 		break;
 	}
 
-	throw 0;
+	throw new Exception();
 }
 
-GUIService* GUIService::GetDefaultGUIService() {
+GUIService* GUIService::GetDefaultIM() {
 	EPP_CODE_LOCATE();
-	return GetGUIService(GetDefaultGuiServiceType());
+	return GetIM(GetDefaultIMType());
 }
 
 GUIService::GUIService() {
@@ -97,10 +104,17 @@ GUIService::GUIService() {
 
 }
 
+Screen* GUIService::getScreen(i32 index) const {
+	return screenList[index];
+}
+
 Screen* GUIService::getScreen() const {
 	EPP_CODE_LOCATE();
-	return nullptr;
+
+	return getScreen(0);
 }
+
+
 
 }
 }

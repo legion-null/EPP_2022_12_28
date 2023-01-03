@@ -71,7 +71,8 @@ void Painter_Software::GetLinePixel(i32 x0, i32 y0, i32 x1, i32 y1, i32 **px, i3
 	(*py)[n - 1] = y1;
 }
 
-Painter_Software::Painter_Software() {
+Painter_Software::Painter_Software() :
+		Painter_Software(nullptr) {
 
 }
 
@@ -81,9 +82,13 @@ Painter_Software::Painter_Software(Layer *layer) :
 }
 
 void Painter_Software::drawLine(i32 x0, i32 y0, i32 x1, i32 y1) {
+	EPP_FUNC_LOCATE("%d, %d, %d, %d", x0, y0, x1, y1);
+
+	//EPP_DEBUG("%s", "XXX");
 	if (x0 == x1) {
 		return this->layer->drawLineV(x0, Min(y0, y1), Abs(y1 - y0) + 1, this->color);
 	} else if (y0 == y1) {
+		//EPP_CODE_LOCATE();
 		return this->layer->drawLineH(Min(x0, x1), y0, Abs(x1 - x0) + 1, this->color);
 	} else {
 		// Bresenham算法
@@ -220,6 +225,7 @@ void Painter_Software::drawRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r) {
 }
 
 void Painter_Software::fillRect(i32 x0, i32 y0, i32 w, i32 h) {
+	EPP_CODE_LOCATE();
 	i32 x1 = x0 + w - 1;
 	i32 y1 = y0 + h - 1;
 	for (i32 y = y0; y <= y1; y++)

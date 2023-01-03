@@ -47,7 +47,9 @@ void Layer::setPixel(i32 x, i32 y, Color *color) {
 }
 
 void Layer::drawLineH(i32 x0, i32 y0, i32 w, Color *color) {
+	EPP_FUNC_LOCATE("%d, %d, %d, 0x%08X", x0, y0, w, color->getValue());
 	rMapPixel(x0, y0);
+	EPP_FUNC_LOCATE("%d, %d, %d, 0x%08X", x0, y0, w, color->getValue());
 	switch (this->rot) {
 	case Rot::Rot_0:
 		return FrameBuffer::writeRow(x0, y0, w, color->getValue());
@@ -61,6 +63,7 @@ void Layer::drawLineH(i32 x0, i32 y0, i32 w, Color *color) {
 }
 
 void Layer::drawLineV(i32 x0, i32 y0, i32 h, Color *color) {
+	EPP_CODE_LOCATE();
 	rMapPixel(x0, y0);
 	switch (this->rot) {
 	case Rot::Rot_0:
@@ -182,6 +185,7 @@ void Layer::unchecked_copyFrom(Layer *other) {
 }
 
 void Layer::copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
+	EPP_FUNC_LOCATE("0x%016X, %d, %d, %d, %d, %d, %d", other, x0, y0, w, h, x1, y1);
 	if (w <= 0 or h <= 0) { // 矩形区域面积必须大于0
 		throw new Exception(S("Illegal Parameter: The area of the rect must be greater than 0"));
 	} else if (x0 < 0 or y0 < 0 or x0 + w > other->w or y0 + h > other->h) { // 复制的矩形区域必须位于other所拥有的内存空间内
@@ -199,6 +203,13 @@ void Layer::copyFrom(Layer *other) {
 	}
 
 	return unchecked_copyFrom(other);
+}
+
+Painter* Layer::getPainter() {
+	Painter *painter = Painter::GetDefaultIM();
+	painter->setLayer(this);
+
+	return painter;
 }
 
 }

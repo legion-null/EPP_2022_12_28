@@ -9,6 +9,8 @@
 namespace Epp {
 namespace graphics {
 
+class Painter;
+
 class Layer: extends FrameBuffer {
 
 EPP_CLASS_INFO
@@ -60,6 +62,9 @@ protected:
 public:
 	void copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1);
 	void copyFrom(Layer *other);
+
+public:
+	Painter* getPainter();
 };
 
 }

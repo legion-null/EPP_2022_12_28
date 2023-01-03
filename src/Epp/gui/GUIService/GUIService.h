@@ -12,7 +12,7 @@ class GUIService: extends base::Object {
 EPP_CLASS_INFO
 
 public:
-	enum Type : i8 {
+	enum IMType : i8 {
 		Unavailable = -1, // 不可用
 		Windows = 0, // Windows
 		MacOS,		// MacOS
@@ -24,28 +24,32 @@ public:
 	};
 
 protected:
-	static const i32 NumberOfSupportInterfaces = 7;
-	static const bool ValidityOfSupportInterfaces[NumberOfSupportInterfaces];
+	static const i32 NumberOfIM = 7;
+	static const bool ValidityOfIM[NumberOfIM];
 
 public:
-	static bool IsAvailable(Type type);
+	static bool IsAvailable(IMType type);
 
 protected:
-	static Type DefaultGuiServiceType;
-	static Type InitDefaultGuiServiceType();
+	static IMType DefaultIMType;
+	static IMType InitDefaultIMType();
 
 public:
-	static Type GetDefaultGuiServiceType();
-	static void SetDefaultGuiServiceType(Type type);
+	static IMType GetDefaultIMType();
+	static void SetDefaultIMType(IMType type);
 
 public:
-	static GUIService* GetGUIService(Type type);
-	static GUIService* GetDefaultGUIService();
+	static GUIService* GetIM(IMType type);
+	static GUIService* GetDefaultIM();
+
+protected:
+	Screen **screenList = nullptr;
 
 public:
 	GUIService();
 
 public:
+	virtual Screen* getScreen(i32 index) const;
 	virtual Screen* getScreen() const;
 };
 

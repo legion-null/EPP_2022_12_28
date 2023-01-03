@@ -21,13 +21,25 @@ public:
 	};
 
 protected:
-	// 这里放一张字体表，字体加载到字体表中才可以使用
+	// 这里放一张字体表（链表或哈希表），字体加载到字体表中才可以使用
 
 protected:
-	bool bitmapFont = true; // 点阵字体
+	i32 w = 16;
+	i32 h = 16;
 
 public:
 	Font();
+	~Font();
+
+public:
+	i32 getWidth() const;
+	i32 getHeight() const;
+
+public:
+	virtual bool hasCharacter(i32 c);
+
+protected:
+	Image* getUnavailableCharacterImage(i32 c);
 
 public:
 	virtual Image* getCharacterImage(i32 c);

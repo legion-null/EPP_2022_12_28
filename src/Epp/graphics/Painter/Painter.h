@@ -20,15 +20,34 @@ class Painter: extends base::Object {
 EPP_CLASS_INFO
 
 public:
-	enum Type : i8 {
-		Software,		// 软件实现
+	enum IMType : i8 {
 		OpenGL,			// OpenGL实现
+		Software,		// 软件实现
 	};
+
+protected:
+	static const i32 NumberOfIM = 2;
+	static const bool ValidityOfIM[NumberOfIM];
+
+public:
+	static bool IsAvailable(IMType type);
+
+protected:
+	static IMType DefaultIMType;
+	static IMType InitDefaultIMType();
+
+public:
+	static IMType GetDefaultIMType();
+	static void SetDefaultIMType(IMType type);
+
+public:
+	static Painter* GetIM(IMType type);
+	static Painter* GetDefaultIM();
 
 protected:
 	Layer *layer = nullptr;
 	Color *color = C(Black);
-	Font *font = nullptr;
+	Font *font = new Font();
 
 public:
 	Painter();

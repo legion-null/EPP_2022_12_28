@@ -185,8 +185,8 @@ color_t FrameBuffer::unchecked_readPixel(i32 x, i32 y) {
 	}
 	}
 
-	EPP_CODE_LOCATE();
-	EPP_DEBUG("\treturn 0x%08X\n", color);
+//	EPP_CODE_LOCATE();
+//	EPP_DEBUG("\treturn 0x%08X\n", color);
 
 	return color;
 }
@@ -222,64 +222,65 @@ color_t FrameBuffer::readPixel(i32 x, i32 y) {
 	return unchecked_readPixel(x, y);
 }
 
-void FrameBuffer::writePixel(i32 x, i32 y, color_t value) {
+void FrameBuffer::writePixel(i32 x, i32 y, color_t color) {
 	if (x < 0 or x >= this->w or y < 0 or y >= this->h) {
 		throw new Exception();
 	}
 
-	return unchecked_writePixel(x, y, value);
+	return unchecked_writePixel(x, y, color);
 }
 
-void FrameBuffer::unchecked_writeRow(i32 x0, i32 y0, i32 w, color_t value) {
+void FrameBuffer::unchecked_writeRow(i32 x0, i32 y0, i32 w, color_t color) {
 	i32 x1 = x0 + w - 1;
 	for (i32 x = x0; x <= x1; x++) {
-		unchecked_writePixel(x, y0, value);
+		unchecked_writePixel(x, y0, color);
 	}
 }
 
-void FrameBuffer::unchecked_writeCol(i32 x0, i32 y0, i32 h, color_t value) {
+void FrameBuffer::unchecked_writeCol(i32 x0, i32 y0, i32 h, color_t color) {
 	i32 y1 = y0 + h - 1;
 	for (i32 y = y0; y <= y1; y++) {
-		unchecked_writePixel(x0, y, value);
+		unchecked_writePixel(x0, y, color);
 	}
 }
 
-void FrameBuffer::unchecked_writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t value) {
+void FrameBuffer::unchecked_writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t color) {
 	i32 y1 = y0 + h - 1;
 	for (i32 y = y0; y <= y1; y++) {
-		unchecked_writeRow(x0, y, w, value);
+		unchecked_writeRow(x0, y, w, color);
 	}
 }
 
-void FrameBuffer::writeRow(i32 x0, i32 y0, i32 w, color_t value) {
-	if (check_y(y0) == false or x0 < 0 or w <= 0 or x0 + w >= this->w) {
+void FrameBuffer::writeRow(i32 x0, i32 y0, i32 w, color_t color) {
+	EPP_FUNC_LOCATE("%d, %d, %d, %d", x0, y0, w, color);
+	if (check_y(y0) == false or x0 < 0 or w <= 0 or x0 + w > this->w) {
 		throw new Exception();
 	}
 
-	return unchecked_writeRow(x0, y0, w, value);
+	return unchecked_writeRow(x0, y0, w, color);
 }
 
-void FrameBuffer::writeCol(i32 x0, i32 y0, i32 h, color_t value) {
-	if (check_x(x0) == false or y0 < 0 or h <= 0 or y0 + h >= this->h) {
+void FrameBuffer::writeCol(i32 x0, i32 y0, i32 h, color_t color) {
+	if (check_x(x0) == false or y0 < 0 or h <= 0 or y0 + h > this->h) {
 		throw new Exception();
 	}
 
-	return unchecked_writeCol(x0, y0, h, value);
+	return unchecked_writeCol(x0, y0, h, color);
 }
 
-void FrameBuffer::writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t value) {
-	if (x0 < 0 or w <= 0 or x0 + w >= this->w or y0 < 0 or h < 0 or y0 + h >= this->h) {
+void FrameBuffer::writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t color) {
+	if (x0 < 0 or w <= 0 or x0 + w > this->w or y0 < 0 or h < 0 or y0 + h > this->h) {
 		throw new Exception();
 	}
 
-	return unchecked_writeRect(x0, y0, w, h, value);
+	return unchecked_writeRect(x0, y0, w, h, color);
 }
 
-void FrameBuffer::clear(color_t value) {
+void FrameBuffer::clear(color_t color) {
 	if (this->fb != nullptr) {
-		SetMemory(this->fb, (byte*) &value, 4, this->w * this->h);
+		SetMemory(this->fb, (byte*) &color, 4, this->w * this->h);
 	} else {
-		unchecked_writeRect(0, 0, this->w, this->h, value);
+		unchecked_writeRect(0, 0, this->w, this->h, color);
 	}
 }
 

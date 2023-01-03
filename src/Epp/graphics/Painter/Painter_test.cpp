@@ -13,7 +13,7 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 	EPP_CODE_LOCATE();
 
 	Screen *scr = Screen::GetDefaultScreen();
-	Painter *painter = new Painter_Software(scr);
+	Painter *painter = scr->getPainter();
 
 //	painter->setColor(C(White));
 //	painter->drawRect(100, 100, 500, 500);

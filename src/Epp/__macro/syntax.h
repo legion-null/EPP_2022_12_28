@@ -5,6 +5,10 @@
 #define extends			public
 #define implements		virtual public
 
+#define EPP_NULL_MACRO
+#define EPP_LINE_NOTE 			/EPP_NULL_MACRO/
+#define EPP_NOTE				/EPP_NULL_MACRO*
+
 #define EPP_CLASS_INFO \
 \
 public:\

@@ -22,6 +22,13 @@ public:
 		RGBA8888,	// RGBA8888
 	};
 
+protected:
+	static Type DefaultColorType;
+
+public:
+	static Type GetDefaultColorType();
+	static void SetDefaultColorType(Type type);
+
 public:
 	static base::String* GetTypeName(Type type);
 
@@ -34,42 +41,42 @@ protected:
 		color_t b :5;
 		color_t g :6;
 		color_t r :5;
-		color_t x:16;
+		color_t x :16;
 #else
 		color_t x:16;
 		color_t r :5;
 		color_t g :6;
 		color_t b :5;
 #endif
-	};
+	} __attribute__((packed));
 
 	struct RGB888 {
 #if EPP_ENDION_LITTLE == EPP_TRUE
 		color_t b :8;
 		color_t g :8;
 		color_t r :8;
-		color_t x:8;
+		color_t x :8;
 #else
 		color_t x:8;
 		color_t r :8;
 		color_t g :8;
 		color_t b :8;
 #endif
-	};
+	} __attribute__((packed));
 
 	struct XRGB8888 {
 #if EPP_ENDION_LITTLE == EPP_TRUE
 		color_t b :8;
 		color_t g :8;
 		color_t r :8;
-		color_t x:8;
+		color_t x :8;
 #else
 		color_t x:8;
 		color_t r :8;
 		color_t g :8;
 		color_t b :8;
 #endif
-	};
+	} __attribute__((packed));
 
 	struct ARGB8888 {
 #if EPP_ENDION_LITTLE == EPP_TRUE
@@ -83,7 +90,7 @@ protected:
 		color_t g :8;
 		color_t b :8;
 #endif
-	};
+	} __attribute__((packed));
 
 	struct RGBX8888 {
 #if EPP_ENDION_LITTLE == EPP_TRUE
@@ -97,7 +104,7 @@ protected:
 		color_t b :8;
 		color_t x :8;
 #endif
-	};
+	} __attribute__((packed));
 
 	struct RGBA8888 {
 #if EPP_ENDION_LITTLE == EPP_TRUE
@@ -111,7 +118,7 @@ protected:
 		color_t b :8;
 		color_t a :8;
 #endif
-	};
+	} __attribute__((packed));
 
 protected:
 	union ColorData {
@@ -122,7 +129,7 @@ protected:
 		struct ARGB8888 argb8888;
 		struct RGBA8888 rgba8888;
 		color_t value;
-	};
+	} __attribute__((packed));
 
 public:
 	static color_t ToARGB8888(color_t value, Type src);

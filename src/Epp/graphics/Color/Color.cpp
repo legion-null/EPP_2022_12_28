@@ -8,6 +8,16 @@ namespace graphics {
 
 const base::Class *Color::ClassInfo = base::Class::Register<Color, base::Object>("Epp::graphics::Color", nullptr);
 
+Color::Type Color::DefaultColorType = Color::ARGB8888;
+
+Color::Type Color::GetDefaultColorType() {
+	return DefaultColorType;
+}
+
+void Color::SetDefaultColorType(Type type) {
+	DefaultColorType = type;
+}
+
 String* Color::GetTypeName(Type type) {
 	switch (type) {
 	case RGB565:
