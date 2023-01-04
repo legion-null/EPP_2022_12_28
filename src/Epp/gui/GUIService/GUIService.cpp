@@ -6,7 +6,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace gui {
 
-const base::Class *GUIService::ClassInfo = base::Class::Register<GUIService, GUIService>("Epp::gui::GUIService", nullptr);
+const Class *GUIService::ClassInfo = Class::Register<GUIService, GUIService>("Epp::gui::GUIService", nullptr);
 
 const bool GUIService::ValidityOfIM[GUIService::NumberOfIM] = { (EPP_CURRENT_OS == EPP_OS_WINDOWS),	//
 		(EPP_CURRENT_OS == EPP_OS_MACOS),	//

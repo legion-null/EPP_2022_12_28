@@ -6,7 +6,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-const base::Class *Layer::ClassInfo = base::Class::Register<Layer, FrameBuffer>("Epp::graphics::Layer", nullptr);
+const Class *Layer::ClassInfo = Class::Register<Layer, FrameBuffer>("Epp::graphics::Layer", nullptr);
 
 Layer::Layer() {
 
@@ -106,7 +106,7 @@ void Layer::unchecked_copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x
 				for (i32 i = 0; i < h; i++) { // 执行行复制，以优化复制速度
 					// 小端 [x] [b][g][r] ---> [b][g][r] [x]
 					// 大端 [r][g][b] [x] ---> [x] [r][g][b]
-					Copy(other->fbX[i + y0] + x0 * this->pixelSize + EPP_ENDION_LITTLE, this->fbX[y1 + i] + x1 * this->pixelSize + EPP_ENDION_BIG, 1, copySize);
+					Copy(other->fbX[i + y0] + x0 * this->pixelSize + OS::LittleEndian, this->fbX[y1 + i] + x1 * this->pixelSize + OS::BigEndian, 1, copySize);
 					// 行首字节可选赋值为0，这里考虑到运行效率，弃置
 				}
 
@@ -119,7 +119,7 @@ void Layer::unchecked_copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x
 				for (i32 i = 0; i < h; i++) { // 执行行复制，以优化复制速度
 					// 小端 [r][g][b] [x] ---> [x] [b][g][r]
 					// 大端 [x] [r][g][b] ---> [r][g][b] [x]
-					Copy(other->fbX[i + y0] + x0 * this->pixelSize + EPP_ENDION_BIG, this->fbX[y1 + i] + x1 * this->pixelSize + EPP_ENDION_LITTLE, 1, copySize);
+					Copy(other->fbX[i + y0] + x0 * this->pixelSize + OS::BigEndian, this->fbX[y1 + i] + x1 * this->pixelSize + OS::LittleEndian, 1, copySize);
 					// 行尾字节可选赋值为0，这里考虑到运行效率，弃置
 				}
 
@@ -155,7 +155,7 @@ void Layer::unchecked_copyFrom(Layer *other) {
 					for (i32 i = 0; i < this->h; i++) { // 执行行复制，以优化复制速度
 						// 小端 [x] [b][g][r] ---> [b][g][r] [x]
 						// 大端 [r][g][b] [x] ---> [x] [r][g][b]
-						Copy(other->fbX[i] + EPP_ENDION_LITTLE, this->fbX[i] + EPP_ENDION_BIG, 1, copySize);
+						Copy(other->fbX[i] + OS::LittleEndian, this->fbX[i] + OS::BigEndian, 1, copySize);
 						// 行首字节可选赋值为0，这里考虑到运行效率，弃置
 					}
 					return;
@@ -166,7 +166,7 @@ void Layer::unchecked_copyFrom(Layer *other) {
 					for (i32 i = 0; i < this->h; i++) { // 执行行复制，以优化复制速度
 						// 小端 [b][g][r] [x] ---> [x] [b][g][r]
 						// 大端 [x] [r][g][b] ---> [r][g][b] [x]
-						Copy(other->fbX[i] + EPP_ENDION_BIG, this->fbX[i] + EPP_ENDION_LITTLE, 1, copySize);
+						Copy(other->fbX[i] + OS::BigEndian, this->fbX[i] + OS::LittleEndian, 1, copySize);
 						// 行尾字节可选赋值为0，这里考虑到运行效率，弃置
 					}
 
@@ -176,14 +176,14 @@ void Layer::unchecked_copyFrom(Layer *other) {
 				if (other->colorType == Color::RGBX8888 and this->colorType == Color::XRGB8888) { // RGBX8888 -> XRGB8888
 				// 小端 [x] [b][g][r] ---> [b][g][r] [x]
 				// 大端 [r][g][b] [x] ---> [x] [r][g][b]
-					Copy(other->fb + EPP_ENDION_LITTLE, this->fb + EPP_ENDION_BIG, 1, this->fbSize - 1);
+					Copy(other->fb + OS::LittleEndian, this->fb + OS::BigEndian, 1, this->fbSize - 1);
 					// 缓冲区首字节可选赋值为0，这里考虑到运行效率，弃置
 
 					return;
 				} else if (other->colorType == Color::XRGB8888 and this->colorType == Color::RGBX8888) { // XRGB8888 -> RGBX8888
 				// 小端 [b][g][r] [x] ---> [x] [b][g][r]
-				// 大端 [x] [r][g][b] ---> [r][g][b] [x]
-					Copy(other->fb + EPP_ENDION_BIG, this->fb + EPP_ENDION_LITTLE, 1, this->fbSize - 1);
+				// 大端 [x] [r][g][b] ---> [r][g][b] [x]S(
+					Copy(other->fb + OS::BigEndian, this->fb + OS::LittleEndian, 1, this->fbSize - 1);
 					// 缓冲区尾字节可选赋值为0，这里考虑到运行效率，弃置
 
 					return;
@@ -202,11 +202,11 @@ void Layer::unchecked_copyFrom(Layer *other) {
 void Layer::copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
 	// EPP_FUNC_LOCATE("0x%016X, %d, %d, %d, %d, %d, %d", other, x0, y0, w, h, x1, y1);
 	if (w <= 0 or h <= 0) { // 矩形区域面积必须大于0
-		throw new Exception(S("Illegal Parameter: The area of the rect must be greater than 0"));
+		throw new Exception("Illegal Parameter: The area of the rect must be greater than 0");
 	} else if (x0 < 0 or y0 < 0 or x0 + w > other->w or y0 + h > other->h) { // 复制的矩形区域必须位于other所拥有的内存空间内
-		throw new Exception(S("Illegal Parameter: Attempt to read illegal memory area"));
+		throw new Exception("Illegal Parameter: Attempt to read illegal memory area");
 	} else if (x1 < 0 or y1 < 0 or x1 + w > this->w or y1 + h > this->h) { // 复制后的矩形区域必须位于本实例所拥有的内存空间内
-		throw new Exception(S("Illegal Parameter: Attempt to write to illegal memory area"));
+		throw new Exception("Illegal Parameter: Attempt to write to illegal memory area");
 	}
 
 	return unchecked_copyFrom(other, x0, y0, w, h, x1, y1);
@@ -214,7 +214,7 @@ void Layer::copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1)
 
 void Layer::copyFrom(Layer *other) {
 	if (other->w != this->w or other->h != this->h) { // 图层大小必须一致，否则报错
-		throw new Exception(S("Inconsistent Size"));
+		throw new Exception("Inconsistent Size");
 	}
 
 	return unchecked_copyFrom(other);

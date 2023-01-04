@@ -9,14 +9,14 @@ namespace base {
 const Class *Error::ClassInfo = Class::Register<Error, Exception>("Epp::base::Error", nullptr);
 
 Error* Error::UnknownError() {
-	return new Error(S("Unknown Error"));
+	return new Error("Unknown Error");
 }
 
 Error::Error() {
 
 }
 
-Error::Error(String *info) {
+Error::Error(const c8 *info) {
 	static const i8 重置所有属性 = 0;
 	static const i8 高亮_加粗 = 1;
 	static const i8 暗淡 = 2;
@@ -43,8 +43,8 @@ Error::Error(String *info) {
 	static const i8 深绿色字体 = 36;
 	static const i8 白色字体 = 37;
 
-	OS::Printf(S("\033[%d;%dm%s\033[0m"), 隐藏, 红色字体, info->getValue());
-	OS::Printf(S("\n"));
+	OS::Printf("\033[%d;%dm%s\033[0m", 隐藏, 红色字体, info);
+	OS::Printf("\n");
 }
 
 }

@@ -6,7 +6,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-const base::Class *FrameBuffer::ClassInfo = base::Class::Register<FrameBuffer, base::Object>("Epp::graphics::FrameBuffer", nullptr);
+const Class *FrameBuffer::ClassInfo = Class::Register<FrameBuffer, Object>("Epp::graphics::FrameBuffer", nullptr);
 
 FrameBuffer::FrameBuffer() {
 
@@ -304,13 +304,13 @@ void FrameBuffer::unchecked_copyFrom(FrameBuffer *other) {
 
 void FrameBuffer::copyFrom(FrameBuffer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {
 	if (other->bpp != this->bpp) { // 像素位数必须一致，否则报错
-		throw new Exception(S("Inconsistent bpp"));
+		throw new Exception("Inconsistent bpp");
 	} else if (w <= 0 or h <= 0) { // 矩形区域面积必须大于0
-		throw new Exception(S("Illegal Parameter: The area of the rect must be greater than 0"));
+		throw new Exception("Illegal Parameter: The area of the rect must be greater than 0");
 	} else if (x0 < 0 or y0 < 0 or x0 + w > other->w or y0 + h > other->h) { // 复制的矩形区域必须位于other所拥有的内存空间内
-		throw new Exception(S("Illegal Parameter: Attempt to read illegal memory area"));
+		throw new Exception("Illegal Parameter: Attempt to read illegal memory area");
 	} else if (x1 < 0 or y1 < 0 or x1 + w > this->w or y1 + h > this->h) { // 复制后的矩形区域必须位于本实例所拥有的内存空间内
-		throw new Exception(S("Illegal Parameter: Attempt to write to illegal memory area"));
+		throw new Exception("Illegal Parameter: Attempt to write to illegal memory area");
 	}
 
 	return unchecked_copyFrom(other, x0, y0, w, h, x1, y1);
@@ -318,7 +318,7 @@ void FrameBuffer::copyFrom(FrameBuffer *other, i32 x0, i32 y0, i32 w, i32 h, i32
 
 void FrameBuffer::copyFrom(FrameBuffer *other) {
 	if (other->fbSize != this->fbSize) { // 缓冲区大小必须一致，否则报错
-		throw new Exception(S("Inconsistent fbSize"));
+		throw new Exception("Inconsistent fbSize");
 	}
 
 	return unchecked_copyFrom(other);

@@ -3,7 +3,7 @@
 using namespace Epp;
 using namespace Epp::base;
 
-const c8 *text =
+static const c8 *text =
 		"const u8 MATRIX_ASCII_3X5_1BPP_DATA[95][2] = {\n\
 { // [ 0 ]\n\
 	0b00000000, 0b00000000,\n\
@@ -292,14 +292,14 @@ const c8 *text =
 },\n\
 ";
 
-i32 tools_0bx20x_main(i32 argc, c8 **argv) {
+i32 tools_0b20x_main(i32 argc, c8 **argv) {
 	(void) argc;
 	(void) argv;
 
 	i32 c = ' ';
 	for (i32 i = 0; i < String::strlen(text); i++) {
 		if (text[i] == '[' and text[i + 1] == ' ' and text[i + 2] == '0') {
-			OS::Printf(S("[ %c ]"), c);
+			OS::Printf("[ %c ]", c);
 			c++;
 			i = i + 4;
 		} else if (text[i] == '0' and text[i + 1] == 'b') {
@@ -310,10 +310,10 @@ i32 tools_0bx20x_main(i32 argc, c8 **argv) {
 				value = value | (text[i] == '1' ? 1 : 0) << (7 - j);
 			}
 			// 输出
-			OS::Printf(S("0x%02X"), value);
+			OS::Printf("0x%02X", value);
 			i = i - 1;
 		} else {
-			OS::Printf(S("%c"), text[i]);
+			OS::Printf("%c", text[i]);
 		}
 	}
 

@@ -56,9 +56,9 @@ void Screen::getPPM(f32 &hppm, f32 &vppm) const {
 
 void Screen::setHPPM(f32 hppm) {
 	if (hppm < MinPPM) {
-		throw new Exception(S("HPPM过低！"));
+		throw new Exception("HPPM过低！");
 	} else if (hppm > MaxPPM) {
-		throw new Exception(S("HPPM过高！"));
+		throw new Exception("HPPM过高！");
 	}
 
 	this->hppm = hppm;
@@ -66,9 +66,9 @@ void Screen::setHPPM(f32 hppm) {
 
 void Screen::setVPPM(f32 vppm) {
 	if (vppm < MinPPM) {
-		throw new Exception(S("VPPM过低！"));
+		throw new Exception("VPPM过低！");
 	} else if (vppm > MaxPPM) {
-		throw new Exception(S("VPPM过高！"));
+		throw new Exception("VPPM过高！");
 	}
 
 	this->vppm = vppm;
@@ -76,13 +76,13 @@ void Screen::setVPPM(f32 vppm) {
 
 void Screen::setPPM(f32 hppm, f32 vppm) {
 	if (hppm < MinPPM) {
-		throw new Exception(S("HPPM过低！"));
+		throw new Exception("HPPM过低！");
 	} else if (hppm > MaxPPM) {
-		throw new Exception(S("HPPM过高！"));
+		throw new Exception("HPPM过高！");
 	} else if (vppm < MinPPM) {
-		throw new Exception(S("VPPM过低！"));
+		throw new Exception("VPPM过低！");
 	} else if (vppm > MaxPPM) {
-		throw new Exception(S("VPPM过高！"));
+		throw new Exception("VPPM过高！");
 	}
 
 	this->hppm = hppm;

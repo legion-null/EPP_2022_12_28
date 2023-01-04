@@ -6,7 +6,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-const base::Class *Image::ClassInfo = base::Class::Register<Image, Layer>("Epp::graphics::Image", nullptr);
+const Class *Image::ClassInfo = Class::Register<Image, Layer>("Epp::graphics::Image", nullptr);
 
 Image::Image() {
 

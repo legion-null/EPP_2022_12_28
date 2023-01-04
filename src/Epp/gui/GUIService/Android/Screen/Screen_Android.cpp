@@ -12,7 +12,7 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
-const base::Class *Screen_Android::ClassInfo = base::Class::Register<Screen_Android, Screen>("Epp::gui::Screen_Android", nullptr);
+const Class *Screen_Android::ClassInfo = Class::Register<Screen_Android, Screen>("Epp::gui::Screen_Android", nullptr);
 
 Screen_Android::Screen_Android() :
 		Screen_Android(GUIService_Android::JA, //
@@ -55,7 +55,7 @@ void Screen_Android::unlockSurface() {
 }
 
 void Screen_Android::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {
-	throw new Exception(S("不支持区域刷新"));
+	throw new Exception("不支持区域刷新");
 }
 
 void Screen_Android::refresh() {

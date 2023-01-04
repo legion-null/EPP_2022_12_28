@@ -30,14 +30,14 @@ public:
 	static void SetDefaultColorType(Type type);
 
 public:
-	static const c8* GetTypeName(Type type);
+	static const c8* GetEnumName(Type type);
 
 public:
 	static i32 GetBPP(Type type);
 
 protected:
 	struct RGB565 {
-#if EPP_ENDION_LITTLE == EPP_TRUE
+#ifdef EPP_TARGET_ENDIAN_LITTLE
 		color_t b :5;
 		color_t g :6;
 		color_t r :5;
@@ -51,7 +51,7 @@ protected:
 	} __attribute__((packed));
 
 	struct RGB888 {
-#if EPP_ENDION_LITTLE == EPP_TRUE
+#ifdef EPP_TARGET_ENDIAN_LITTLE
 		color_t b :8;
 		color_t g :8;
 		color_t r :8;
@@ -65,7 +65,7 @@ protected:
 	} __attribute__((packed));
 
 	struct XRGB8888 {
-#if EPP_ENDION_LITTLE == EPP_TRUE
+#ifdef EPP_TARGET_ENDIAN_LITTLE
 		color_t b :8;
 		color_t g :8;
 		color_t r :8;
@@ -79,7 +79,7 @@ protected:
 	} __attribute__((packed));
 
 	struct ARGB8888 {
-#if EPP_ENDION_LITTLE == EPP_TRUE
+#ifdef EPP_TARGET_ENDIAN_LITTLE
 		color_t b :8;
 		color_t g :8;
 		color_t r :8;
@@ -93,7 +93,7 @@ protected:
 	} __attribute__((packed));
 
 	struct RGBX8888 {
-#if EPP_ENDION_LITTLE == EPP_TRUE
+#ifdef EPP_TARGET_ENDIAN_LITTLE
 		color_t x :8;
 		color_t b :8;
 		color_t g :8;
@@ -107,7 +107,7 @@ protected:
 	} __attribute__((packed));
 
 	struct RGBA8888 {
-#if EPP_ENDION_LITTLE == EPP_TRUE
+#ifdef EPP_TARGET_ENDIAN_LITTLE
 		color_t a :8;
 		color_t b :8;
 		color_t g :8;

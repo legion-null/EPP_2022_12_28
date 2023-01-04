@@ -49,7 +49,7 @@ Painter* Painter::GetIM(IMType type) {
 	switch (type) {
 	case OpenGL:
 #if EPP_MODULE_OPENGL_SUPPORT == EPP_TRUE
-		return new Painter_OpenGL();
+		//return new Painter_OpenGL();
 #endif
 		break;
 	case Software:

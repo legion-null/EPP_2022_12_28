@@ -16,7 +16,7 @@ public:
 	Error();
 
 public:
-	Error(String* info);
+	Error(const c8* info);
 
 };
 

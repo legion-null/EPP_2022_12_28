@@ -149,7 +149,7 @@ String::String(const c8 *str, i32 off, i32 len) {
 
 	/*
 	 if (strlen(str + off) < len) {
-	 throw new Exception(S("NullPointerException"));
+	 throw new Exception("NullPointerException");
 	 } else {
 	 this->value = str + off;
 	 this->length = len;

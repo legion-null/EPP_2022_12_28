@@ -18,7 +18,7 @@ public:
 	Exception();
 
 public:
-	Exception(String* info);
+	Exception(const c8* info);
 
 };
 

@@ -178,4 +178,13 @@ inline void SetByte(T &value, i32 i, byte b) {
 	((byte*) (&value))[i] = b;
 }
 
+template<bool, typename T = void>
+struct EnableType {
+};
+
+template<typename T>
+struct EnableType<true, T> {
+	using type = T;
+};
+
 }

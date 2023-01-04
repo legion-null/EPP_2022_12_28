@@ -10,14 +10,14 @@ const Class *Exception::ClassInfo = Class::Register<Exception, Object>("Epp::bas
 
 
 Exception* Exception::UnknownException() {
-	return new Exception(S("Unknown Exception"));
+	return new Exception("Unknown Exception");
 }
 
 Exception::Exception() {
 
 }
 
-Exception::Exception(String* info) {
+Exception::Exception(const c8* info) {
 	static const i8 重置所有属性 = 0;
 	static const i8 高亮_加粗 = 1;
 	static const i8 暗淡 = 2;
@@ -44,8 +44,8 @@ Exception::Exception(String* info) {
 	static const i8 深绿色字体 = 36;
 	static const i8 白色字体 = 37;
 
-	OS::Printf(S("\033[%d;%dm%s\033[0m"), 隐藏, 黄色字体, info->getValue());
-	OS::Printf(S("\n"));
+	OS::Printf("\033[%d;%dm%s\033[0m", 隐藏, 黄色字体, info);
+	OS::Printf("\n");
 }
 
 }

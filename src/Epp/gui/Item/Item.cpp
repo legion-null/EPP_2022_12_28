@@ -8,7 +8,7 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
-const base::Class * Item::ClassInfo = base::Class::Register<Item, base::Object>("Epp::gui::Item", nullptr);
+const Class * Item::ClassInfo = Class::Register<Item, Object>("Epp::gui::Item", nullptr);
 
 
 Item::Item() {

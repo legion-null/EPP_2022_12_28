@@ -6,7 +6,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-const base::Class *Color::ClassInfo = base::Class::Register<Color, base::Object>("Epp::graphics::Color", nullptr);
+const Class *Color::ClassInfo = Class::Register<Color, Object>("Epp::graphics::Color", nullptr);
 
 Color::Type Color::DefaultColorType = Color::ARGB8888;
 
@@ -18,7 +18,7 @@ void Color::SetDefaultColorType(Type type) {
 	DefaultColorType = type;
 }
 
-const c8* Color::GetTypeName(Type type) {
+const c8* Color::GetEnumName(Type type) {
 	switch (type) {
 	case RGB565:
 		return EPP_STR(Color::RGB565);
@@ -33,7 +33,7 @@ const c8* Color::GetTypeName(Type type) {
 	case RGBA8888:
 		return EPP_STR(Color::RGBA8888);
 	default:
-		return EPP_STR(Color::Unknown);
+		throw new Exception("Careless forced transformation");
 	}
 }
 
@@ -113,7 +113,7 @@ color_t Color::FormARGB8888(color_t value, Type dest) { // 如果目标格式没
 }
 
 color_t Color::Transform(color_t value, Type src, Type dest) {
-	EPP_FUNC_LOCATE("0x%08X, %s, %s", value, GetTypeName(src), GetTypeName(dest));
+	EPP_FUNC_LOCATE("0x%08X, %s, %s", value, GetEnumName(src), GetEnumName(dest));
 	if (src == dest)
 		return value;
 //

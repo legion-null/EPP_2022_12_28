@@ -6,7 +6,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-const base::Class *Painter_Software::ClassInfo = base::Class::Register<Painter_Software, Painter>("Epp::graphics::Painter_Software", nullptr);
+const Class *Painter_Software::ClassInfo = Class::Register<Painter_Software, Painter>("Epp::graphics::Painter_Software", nullptr);
 
 void Painter_Software::GetLinePixel(i32 x0, i32 y0, i32 x1, i32 y1, i32 **px, i32 **py, i32 &n) {
 	i32 x = x0;

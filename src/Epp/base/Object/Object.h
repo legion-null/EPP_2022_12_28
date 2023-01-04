@@ -10,7 +10,7 @@ class Class;
 class String;
 
 class Object {
-public:\
+public:
 	static const Epp::base::Class *ClassInfo;
 
 	virtual const Epp::base::Class* getClassInfo() const;

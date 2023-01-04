@@ -6,7 +6,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace graphics {
 
-const base::Class *Font::ClassInfo = base::Class::Register<Font, base::Object>("Epp::graphics::Font", nullptr);
+const Class *Font::ClassInfo = Class::Register<Font, Object>("Epp::graphics::Font", nullptr);
 
 Font::Font() {
 

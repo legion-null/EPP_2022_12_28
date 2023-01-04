@@ -10,7 +10,7 @@ using namespace Epp::base;
 namespace Epp {
 namespace gui {
 
-const base::Class * GUIService_X11::ClassInfo = base::Class::Register<GUIService_X11, GUIService>("Epp::gui::GUIService_X11", nullptr);
+const Class * GUIService_X11::ClassInfo = Class::Register<GUIService_X11, GUIService>("Epp::gui::GUIService_X11", nullptr);
 
 
 GUIService_X11::GUIService_X11() {

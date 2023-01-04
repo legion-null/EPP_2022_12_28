@@ -12,7 +12,7 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
-const base::Class * Screen_SDL2::ClassInfo = base::Class::Register<Screen_SDL2, Screen>("Epp::gui::Screen_SDL2", nullptr);
+const Class * Screen_SDL2::ClassInfo = Class::Register<Screen_SDL2, Screen>("Epp::gui::Screen_SDL2", nullptr);
 
 
 Screen_SDL2::Screen_SDL2() :
