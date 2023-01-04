@@ -45,14 +45,14 @@ Image* Font::getUnavailableCharacterImage(i32 c) {
 	// 绘制边框（两层）
 	painter->setColor(C(Black));
 
-	if (this->w >= 16 and this->h >= 16) {
+	if (this->w >= 11 and this->h >= 15) {
 		painter->drawRect(0, 0, this->w, this->h);
-		painter->drawRect(2, 2, this->w - 4, this->h - 4);
-		painter->drawLine(0, 0, this->w - 1, this->h - 1);
-		painter->drawLine(0, this->h - 1, this->w - 1, 0);
+	} else {
+		painter->drawRect(0, 0, this->w, this->h);
+//		painter->drawRect(2, 2, this->w - 4, this->h - 4);
+//		painter->drawLine(2, 2, this->w - 3, this->h - 3);
+//		painter->drawLine(2, this->h - 3, this->w - 3, 2);
 	}
-
-	EPP_CODE_LOCATE();
 
 	delete painter;
 

@@ -13,6 +13,7 @@ class Font_CMF: extends Font_Bitmap {
 EPP_CLASS_INFO
 
 public:
+	static const Font_CMF *ASCII_3X5_1BPP;
 	static const Font_CMF *ASCII_16X24_1BPP;
 
 protected:
