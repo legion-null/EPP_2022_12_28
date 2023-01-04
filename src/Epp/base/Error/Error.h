@@ -5,7 +5,7 @@
 namespace Epp {
 namespace base {
 
-class Error: extends Exception {
+class Error: public Exception {
 
 EPP_CLASS_INFO
 

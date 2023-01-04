@@ -33,6 +33,7 @@ Object* Object::clone() {
 }
 
 bool Object::equalTo(Object *other) {
+	(void) other;
 	return true;
 }
 

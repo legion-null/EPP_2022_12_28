@@ -15,7 +15,7 @@ class Font;
 class Image;
 class Rect2D;
 
-class Painter: extends base::Object {
+class Painter: public Epp::base::Object {
 
 EPP_CLASS_INFO
 
@@ -96,15 +96,12 @@ public:
 
 public:
 	virtual void drawCharacter(i32 x, i32 y, i32 w, i32 h, i32 c);
-	virtual void drawCharacter(Rect2D *limitBox, i32 c);
 
 public:
 	virtual void drawString(i32 x, i32 y, i32 w, i32 h, base::String *str);
-	virtual void drawString(Rect2D *limitBox, base::String *str);
 
 public:
 	virtual void drawImage(i32 x, i32 y, i32 w, i32 h, Image *img);
-	virtual void drawImage(Rect2D *limitBox, Image *img);
 };
 
 }

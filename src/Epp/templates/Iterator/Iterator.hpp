@@ -6,7 +6,7 @@ namespace Epp {
 namespace templates {
 
 template<class E>
-class Iterator: extends base::Object {
+class Iterator: public Epp::base::Object {
 
 EPP_CLASS_INFO
 

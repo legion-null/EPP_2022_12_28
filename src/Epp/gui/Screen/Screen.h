@@ -7,7 +7,7 @@
 namespace Epp {
 namespace gui {
 
-class Screen: extends graphics::Layer {
+class Screen: public graphics::Layer {
 
 EPP_CLASS_INFO
 

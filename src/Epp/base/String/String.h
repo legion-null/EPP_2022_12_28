@@ -5,7 +5,9 @@
 namespace Epp {
 namespace base {
 
-class String: extends Object {
+
+
+class String: public Epp::base::Object {
 
 EPP_CLASS_INFO
 

@@ -7,7 +7,7 @@
 namespace Epp {
 namespace gui {
 
-class Screen_X11: extends Screen {
+class Screen_X11: public Screen {
 
 EPP_CLASS_INFO
 

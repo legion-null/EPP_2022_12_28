@@ -8,7 +8,7 @@ namespace graphics {
 /*
  * CMF字体对象只支持一种大小的矩阵字体，且所支持字体只能由库的开发者提供并创建（废弃，通过读取特定格式的注册数据，允许用户创建）
  */
-class Font_CMF: extends Font_Bitmap {
+class Font_CMF: public Font_Bitmap {
 
 EPP_CLASS_INFO
 
@@ -51,10 +51,10 @@ protected:
 	i32 getPointInMatrix(const byte *matrix, i32 x, i32 y);
 
 public:
-	virtual bool hasCharacter(i32 c);
+	virtual bool hasCharacter(i32 c) override;
 
 public:
-	virtual Image* getCharacterImage(i32 c);
+	virtual Image* getCharacterImage(i32 c) override;
 
 };
 

@@ -5,7 +5,7 @@
 namespace Epp {
 namespace base {
 
-class Interface: implements Object {
+class Interface: virtual public Object {
 
 EPP_CLASS_INFO
 

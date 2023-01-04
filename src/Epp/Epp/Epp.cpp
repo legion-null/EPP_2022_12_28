@@ -30,7 +30,7 @@ void operator delete(void *ptr) {
 namespace Epp {
 
 void __Debug(const c8 *fmt, ...) {
-	va_list (args);
+	va_list args;
 	va_start(args, fmt);
 #if EPP_CURRENT_OS == EPP_OS_ANDROID
 	__android_log_vprint(3, "EPP", fmt, args);

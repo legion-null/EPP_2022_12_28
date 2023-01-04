@@ -7,7 +7,7 @@ namespace graphics {
 
 class Image;
 
-class Font: extends base::Object {
+class Font: public Epp::base::Object {
 
 EPP_CLASS_INFO
 

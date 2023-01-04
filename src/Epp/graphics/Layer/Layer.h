@@ -11,13 +11,13 @@ namespace graphics {
 
 class Painter;
 
-class Layer: extends FrameBuffer {
+class Layer: public FrameBuffer {
 
 EPP_CLASS_INFO
 
 protected:
-	Rot rot = Rot_0;
 	Color::Type colorType = Color::XRGB8888;
+	Rot rot = Rot_0;
 
 public:
 	Layer();

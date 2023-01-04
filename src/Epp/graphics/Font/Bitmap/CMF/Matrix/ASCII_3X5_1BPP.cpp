@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Epp.h"
 #include "ASCII_3X5_1BPP.h"
 

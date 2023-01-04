@@ -24,6 +24,7 @@ i32 Font::getHeight() const {
 }
 
 bool Font::hasCharacter(i32 c) {
+	(void) c;
 	return false;
 }
 

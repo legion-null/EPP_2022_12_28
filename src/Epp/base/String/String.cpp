@@ -108,26 +108,31 @@ String* String::ValueOf(c8 data[]) {
 }
 
 String* String::ValueOf(c8 data[], i32 off, i32 len) {
-	return new String("");
+	return new String(data, off, len);
 }
 
 String* String::ValueOf(c32 data) {
+	(void) data;
 	return new String("Char.ToString(data)");
 }
 
 String* String::ValueOf(i32 data) {
+	(void) data;
 	return new String("Integer.ToString(data)");
 }
 
 String* String::ValueOf(i64 data) {
+	(void) data;
 	return new String("Integer.ToString(data)");
 }
 
 String* String::ValueOf(f32 data) {
+	(void) data;
 	return new String("Float.ToString(data)");
 }
 
 String* String::ValueOf(f64 data) {
+	(void) data;
 	return new String("Float.ToString(data)");
 }
 

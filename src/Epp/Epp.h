@@ -11,3 +11,5 @@
 #include "usefulInterface/pkg.h"
 
 #include "templates/pkg.h"
+
+#include "devices/pkg.h"

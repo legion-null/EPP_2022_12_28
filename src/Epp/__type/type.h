@@ -1,6 +1,10 @@
 #pragma once
 
+#include "defs.h"
+
 // 类型长度规范化代码，更换编译平台可能需要修改
+
+#define EPP_INT128_SUPPORT	EPP_TRUE
 
 // 整数类型
 #define d8		char
@@ -20,18 +24,15 @@ typedef unsigned d16 u16;
 typedef unsigned d32 u32;
 typedef unsigned d64 u64;
 
-// __pointer_length = sizeof(void*)
-#define __pointer_length 	4
-
-// CPU架构相关类型 长度和指针类型长度相等的整数类型 对应C库的size_t
-#if __pointer_length == 4
+// CPU架构相关类型，是长度和 void* 相等的整数类型，而不是运行环境下支持的最长整数类型
+#if EPP_CURRENT_OS_BIT == EPP_OS_32BIT
 typedef i32 iSize;
 typedef u32 uSize;
-#endif
-
-#if __pointer_length == 8
+#else
+#if EPP_CURRENT_OS_BIT == EPP_OS_64BIT
 typedef i64 iSize;
 typedef u64 uSize;
+#endif
 #endif
 
 // 浮点数类型
@@ -70,12 +71,14 @@ inline bool type_check() {
 		return false;
 	if (sizeof(c32) != 4)
 		return false;
-/*
+
+#ifdef EPP_CURRENT_OS_BIT
 	if (sizeof(void*) != sizeof(iSize))
 		return false;
 	if (sizeof(void*) != sizeof(uSize))
 		return false;
-*/
+#endif
+
 	return true;
 }
 

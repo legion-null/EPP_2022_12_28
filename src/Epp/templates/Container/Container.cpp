@@ -7,7 +7,7 @@ namespace Epp {
 namespace templates {
 
 template<class E>
-const Class *Container<E>::ClassInfo = Class::Register<Container<E>, Object>("Epp::templates::Container<?>", nullptr);
+const Class *Container<E>::ClassInfo = Class::Register<Container<E>, Object>("Epp::templates::Container<E>", nullptr);
 
 template<class E>
 Container<E>::Container() {
@@ -20,7 +20,7 @@ Container<E>::~Container() {
 }
 
 template<class E>
-i32 Container<E>::getNumberOfElements() const {
+u64 Container<E>::getNumberOfElements() const {
 	return this->numberOfElements;
 }
 

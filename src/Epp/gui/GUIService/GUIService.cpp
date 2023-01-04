@@ -54,6 +54,8 @@ GUIService* GUIService::GetIM(IMType type) {
 	}
 
 	switch (type) {
+	case Unavailable:
+		break;
 	case Windows:
 #if EPP_CURRENT_OS == EPP_OS_WINDOWS
 		return new GUIService_Windows();
@@ -90,8 +92,7 @@ GUIService* GUIService::GetIM(IMType type) {
 #endif
 		break;
 	}
-
-	throw new Exception();
+	throw new Exception("");
 }
 
 GUIService* GUIService::GetDefaultIM() {

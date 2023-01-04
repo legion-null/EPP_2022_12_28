@@ -8,7 +8,7 @@ namespace Epp {
 namespace templates {
 
 template<class E>
-class Iterable: implements base::Interface {
+class Iterable: virtual public base::Interface {
 
 EPP_CLASS_INFO
 

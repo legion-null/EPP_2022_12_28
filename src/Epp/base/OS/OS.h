@@ -5,7 +5,9 @@
 namespace Epp {
 namespace base {
 
-class OS: extends Object {
+
+
+class OS: public Epp::base::Object {
 
 EPP_CLASS_INFO
 

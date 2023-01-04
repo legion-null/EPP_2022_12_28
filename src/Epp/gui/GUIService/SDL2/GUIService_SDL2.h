@@ -7,7 +7,7 @@
 namespace Epp {
 namespace gui {
 
-class GUIService_SDL2: extends GUIService {
+class GUIService_SDL2: public GUIService {
 
 EPP_CLASS_INFO
 

@@ -35,7 +35,6 @@
 	#define EPP_CURRENT_COMPILER	EPP_COMPILER_TCC
 #endif
 
-
 // 大小端相关宏
 // 默认为小端
 #define EPP_ENDIAN_LITTLE       EPP_TRUE
@@ -203,6 +202,21 @@
 #endif
 
 
+
+// 系统位数相关宏
+#define EPP_OS_32BIT			32
+#define EPP_OS_64BIT			64
+
+#ifdef EPP_TARGET_OS_32BIT
+	#define EPP_CURRENT_OS_BIT		EPP_OS_32BIT
+#endif
+
+#ifdef EPP_TARGET_OS_64BIT
+	#define EPP_CURRENT_OS_BIT		EPP_OS_64BIT
+#endif
+
+
+
 // 系统相关宏
 #define EPP_OS_LINUX			0
 #define EPP_OS_WINDOWS			1
@@ -230,6 +244,9 @@
 #ifdef EPP_TARGET_OS_ANDROID
 	#define EPP_CURRENT_OS		EPP_OS_ANDROID
 #endif
+
+
+
 
 
 // 模块相关宏

@@ -7,7 +7,7 @@ namespace graphics {
 }
 namespace gui {
 
-class Item: extends Epp::base::Object {
+class Item: public Epp::base::Object {
 
 EPP_CLASS_INFO
 

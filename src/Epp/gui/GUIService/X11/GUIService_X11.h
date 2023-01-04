@@ -7,7 +7,7 @@
 namespace Epp {
 namespace gui {
 
-class GUIService_X11: extends GUIService {
+class GUIService_X11: public GUIService {
 
 EPP_CLASS_INFO
 

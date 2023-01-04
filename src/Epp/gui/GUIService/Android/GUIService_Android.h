@@ -7,7 +7,7 @@
 namespace Epp {
 namespace gui {
 
-class GUIService_Android: extends GUIService {
+class GUIService_Android: public GUIService {
 
 EPP_CLASS_INFO
 

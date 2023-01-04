@@ -7,7 +7,7 @@
 namespace Epp {
 namespace gui {
 
-class Screen_Android: extends Screen {
+class Screen_Android: public Screen {
 
 EPP_CLASS_INFO
 

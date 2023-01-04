@@ -7,7 +7,9 @@ namespace base {
 
 class String;
 
-class Class final: extends Object {
+
+
+class Class final: public Epp::base::Object {
 
 EPP_CLASS_INFO
 

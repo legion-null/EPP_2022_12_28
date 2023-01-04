@@ -7,7 +7,7 @@
 namespace Epp {
 namespace gui {
 
-class Screen_SDL2: extends Screen {
+class Screen_SDL2: public Screen {
 
 EPP_CLASS_INFO
 

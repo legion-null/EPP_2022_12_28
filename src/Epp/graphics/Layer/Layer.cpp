@@ -21,7 +21,9 @@ Layer::Layer(i32 w, i32 h, Color::Type colorType, Rot rot) :
 }
 
 Layer::Layer(byte *fb, i32 w, i32 h, Color::Type colorType, Rot rot) :
-		colorType(colorType), rot(rot), FrameBuffer(fb, w, h, Color::GetBPP(colorType)) {
+		FrameBuffer(fb, w, h, Color::GetBPP(colorType)) {
+	this->colorType = colorType;
+	this->rot = rot;
 }
 
 Rot Layer::getRot() {

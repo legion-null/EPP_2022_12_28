@@ -7,7 +7,8 @@ namespace Epp {
 namespace base {
 
 
-class Exception: extends Object {
+
+class Exception: public Epp::base::Object {
 
 EPP_CLASS_INFO
 

@@ -5,7 +5,7 @@
 namespace Epp {
 namespace base {
 
-class Runnable: extends Interface {
+class Runnable: public Epp::base::Interface {
 
 EPP_CLASS_INFO
 

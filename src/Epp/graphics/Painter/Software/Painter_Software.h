@@ -5,7 +5,7 @@
 namespace Epp {
 namespace graphics {
 
-class Painter_Software: extends Painter {
+class Painter_Software: public Painter {
 
 EPP_CLASS_INFO
 

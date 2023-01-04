@@ -95,7 +95,7 @@ bool FrameBuffer::check_y(i32 y) {
 }
 
 byte* FrameBuffer::unchecked_getOff(i32 off) {
-	return this->fbX[off % this->lineSize, off / this->lineSize];
+	return this->fbX[off % this->lineSize] + (off / this->lineSize);
 }
 
 byte* FrameBuffer::getOff(i32 off) {

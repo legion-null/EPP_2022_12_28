@@ -13,3 +13,5 @@
 #include "Image/Image.h"
 
 #include "Painter/Painter.h"
+
+#include "Palette/Palette.h"

@@ -147,7 +147,12 @@ void Painter_Software::drawPolygon(i32 *x, i32 *y, i32 n) {
 }
 
 void Painter_Software::drawArc(i32 x, i32 y, i32 w, i32 h, i32 startAngle, i32 endAngle) {
-
+	(void) x;
+	(void) y;
+	(void) w;
+	(void) h;
+	(void) startAngle;
+	(void) endAngle;
 }
 
 void Painter_Software::drawArc(i32 x, i32 y, i32 r, i32 startAngle, i32 endAngle) {
@@ -155,6 +160,12 @@ void Painter_Software::drawArc(i32 x, i32 y, i32 r, i32 startAngle, i32 endAngle
 }
 
 void Painter_Software::drawSector(i32 x, i32 y, i32 w, i32 h, i32 startAngle, i32 endAngle) {
+	(void) x;
+	(void) y;
+	(void) w;
+	(void) h;
+	(void) startAngle;
+	(void) endAngle;
 }
 
 void Painter_Software::drawSector(i32 x, i32 y, i32 r, i32 startAngle, i32 endAngle) {
@@ -222,6 +233,11 @@ void Painter_Software::drawCircle(i32 x, i32 y, i32 r) {
 }
 
 void Painter_Software::drawRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r) {
+	(void) x;
+	(void) y;
+	(void) w;
+	(void) h;
+	(void) r;
 }
 
 void Painter_Software::fillRect(i32 x0, i32 y0, i32 w, i32 h) {
@@ -328,7 +344,12 @@ void Painter_Software::fillPolygon(i32 *x, i32 *y, i32 n) {
 }
 
 void Painter_Software::fillSector(i32 x, i32 y, i32 w, i32 h, f64 startAngle, f64 endAngle) {
-
+	(void) x;
+	(void) y;
+	(void) w;
+	(void) h;
+	(void) startAngle;
+	(void) endAngle;
 }
 
 void Painter_Software::fillOval(i32 x0, i32 y0, i32 w, i32 h) {
@@ -384,10 +405,17 @@ void Painter_Software::fillOval(i32 x0, i32 y0, i32 w, i32 h) {
 }
 
 void Painter_Software::fillCircle(i32 x, i32 y, i32 r) {
-
+	(void) x;
+	(void) y;
+	(void) r;
 }
 
 void Painter_Software::fillRoundedRect(i32 x, i32 y, i32 w, i32 h, i32 r) {
+	(void) x;
+	(void) y;
+	(void) w;
+	(void) h;
+	(void) r;
 }
 
 }

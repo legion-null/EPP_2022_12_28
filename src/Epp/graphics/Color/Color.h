@@ -8,16 +8,36 @@ namespace graphics {
 // 声明一个新的类型
 using color_t = u32;
 
-class Color: extends base::Object {
+class Palette;
+
+class Color: public Epp::base::Object {
 
 EPP_CLASS_INFO
 
 public:
+	friend class Palette;
+
+public:
 	enum Type : i8 {
-		RGB565 = 0,	// RGB565
+		// 灰度颜色模式
+		Bit1Gray,		// 1位灰度
+		Bit2Gray,		// 2位灰度
+		Bit4Gray,		// 4位灰度
+		Bit8Gray,		// 8位灰度
+		// 调色板颜色模式
+		Bit1Palette,	// 1位调色板颜色
+		Bit2Palette,	// 2位调色板颜色
+		Bit3Palette,	// 4位调色板颜色
+		Bit4Palette,	// 8位调色板颜色
+		// RGB颜色格式
+		RGB232,		// RGB232
+		RGB555,		// RGB555
+		RGB565,		// RGB565
 		RGB888,		// RGB888
 		XRGB8888,	// XRGB8888
 		RGBX8888,	// RGBX8888
+		// 具有透明度分量的颜色格式
+		ARGB1555,	// ARGB1555
 		ARGB8888,	// ARGB8888
 		RGBA8888,	// RGBA8888
 	};

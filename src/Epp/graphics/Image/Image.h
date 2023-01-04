@@ -5,7 +5,7 @@
 namespace Epp {
 namespace graphics {
 
-class Image: extends Layer {
+class Image: public Layer {
 
 EPP_CLASS_INFO
 

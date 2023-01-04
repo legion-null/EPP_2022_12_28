@@ -2,12 +2,14 @@
 
 #if EPP_MODULE_X11_SUPPORT == EPP_TRUE
 
+#include "../About_X11.h"
+
+using namespace Epp::gui;
+
 using namespace Epp;
 using namespace Epp::base;
 
 using namespace Epp::graphics;
-
-#include "../About_X11.h"
 
 namespace Epp {
 namespace gui {

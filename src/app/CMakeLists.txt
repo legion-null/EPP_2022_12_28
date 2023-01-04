@@ -23,7 +23,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "-fPIC")
 
 # 忽略警告
-add_definitions(-w)
+# add_definitions(-w)
 
 # 添加目标系统环境宏
 include("target_${EPP_TARGET}.cmake")

@@ -7,7 +7,7 @@ namespace gui {
 
 class Screen;
 
-class GUIService: extends base::Object {
+class GUIService: public Epp::base::Object {
 
 EPP_CLASS_INFO
 

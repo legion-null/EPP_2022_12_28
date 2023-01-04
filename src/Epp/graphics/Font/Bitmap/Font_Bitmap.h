@@ -5,7 +5,7 @@
 namespace Epp {
 namespace graphics {
 
-class Font_Bitmap: extends Font {
+class Font_Bitmap: public Font {
 
 EPP_CLASS_INFO
 

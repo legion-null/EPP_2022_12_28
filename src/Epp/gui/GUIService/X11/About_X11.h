@@ -4,7 +4,7 @@
 
 #if EPP_MODULE_X11_SUPPORT == EPP_TRUE
 
-#include "Xlib.h"
+#include <X11/Xlib.h>
 
 namespace Epp{
 namespace gui{

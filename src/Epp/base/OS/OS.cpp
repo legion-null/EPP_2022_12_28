@@ -115,7 +115,8 @@ void OS::Printf(const c8 *fmt, ...) {
 }
 
 void OS::PrintMemory(byte *address, i32 len) {
-
+	(void) address;
+	(void) len;
 }
 
 OS::OS() {

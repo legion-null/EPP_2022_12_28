@@ -7,7 +7,7 @@
 namespace Epp {
 namespace graphics {
 
-class Painter_OpenGL: extends Painter {
+class Painter_OpenGL: public Painter {
 
 EPP_CLASS_INFO
 

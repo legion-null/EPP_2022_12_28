@@ -9,7 +9,7 @@ namespace graphics {
  * 考虑到FrameBuffer的运行效率在图像显示方面有着重要意义，FrameBuffer类对象的一些成员方法没有对输入进行校验，需要谨慎的继承FrameBuffer
  */
 
-class FrameBuffer: extends base::Object {
+class FrameBuffer: public Epp::base::Object {
 
 EPP_CLASS_INFO
 

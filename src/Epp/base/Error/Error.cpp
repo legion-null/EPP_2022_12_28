@@ -43,6 +43,32 @@ Error::Error(const c8 *info) {
 	static const i8 深绿色字体 = 36;
 	static const i8 白色字体 = 37;
 
+	(void) 重置所有属性;
+	(void) 高亮_加粗;
+	(void) 暗淡;
+	(void) 下划线;
+	(void) 闪烁;
+	(void) 反转;
+	(void) 隐藏;
+
+	(void) 黑色背景;
+	(void) 红色背景;
+	(void) 绿色背景;
+	(void) 黄色背景;
+	(void) 蓝色背景;
+	(void) 紫色背景;
+	(void) 深绿色背景;
+	(void) 白色背景;
+
+	(void) 黑色字体;
+	(void) 红色字体;
+	(void) 绿色字体;
+	(void) 黄色字体;
+	(void) 蓝色字体;
+	(void) 紫色字体;
+	(void) 深绿色字体;
+	(void) 白色字体;
+
 	OS::Printf("\033[%d;%dm%s\033[0m", 隐藏, 红色字体, info);
 	OS::Printf("\n");
 }

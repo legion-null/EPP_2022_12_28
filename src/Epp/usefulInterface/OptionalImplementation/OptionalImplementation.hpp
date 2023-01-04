@@ -6,7 +6,7 @@ namespace Epp {
 namespace usefulInterface {
 
 template<class E>
-class OptionalImplementation: implements base::Interface {
+class OptionalImplementation: virtual public base::Interface {
 
 EPP_CLASS_INFO
 /*

@@ -8,8 +8,7 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
-const Class * Item::ClassInfo = Class::Register<Item, Object>("Epp::gui::Item", nullptr);
-
+const Class *Item::ClassInfo = Class::Register<Item, Object>("Epp::gui::Item", nullptr);
 
 Item::Item() {
 
@@ -71,13 +70,13 @@ Item* Item::getParent() {
 	return this->parent;
 }
 
-void Item::setParent(Item* parent) {
+void Item::setParent(Item *parent) {
 	this->parent = parent;
 }
 
 i32 Item::getAbsX() {
 	i32 absX = 0;
-	for (Item* item = this; item != nullptr;) {
+	for (Item *item = this; item != nullptr;) {
 		absX = absX + item->x;
 		item = item->parent;
 	}
@@ -86,7 +85,7 @@ i32 Item::getAbsX() {
 
 i32 Item::getAbsY() {
 	i32 absY = 0;
-	for (Item* item = this; item != nullptr;) {
+	for (Item *item = this; item != nullptr;) {
 		absY = absY + item->y;
 		item = item->parent;
 	}
@@ -96,14 +95,15 @@ i32 Item::getAbsY() {
 void Item::getAbsPos(i32 &absX, i32 &absY) {
 	absX = 0;
 	absY = 0;
-	for (Item* item = this; item != nullptr;) {
+	for (Item *item = this; item != nullptr;) {
 		absX = absX + item->x;
 		absY = absY + item->y;
 		item = item->parent;
 	}
 }
 
-void Item::paint(Painter* painter) {
+void Item::paint(Painter *painter) {
+	(void) painter;
 }
 
 }

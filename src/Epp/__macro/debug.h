@@ -8,8 +8,8 @@
 #define EPP_LINE_LOC				__LINE__
 
 // 调试相关
-#ifdef EPP_DEBUG
-#define EPP_DEBUG(...)			Epp::__Debug(__VA_ARGS__)
+#ifdef EPP_TARGET_DEBUG
+	#define EPP_DEBUG(...)			Epp::__Debug(__VA_ARGS__)
 #else
 	#define EPP_DEBUG(...)
 #endif
