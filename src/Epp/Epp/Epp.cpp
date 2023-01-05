@@ -51,27 +51,27 @@ void finality(void *ptr) {
 	::free(ptr);
 }
 
-void Swap(byte *a, byte *b, i32 elSize) {
+void Swap(u8 *a, u8 *b, i32 elSize) {
 	return iSwap(a, b, elSize);
 }
 
-void SetMemory(byte *mem, byte *value, i32 elSize, i32 elNum) {
+void SetMemory(u8 *mem, u8 *value, i32 elSize, i32 elNum) {
 	return iSetMemory(mem, value, elSize, elNum);
 }
 
-void Copy(const byte *src, byte *dest, i32 elSize, i32 elNum) {
+void Copy(const u8 *src, u8 *dest, i32 elSize, i32 elNum) {
 	return iCopy(src, dest, elSize, elNum);
 }
 
-void SafeCopy(const byte *src, byte *&dest, i32 elSize, i32 elNum) {
+void SafeCopy(const u8 *src, u8 *&dest, i32 elSize, i32 elNum) {
 	return iSafeCopy(src, dest, elSize, elNum);
 }
 
-void Move(const byte *src, byte *dest, i32 elSize, i32 elNum) {
+void Move(const u8 *src, u8 *dest, i32 elSize, i32 elNum) {
 	return iMove(src, dest, elSize, elNum);
 }
 
-void SafeMove(const byte *src, byte *&dest, i32 elSize, i32 elNum) {
+void SafeMove(const u8 *src, u8 *&dest, i32 elSize, i32 elNum) {
 	return iSafeMove(src, dest, elSize, elNum);
 }
 

@@ -1,69 +1,263 @@
 #include "Epp.h"
 
-using namespace Epp;
+#include <ctype.h>
+
 using namespace Epp::base;
 
-#include <ctype.h>
+using namespace Epp;
+using namespace Epp::base;
 
 namespace Epp {
 namespace base {
 
 const Class *Char::ClassInfo = Class::Register<Char, Object>("Epp::base::Char", nullptr);
 
+const c8* Char::GetEnumName(Type e) {
+	switch (e) {
+	case ASCII:
+		return EPP_STR(ASCII);
+	case GB18030:
+		return EPP_STR(GB18030);
+	case UTF8:
+		return EPP_STR(UTF8);
+	case UTF32:
+		return EPP_STR(UTF32);
+	default:
+		throw new Exception("Careless forced transformation");
+	}
+}
+
+Char::Type Char::DefaultCharType = Char::UTF8;
+
+Char::Type Char::GetDefaultCharType() {
+	return DefaultCharType;
+}
+
+void Char::SetDefaultCharType(Type type) {
+	DefaultCharType = type;
+}
+
 const u8 Char::ASCII_PaddingMask = 0b111110;
-const u8 Char::GBK_PaddingMask = 0b111100;
+const u8 Char::GB18030_PaddingMask = 0b111100;
 const u8 Char::UTF8_PaddingMask[6] = { 0b011111, 0b001111, 0b000111, 0b000011, 0b000001, 0b000000, };
 const u8 Char::UTF32_PaddingMask = 0b110000;
 
-bool Char::IsLower(c32 c) {
+c64 Char::ToUTF32(c64 value, Type src) {
+	//EPP_FUNC_LOCATE("0x%08X, %s", value, GetEnumName(src));
+
+	if (src == UTF32)
+		return value;
+
+	CharData &c = (CharData&) value;
+	CharData ret = { .value = 0 };
+
+	switch (src) {
+	case ASCII: {
+		ret.utf32.c = (c64) ((CharData&) value).ascii.c;
+		break;
+	}
+	case GB18030: {
+		break;
+	}
+	case UTF8: {
+		if (c.utf8.c[0] <= 0b01111111) { // 1字节长度UTF8
+			// UTF8 1字节编码共有有效位 7 位
+			ret.utf32.c += (c.utf8.c[0]);	// 7位有效位
+		} else if (c.utf8.c[0] <= 0b11011111) { // 2字节长度UTF8
+			// UTF8 2字节编码共有有效位 11 位，每字节分别为 5 6
+			ret.utf32.c += (c.utf8.c[0] & 0b00011111);	// 5位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[1] & 0b00111111);	// 6位有效位
+		} else if (c.utf8.c[0] <= 0b11101111) { // 3字节长度UTF8
+			// UTF8 3字节编码共有有效位 16 位，每字节分别为 4 6 6
+			ret.utf32.c += (c.utf8.c[0] & 0b00001111);	// 4位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[1] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[2] & 0b00111111);	// 6位有效位
+		} else if (c.utf8.c[0] <= 0b11110111) { // 4字节长度UTF8
+			// UTF8 4字节编码共有有效位 21 位，每字节分别为 3 6 6 6
+			ret.utf32.c += (c.utf8.c[0] & 0b00000111);	// 3位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[1] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[2] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[3] & 0b00111111);	// 6位有效位
+		} else if (c.utf8.c[0] <= 0b11111011) { // 5字节长度UTF8
+			// UTF8 3字节编码共有有效位 26 位，每字节分别为 2 6 6 6 6
+			ret.utf32.c += (c.utf8.c[0] & 0b00000011);	// 4位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[1] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[2] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[3] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[4] & 0b00111111);	// 6位有效位
+		} else if (c.utf8.c[0] <= 0b11111101) { // 6字节长度UTF8
+			// UTF8 3字节编码共有有效位 31 位，每字节分别为 1 6 6 6 6 6
+			ret.utf32.c += (c.utf8.c[0] & 0b00000001);	// 1位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[1] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[2] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[3] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[4] & 0b00111111);	// 6位有效位
+			ret.utf32.c <<= 6;
+			ret.utf32.c += (c.utf8.c[5] & 0b00111111);	// 6位有效位
+		}
+		break;
+	}
+	case UTF32: {
+		EPP_CODE_LOCATE();
+		throw new Exception("What the Fuck!");	// 正常情况下程序不会执行到这里
+	}
+	default:
+		throw new Exception("Careless forced transformation");
+	}
+
+	return ret.value;
+}
+
+c64 Char::FromUTF32(c64 value, Type dest) {
+	//EPP_FUNC_LOCATE("0x%08X, %s", value, GetEnumName(dest));
+
+	if (dest == UTF32)
+		return value;
+
+	CharData &c = (CharData&) value;
+	CharData ret = { .value = 0 };
+
+	switch (dest) {
+	case ASCII: {
+		ret.ascii.c = c.utf32.c;
+		break;
+	}
+	case GB18030: {
+
+		break;
+	}
+	case UTF8: {
+		if (c.utf32.c <= (u32) ((0x01 << 7) - 1)) { // 1字节长度UTF8
+			//EPP_DEBUG("UTF8 1\n");
+			// UTF8 1字节编码共有有效位 7 位
+			ret.utf8.c[0] = 0b00000000 | (c.utf32.c);
+		} else if (c.utf32.c <= (u32) (0x01 << 11) - 1) { // 2字节长度UTF8
+			//EPP_DEBUG("UTF8 2\n");
+			// UTF8 2字节编码共有有效位 11 位，每字节分别为 5 6
+			ret.utf8.c[0] = 0b11000000 | ((c.utf32.c >> 6) & 0b00011111);
+			ret.utf8.c[1] = 0b10000000 | (c.utf32.c & 0b00111111);
+		} else if (c.utf32.c <= (u32) (0x01 << 16) - 1) { // 3字节长度UTF8
+			//EPP_DEBUG("UTF8 3\n");
+			// UTF8 3字节编码共有有效位 16 位，每字节分别为 4 6 6
+			ret.utf8.c[0] = 0b11100000 | ((c.utf32.c >> 12) & 0b00001111);
+			ret.utf8.c[1] = 0b10000000 | ((c.utf32.c >> 6) & 0b00111111);
+			ret.utf8.c[2] = 0b10000000 | (c.utf32.c & 0b00111111);
+		} else if (c.utf32.c <= (u32) (0x01 << 21) - 1) { // 4字节长度UTF8
+			//EPP_DEBUG("UTF8 4\n");
+			// UTF8 4字节编码共有有效位 21 位，每字节分别为 3 6 6 6
+			ret.utf8.c[0] = 0b11110000 | ((c.utf32.c >> 18) & 0b00001111);
+			ret.utf8.c[1] = 0b10000000 | ((c.utf32.c >> 12) & 0b00111111);
+			ret.utf8.c[2] = 0b10000000 | ((c.utf32.c >> 6) & 0b00111111);
+			ret.utf8.c[3] = 0b10000000 | ((c.utf32.c >> 6) & 0b00111111);
+			ret.utf8.c[4] = 0b10000000 | ((c.utf32.c >> 6) & 0b00111111);
+			ret.utf8.c[5] = 0b10000000 | (c.utf32.c & 0b00111111);
+		} else if (c.utf32.c <= (u32) (0x01 << 26) - 1) { // 5字节长度UTF8
+			//EPP_DEBUG("UTF8 5\n");
+			// UTF8 3字节编码共有有效位 26 位，每字节分别为 2 6 6 6 6
+			ret.utf8.c[0] = 0b11111000 | ((c.utf32.c >> 24) & 0b00000011);
+			ret.utf8.c[1] = 0b10000000 | ((c.utf32.c >> 18) & 0b00111111);
+			ret.utf8.c[2] = 0b10000000 | ((c.utf32.c >> 12) & 0b00111111);
+			ret.utf8.c[3] = 0b10000000 | ((c.utf32.c >> 6) & 0b00111111);
+			ret.utf8.c[4] = 0b10000000 | (c.utf32.c & 0b00111111);
+		} else if (c.utf32.c <= (u32) (0x01 << 31) - 1) { // 6字节长度UTF8
+			//EPP_DEBUG("UTF8 6\n");
+			// UTF8 3字节编码共有有效位 31 位，每字节分别为 1 6 6 6 6 6
+			ret.utf8.c[0] = 0b11111100 | ((c.utf32.c >> 30) & 0b00000001);
+			ret.utf8.c[1] = 0b10000000 | ((c.utf32.c >> 24) & 0b00111111);
+			ret.utf8.c[2] = 0b10000000 | ((c.utf32.c >> 18) & 0b00111111);
+			ret.utf8.c[3] = 0b10000000 | ((c.utf32.c >> 12) & 0b00111111);
+			ret.utf8.c[4] = 0b10000000 | ((c.utf32.c >> 6) & 0b00111111);
+			ret.utf8.c[5] = 0b10000000 | (c.utf32.c & 0b00111111);
+		}
+		break;
+	}
+	case UTF32: {
+		EPP_CODE_LOCATE();
+		throw new Exception("What the Fuck!");	// 正常情况下程序不会执行到这里
+	}
+	default:
+		throw new Exception("Careless forced transformation");
+	}
+
+	return ret.value;
+}
+
+c64 Char::ToC64(c64 value, Type src) {
+	return ToUTF32(value, src);
+}
+
+c64 Char::FromC64(c64 value, Type dest) {
+	return FromUTF32(value, dest);
+}
+
+c64 Char::Transform(c64 value, Type src, Type dest) {
+	// EPP_CODE_LOCATE();
+	return FromC64(ToC64(value, src), dest);
+}
+
+bool Char::IsLower(c64 c) {
 	return ::islower(c);
 }
 
-bool Char::IsUpper(c32 c) {
+bool Char::IsUpper(c64 c) {
 	return ::isupper(c);
 }
 
-bool Char::IsAlpha(c32 c) {
+bool Char::IsAlpha(c64 c) {
 	return ::isalpha(c);
 }
 
-bool Char::IsDigit(c32 c) {
+bool Char::IsDigit(c64 c) {
 	return ::isdigit(c);
 }
 
-bool Char::IsAlNum(c32 c) {
+bool Char::IsAlNum(c64 c) {
 	return ::isalnum(c);
 }
 
-bool Char::IsCntrl(c32 c) {
+bool Char::IsCntrl(c64 c) {
 	return ::iscntrl(c);
 }
 
-bool Char::IsGraph(c32 c) {
+bool Char::IsGraph(c64 c) {
 	return ::isgraph(c);
 }
 
-bool Char::IsPrint(c32 c) {
+bool Char::IsPrint(c64 c) {
 	return ::isprint(c);
 }
 
-bool Char::IsPunct(c32 c) {
+bool Char::IsPunct(c64 c) {
 	return ::ispunct(c);
 }
 
-bool Char::IsSpace(c32 c) {
+bool Char::IsSpace(c64 c) {
 	return ::isspace(c);
 }
 
-bool Char::IsXdigit(c32 c) {
+bool Char::IsXdigit(c64 c) {
 	return ::isxdigit(c);
 }
 
-c32 Char::ToLower(c32 c) {
+c64 Char::ToLower(c64 c) {
 	return ::tolower(c);
 }
 
-c32 Char::ToUpper(c32 c) {
+c64 Char::ToUpper(c64 c) {
 	return ::toupper(c);
 }
 
@@ -128,18 +322,19 @@ Char::~Char() {
 
 Char::Char(const c8 c) {
 	this->value.ascii.c = c;
-	clearCharValueBytes(ASCII_PaddingMask);
 }
 
 Char::Char(const c16 c) {
-	struct GBK &gbk = this->value.gbk;
-	gbk.c = c;
-	clearCharValueBytes(GBK_PaddingMask);
+	this->value.gb18030.c[0] = (c >> 8) & 0xff;
+	this->value.gb18030.c[1] = c & 0xff;
+}
 
-	if (gbk.c < 0x8140 or gbk.c > 0xfefe) {
-		throw Exception("Warning: The memory allocation has been completed, "
-				"but the parameter does not conform to the GBK encoding rules!\n");
-	}
+Char::Char(const c32 c) {
+	this->value.utf32.c = c;
+}
+
+Char::Char(const c64 c) {
+	this->value.value = c;
 }
 
 Char::Char(const c8 *c) {
@@ -156,21 +351,15 @@ Char::Char(const c8 *c) {
 	}
 }
 
-Char::Char(const c32 c) {
-	struct UTF32 &utf32 = this->value.utf32;
-	utf32.c = c;
-	clearCharValueBytes(UTF32_PaddingMask);
-}
-
 void Char::clearCharValueBytes(u8 bytes) {
-	for (i32 i = 0; i < (i32) sizeof(union CharValue); i++) {
+	for (i32 i = 0; i < (i32) sizeof(union CharData); i++) {
 		if (GetBit(bytes, i) == true)
 			SetByte(this->value, i, 0x00);
 	}
 }
 
 bool Char::checkCharValueBytes(u8 bytes) const {
-	for (i32 i = 0; i < (i32) sizeof(union CharValue); i++) {
+	for (i32 i = 0; i < (i32) sizeof(union CharData); i++) {
 		if (GetBit(bytes, i) == true)
 			if (GetByte(this->value, i) != 0x00)
 				return false;
@@ -182,14 +371,15 @@ c8 Char::getASCII() const {
 	return this->value.ascii.c;
 }
 
-c16 Char::getGBK() const {
-	const struct GBK &gbk = this->value.gbk;
-	return gbk.c;
+c16 Char::getGB18030() const {
+//	const struct GB18030 &gb18030 = this->value.gb18030;
+//	return gb18030.c;
+	return 0;
 }
 
 const c8* Char::getUTF8() const {
 	const struct UTF8 &utf8 = this->value.utf8;
-	return utf8.c;
+	return (const c8*) utf8.c;
 }
 
 c32 Char::getUTF32() const {
@@ -204,17 +394,17 @@ c32 Char::getValue() const {
 bool Char::isASCII() const {
 	const struct ASCII &ascii = this->value.ascii;
 
-	if ((u8)(ascii.c) <= 127 and checkCharValueBytes(ASCII_PaddingMask) == true)
+	if ((u8) (ascii.c) <= 127 and checkCharValueBytes(ASCII_PaddingMask) == true)
 		return true;
 
 	return false;
 }
 
-bool Char::isGBK() const {
-	const struct GBK &gbk = this->value.gbk;
+bool Char::isGB18030() const {
+	//const struct GB18030 &gb18030 = this->value.gb18030;
 
-	if (gbk.c >= 0x8140 and gbk.c <= 0xfefe and checkCharValueBytes(GBK_PaddingMask) == true)
-		return true;
+	//if (gb18030.c >= 0x8140 and gb18030.c <= 0xfefe and checkCharValueBytes(GB18030_PaddingMask) == true)
+	return true;
 
 	return false;
 }
@@ -234,15 +424,17 @@ bool Char::isUTF32() const {
 }
 
 bool Char::isSupportedEncoding() const {
-	if (isASCII() == true)
+	if (isASCII() == true) {
 		return true;
-	if (isGBK() == true)
+	} else if (isGB18030() == true) {
 		return true;
-	if (isUTF8() == true)
+	} else if (isUTF8() == true) {
 		return true;
-	if (isUTF32() == true)
+	} else if (isUTF32() == true) {
 		return true;
-	return false;
+	} else {
+		return false;
+	}
 }
 
 i32 Char::getUTF8Length() const {

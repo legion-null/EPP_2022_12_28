@@ -17,7 +17,7 @@ FrameBuffer::FrameBuffer(i32 w, i32 h, i32 bpp) :
 
 }
 
-FrameBuffer::FrameBuffer(byte *fb, i32 w, i32 h, i32 bpp) {
+FrameBuffer::FrameBuffer(u8 *fb, i32 w, i32 h, i32 bpp) {
 	// 设置基本成员信息
 	this->w = w;
 	this->h = h;
@@ -31,11 +31,11 @@ FrameBuffer::FrameBuffer(byte *fb, i32 w, i32 h, i32 bpp) {
 	if (fb != nullptr) { // 如果传入非空指针，认为是从外界获取了了一块内存空间作为缓冲区，将指针直接传给this->fb
 		this->fb = fb;
 	} else { // 否则，自行申请一块内存空间作为缓冲区
-		this->fb = new byte[this->fbSize];
+		this->fb = new u8[this->fbSize];
 	}
 
 	// 创建和进行二级映射
-	this->fbX = new byte*[this->h];
+	this->fbX = new u8*[this->h];
 	for (i32 i = 0; i < this->h; i++) {
 		this->fbX[i] = &(this->fb[this->lineSize * i]);
 	}
@@ -58,7 +58,7 @@ i32 FrameBuffer::getBpp() {
 	return this->bpp;
 }
 
-const byte* FrameBuffer::getFb() {
+const u8* FrameBuffer::getFb() {
 	return this->fb;
 }
 
@@ -94,11 +94,11 @@ bool FrameBuffer::check_y(i32 y) {
 	}
 }
 
-byte* FrameBuffer::unchecked_getOff(i32 off) {
+u8* FrameBuffer::unchecked_getOff(i32 off) {
 	return this->fbX[off % this->lineSize] + (off / this->lineSize);
 }
 
-byte* FrameBuffer::getOff(i32 off) {
+u8* FrameBuffer::getOff(i32 off) {
 	if (check_off(off) == false) {
 		throw new Exception();
 	}
@@ -106,15 +106,15 @@ byte* FrameBuffer::getOff(i32 off) {
 	return unchecked_getOff(off);
 }
 
-byte FrameBuffer::unchecked_readByte(i32 off) {
+u8 FrameBuffer::unchecked_readByte(i32 off) {
 	return this->fb[off];
 }
 
-void FrameBuffer::unchecked_writeByte(i32 off, byte value) {
+void FrameBuffer::unchecked_writeByte(i32 off, u8 value) {
 	this->fb[off] = value;
 }
 
-byte FrameBuffer::readByte(i32 off) {
+u8 FrameBuffer::readByte(i32 off) {
 	if (check_off(off) == false) {
 		throw new Exception();
 	}
@@ -126,7 +126,7 @@ byte FrameBuffer::readByte(i32 off) {
 	}
 }
 
-void FrameBuffer::writeByte(i32 off, byte value) {
+void FrameBuffer::writeByte(i32 off, u8 value) {
 	if (check_off(off) == false) {
 		throw new Exception();
 	}
@@ -138,15 +138,15 @@ void FrameBuffer::writeByte(i32 off, byte value) {
 	}
 }
 
-byte FrameBuffer::unchecked_readByte(i32 lineOff, i32 y) {
+u8 FrameBuffer::unchecked_readByte(i32 lineOff, i32 y) {
 	return this->fbX[y][lineOff];
 }
 
-void FrameBuffer::unchecked_writeByte(i32 lineOff, i32 y, byte value) {
+void FrameBuffer::unchecked_writeByte(i32 lineOff, i32 y, u8 value) {
 	this->fbX[y][lineOff] = value;
 }
 
-byte FrameBuffer::readByte(i32 lineOff, i32 y) {
+u8 FrameBuffer::readByte(i32 lineOff, i32 y) {
 	if (check_lineOff(lineOff) == false or check_y(y) == false) {
 		throw new Exception();
 	}
@@ -154,7 +154,7 @@ byte FrameBuffer::readByte(i32 lineOff, i32 y) {
 	return unchecked_readByte(lineOff, y);
 }
 
-void FrameBuffer::writeByte(i32 lineOff, i32 y, byte value) {
+void FrameBuffer::writeByte(i32 lineOff, i32 y, u8 value) {
 	if (check_lineOff(lineOff) == false or check_y(y) == false) {
 		throw new Exception();
 	}
@@ -276,7 +276,7 @@ void FrameBuffer::writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t color) {
 
 void FrameBuffer::clear(color_t color) {
 	if (this->fb != nullptr) {
-		SetMemory(this->fb, (byte*) &color, 4, this->w * this->h);
+		SetMemory(this->fb, (u8*) &color, 4, this->w * this->h);
 	} else {
 		unchecked_writeRect(0, 0, this->w, this->h, color);
 	}

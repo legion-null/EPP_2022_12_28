@@ -8,7 +8,19 @@ namespace graphics {
 
 const Class *Painter::ClassInfo = Class::Register<Painter, Object>("Epp::graphics::Painter", nullptr);
 
-const bool Painter::ValidityOfIM[NumberOfIM] = { (EPP_MODULE_OPENGL_SUPPORT == EPP_TRUE),	// OpenGL渲染为可选模块
+const c8* Painter::GetEnumType(IMType e) {
+	switch(e){
+	case OpenGL:
+		return EPP_STR(OpenGL);
+	case Software:
+		return EPP_STR(Software);
+	default:
+		throw new Exception("Careless forced transformation");
+	}
+}
+
+const bool Painter::ValidityOfIM[NumberOfIM] = { //
+		(EPP_MODULE_OPENGL_SUPPORT == EPP_TRUE),	// OpenGL渲染为可选模块
 		true,	// 软件渲染永远可用
 		};
 
@@ -134,6 +146,8 @@ void Painter::drawImage(i32 x, i32 y, i32 w, i32 h, Image *img) {
 
 	this->layer->copyFrom(img, 0, 0, w, h, x, y);
 }
+
+
 
 }
 }

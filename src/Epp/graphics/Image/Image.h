@@ -15,7 +15,7 @@ public:
 
 public:
 	Image(i32 w, i32 h, Color::Type colorType);
-	Image(byte *fb, i32 w, i32 h, Color::Type colorType);
+	Image(u8 *fb, i32 w, i32 h, Color::Type colorType);
 
 private:
 	using Layer::rot;

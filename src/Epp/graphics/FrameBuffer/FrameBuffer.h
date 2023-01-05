@@ -24,15 +24,15 @@ protected:
 	i32 fbSize = 0;
 
 protected:
-	byte *fb = nullptr;
-	byte **fbX = nullptr;
+	u8 *fb = nullptr;
+	u8 **fbX = nullptr;
 
 public:
 	FrameBuffer();
 
 public:
 	FrameBuffer(i32 w, i32 h, i32 bpp);
-	FrameBuffer(byte *fb, i32 w, i32 h, i32 bpp);
+	FrameBuffer(u8 *fb, i32 w, i32 h, i32 bpp);
 
 public:
 	i32 getWidth();
@@ -44,7 +44,7 @@ public:
 	i32 getBpp();
 
 public:
-	const byte* getFb();
+	const u8* getFb();
 
 public:
 	bool check_off(i32 off);
@@ -53,22 +53,22 @@ public:
 	bool check_y(i32 y);
 
 protected:
-	byte* unchecked_getOff(i32 off);
+	u8* unchecked_getOff(i32 off);
 
 public:
-	byte* getOff(i32 off);
+	u8* getOff(i32 off);
 
 protected:
-	byte unchecked_readByte(i32 off);
-	void unchecked_writeByte(i32 off, byte value);
+	u8 unchecked_readByte(i32 off);
+	void unchecked_writeByte(i32 off, u8 value);
 
 public:
-	byte readByte(i32 off);
-	void writeByte(i32 off, byte value);
+	u8 readByte(i32 off);
+	void writeByte(i32 off, u8 value);
 
 protected:
-	byte unchecked_readByte(i32 lineOff, i32 y);
-	void unchecked_writeByte(i32 lineOff, i32 y, byte value);
+	u8 unchecked_readByte(i32 lineOff, i32 y);
+	void unchecked_writeByte(i32 lineOff, i32 y, u8 value);
 
 public:
 	u8 readByte(i32 lineOff, i32 y);

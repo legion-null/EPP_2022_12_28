@@ -20,7 +20,7 @@ Image::Image(i32 w, i32 h, Color::Type colorType) :
 		Image(nullptr, w, h, colorType) {
 }
 
-Image::Image(byte *fb, i32 w, i32 h, Color::Type colorType) :
+Image::Image(u8 *fb, i32 w, i32 h, Color::Type colorType) :
 		Layer(fb, w, h, colorType, Rot_0) {
 
 }

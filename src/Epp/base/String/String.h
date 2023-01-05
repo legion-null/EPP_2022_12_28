@@ -2,14 +2,18 @@
 
 #include "base/Object/Object.h"
 
+#include "base/Char/Char.h"
+
 namespace Epp {
 namespace base {
-
-
 
 class String: public Epp::base::Object {
 
 EPP_CLASS_INFO
+
+public:
+	static const c8* ToUTF32(const c8 *str, Char::Type src);
+	static const c8* FromUTF32(const c8 *str, Char::Type dest);
 
 public:
 	static const void* memchr(const void *str, i32 c, i32 n);
@@ -45,7 +49,7 @@ public:
 	static String* ValueOf(i64 data);
 	static String* ValueOf(f32 data);
 	static String* ValueOf(f64 data);
-	static String* ValueOf(Object* data);
+	static String* ValueOf(Object *data);
 
 protected:
 	c8 *value = nullptr;
@@ -66,13 +70,12 @@ public:
 	virtual String* clone() override;
 
 public:
-	virtual bool equalTo(Object* other) override;
+	virtual bool equalTo(Object *other) override;
 
 public:
 	virtual String* toString() override;
 
 };
-
 
 inline String* S(const c8 *str) {
 	return new String(str);

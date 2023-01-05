@@ -114,7 +114,7 @@ void OS::Printf(const c8 *fmt, ...) {
 	::fflush(stdout);
 }
 
-void OS::PrintMemory(byte *address, i32 len) {
+void OS::PrintMemory(u8 *address, i32 len) {
 	(void) address;
 	(void) len;
 }

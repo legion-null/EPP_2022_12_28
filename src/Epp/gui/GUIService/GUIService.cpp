@@ -8,6 +8,27 @@ namespace gui {
 
 const Class *GUIService::ClassInfo = Class::Register<GUIService, GUIService>("Epp::gui::GUIService", nullptr);
 
+const c8* GUIService::GetEnumName(IMType e) {
+	switch (e) {
+	case Windows:
+		return EPP_STR(Windows);
+	case MacOS:
+		return EPP_STR(MacOS);
+	case Android:
+		return EPP_STR(Android);
+	case IOS:
+		return EPP_STR(IOS);
+	case X11:
+		return EPP_STR(X11);
+	case SDL2:
+		return EPP_STR(SDL2);
+	case LinuxFB:
+		return EPP_STR(LinuxFB);
+	default:
+		throw new Exception("Careless forced transformation");
+	}
+}
+
 const bool GUIService::ValidityOfIM[GUIService::NumberOfIM] = { (EPP_CURRENT_OS == EPP_OS_WINDOWS),	//
 		(EPP_CURRENT_OS == EPP_OS_MACOS),	//
 		(EPP_CURRENT_OS == EPP_OS_ANDROID),	//
@@ -24,17 +45,18 @@ bool GUIService::IsAvailable(IMType type) {
 GUIService::IMType GUIService::DefaultIMType = GUIService::InitDefaultIMType();
 
 GUIService::IMType GUIService::InitDefaultIMType() {
-	// EPP_CODE_LOCATE();
+	EPP_CODE_LOCATE();
 	for (i32 i = 0; i < NumberOfIM; i++) {
 		if (ValidityOfIM[i] == true)
 			return (IMType) i;
 	}
 
-	return Unavailable;
+	throw new Exception("There is no implementation available under the current platform");
 }
 
 GUIService::IMType GUIService::GetDefaultIMType() {
 	EPP_CODE_LOCATE();
+
 	return DefaultIMType;
 }
 
@@ -49,13 +71,11 @@ void GUIService::SetDefaultIMType(IMType type) {
 GUIService* GUIService::GetIM(IMType type) {
 	EPP_CODE_LOCATE();
 
-	if(IsAvailable(type) == false){
-		throw new Exception();
+	if (IsAvailable(type) == false) {
+		throw new Exception("This implementation is not supported under the current platform");
 	}
 
 	switch (type) {
-	case Unavailable:
-		break;
 	case Windows:
 #if EPP_CURRENT_OS == EPP_OS_WINDOWS
 		return new GUIService_Windows();
@@ -114,8 +134,6 @@ Screen* GUIService::getScreen() const {
 
 	return getScreen(0);
 }
-
-
 
 }
 }

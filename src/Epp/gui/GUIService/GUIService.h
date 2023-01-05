@@ -13,7 +13,6 @@ EPP_CLASS_INFO
 
 public:
 	enum IMType : i8 {
-		Unavailable = -1, // 不可用
 		Windows = 0, // Windows
 		MacOS,		// MacOS
 		Android,	// Android
@@ -22,6 +21,9 @@ public:
 		SDL2,		// SDL2
 		LinuxFB,	// LinuxFB
 	};
+
+public:
+	static const c8* GetEnumName(IMType type);
 
 protected:
 	static const i32 NumberOfIM = 7;

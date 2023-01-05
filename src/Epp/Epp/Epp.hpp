@@ -44,13 +44,13 @@ inline void Swap(T &a, T &b) {
 	b = temp;
 }
 
-inline void iSwap(byte *a, byte *b, i32 elSize) {
+inline void iSwap(u8 *a, u8 *b, i32 elSize) {
 	for (i32 i = 0; i < elSize; i++) {
 		Swap(a[i], b[i]);
 	}
 }
 
-void Swap(byte *a, byte *b, i32 elSize);
+void Swap(u8 *a, u8 *b, i32 elSize);
 
 template<typename T>
 T GetMemory(void *mem) {
@@ -65,7 +65,7 @@ void SetMemory(T *mem, T value, i32 elNum) {
 	}
 }
 
-inline void iSetMemory(byte *mem, byte *value, i32 elSize, i32 elNum) {
+inline void iSetMemory(u8 *mem, u8 *value, i32 elSize, i32 elNum) {
 	for (; elNum > 0; elNum--) {
 		for (i32 i = 0; i < elSize; i++) {
 			*mem = value[i];
@@ -74,9 +74,9 @@ inline void iSetMemory(byte *mem, byte *value, i32 elSize, i32 elNum) {
 	}
 }
 
-void SetMemory(byte *mem, byte *value, i32 elSize, i32 elNum);
+void SetMemory(u8 *mem, u8 *value, i32 elSize, i32 elNum);
 
-inline void iCopy(const byte *src, byte *dest, i32 elSize, i32 elNum) {
+inline void iCopy(const u8 *src, u8 *dest, i32 elSize, i32 elNum) {
 	for (u64 i = 0; i < (u64) (elSize * elNum); i++) {
 		*dest = *src;
 		src++;
@@ -84,19 +84,19 @@ inline void iCopy(const byte *src, byte *dest, i32 elSize, i32 elNum) {
 	}
 }
 
-inline void iSafeCopy(const byte *src, byte *&dest, i32 elSize, i32 elNum) {
+inline void iSafeCopy(const u8 *src, u8 *&dest, i32 elSize, i32 elNum) {
 	if (dest == nullptr)
 		SafeNew(dest, elSize * elNum);
 	return iCopy(src, dest, elSize, elNum);
 }
 
-void Copy(const byte *src, byte *dest, i32 elSize, i32 elNum);
+void Copy(const u8 *src, u8 *dest, i32 elSize, i32 elNum);
 
-void SafeCopy(const byte *src, byte *&dest, i32 elSize, i32 elNum);
+void SafeCopy(const u8 *src, u8 *&dest, i32 elSize, i32 elNum);
 
 template<typename T>
 inline void Copy(const T *src, T *dest, i32 elNum) {
-	Copy((const byte*) (src), (byte*) (dest), sizeof(T), elNum);
+	Copy((const u8*) (src), (u8*) (dest), sizeof(T), elNum);
 }
 
 template<typename T>
@@ -106,7 +106,7 @@ inline void Copy(const T *src, T *dest) {
 
 template<typename T>
 inline void SafeCopy(const T *src, T *&dest, i32 elNum) {
-	SafeCopy((const byte*) (src), (byte*&) (dest), sizeof(T), elNum);
+	SafeCopy((const u8*) (src), (u8*&) (dest), sizeof(T), elNum);
 }
 
 template<typename T>
@@ -114,19 +114,19 @@ inline void SafeCopy(const T *src, T *&dest) {
 	SafeCopy(src, dest, 1);
 }
 
-inline void iMove(const byte *src, byte *dest, i32 elSize, i32 elNum) {
+inline void iMove(const u8 *src, u8 *dest, i32 elSize, i32 elNum) {
 	iCopy(src, dest, elSize, elNum);
 	delete[] src;
 }
 
-inline void iSafeMove(const byte *src, byte *&dest, i32 elSize, i32 elNum) {
+inline void iSafeMove(const u8 *src, u8 *&dest, i32 elSize, i32 elNum) {
 	iSafeCopy(src, dest, elSize, elNum);
 	SafeDelete(src);
 }
 
-void Move(const byte *src, byte *dest, i32 elSize, i32 elNum);
+void Move(const u8 *src, u8 *dest, i32 elSize, i32 elNum);
 
-void SafeMove(const byte *src, byte *&dest, i32 elSize, i32 elNum);
+void SafeMove(const u8 *src, u8 *&dest, i32 elSize, i32 elNum);
 
 template<typename T>
 inline void Move(const T *src, T *dest, i32 elNum) {
@@ -140,7 +140,7 @@ inline void Move(const T *src, T *dest) {
 
 template<typename T>
 inline void SafeMove(const T *src, T *&dest, i32 elNum) {
-	SafeMove((const byte*) (src), (byte*&) (dest), sizeof(T), elNum);
+	SafeMove((const u8*) (src), (u8*&) (dest), sizeof(T), elNum);
 }
 
 template<typename T>
@@ -169,13 +169,13 @@ inline void ReverseBit(T &value, i32 i) {
 }
 
 template<typename T>
-inline byte GetByte(T &value, i32 i) {
-	return ((byte*) (&value))[i];
+inline u8 GetByte(T &value, i32 i) {
+	return ((u8*) (&value))[i];
 }
 
 template<typename T>
-inline void SetByte(T &value, i32 i, byte b) {
-	((byte*) (&value))[i] = b;
+inline void SetByte(T &value, i32 i, u8 b) {
+	((u8*) (&value))[i] = b;
 }
 
 template<bool, typename T = void>

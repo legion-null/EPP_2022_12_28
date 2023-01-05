@@ -7,7 +7,7 @@
 namespace Epp {
 namespace graphics {
 
-const i32 MATRIX_ASCII_16X24_1BPP_CODES[1][2] = {
+const u32 MATRIX_ASCII_16X24_1BPP_CODES[1][2] = {
 	{ 32, 126 },
 };
 

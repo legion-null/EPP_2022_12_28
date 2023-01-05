@@ -45,8 +45,6 @@ typedef char c8;
 typedef char16_t c16;
 typedef char32_t c32;
 
-typedef u8 byte;
-
 // 类型测试
 inline bool type_check() {
 	if (sizeof(d8) != 1)

@@ -42,7 +42,7 @@ Screen_SDL2::Screen_SDL2(String* title, i32 w, i32 h, Color::Type colorType, Rot
 	this->csdl2->surface = ::SDL_GetWindowSurface((SDL_Window*) this->csdl2->window);
 
 	// 建立映射
-	this->display = new Layer((byte*) (this->csdl2->surface->pixels), this->w, this->h, this->colorType, this->rot);
+	this->display = new Layer((u8*) (this->csdl2->surface->pixels), this->w, this->h, this->colorType, this->rot);
 }
 
 void Screen_SDL2::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {

@@ -10,6 +10,20 @@ namespace base {
 
 const Class *String::ClassInfo = Class::Register<String, Object>("Epp::base::String", nullptr);
 
+const c8* String::ToUTF32(const c8 *str, Char::Type src) {
+	(void) str;
+	(void) src;
+
+	return nullptr;
+}
+
+const c8* String::FromUTF32(const c8 *str, Char::Type dest) {
+	(void) str;
+	(void) dest;
+
+	return nullptr;
+}
+
 const void* String::memchr(const void *str, i32 c, i32 n) {
 	return ::memchr(str, c, n);
 }
@@ -182,6 +196,8 @@ bool String::equalTo(Object *other) {
 String* String::toString() {
 	return this;
 }
+
+
 
 }
 }

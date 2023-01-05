@@ -20,7 +20,7 @@ Palette::~Palette() {
 
 Palette::Palette(Type type) {
 	this->type = type;
-	this->colorList = new union Color::ColorData[(u8) type];
+	this->colorList = nullptr;
 }
 
 Color* Palette::getColor(u8 index) const {

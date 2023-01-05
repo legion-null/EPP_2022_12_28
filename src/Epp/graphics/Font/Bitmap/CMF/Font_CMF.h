@@ -15,6 +15,7 @@ EPP_CLASS_INFO
 public:
 	static const Font_CMF *ASCII_3X5_1BPP;
 	static const Font_CMF *ASCII_16X24_1BPP;
+	static const Font_CMF *UTF_BASE_CHINESE_24X24_4BPP;
 
 protected:
 	static void Static();
@@ -23,7 +24,7 @@ protected:
 	struct CharScopeInfoUnit { //字符范围信息单元
 		i32 start;	// 开始字符代码
 		i32 end; // 结束字符代码
-		const byte *offset;
+		const u8 *offset;
 	} __attribute__((packed));
 
 	struct CharScopeInfoList { //字符范围信息表
@@ -35,20 +36,20 @@ protected:
 	struct CharScopeInfoList csil;
 
 protected:
-	i32 bpp = 0;
+	i32 bpp = 1;
 	i32 charMatrixSize = 0;
-	const byte *matrixData = nullptr;
+	const u8 *matrixData = nullptr;
 
 public:
 	Font_CMF();
 	~Font_CMF();
 
 public:
-	Font_CMF(i32 w, i32 h, i32 bpp, const i32 *charsInfo, i32 charsInfoN, const byte *matrix);
+	Font_CMF(i32 w, i32 h, i32 bpp, const i32 *charsInfo, i32 charsInfoN, const u8 *matrix);
 
 protected:
-	const byte* getCharMatrix(i32 c);
-	i32 getPointInMatrix(const byte *matrix, i32 x, i32 y);
+	const u8* getCharMatrix(i32 c);
+	i32 getPointInMatrix(const u8 *matrix, i32 x, i32 y);
 
 public:
 	virtual bool hasCharacter(i32 c) override;

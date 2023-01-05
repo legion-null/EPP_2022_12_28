@@ -25,7 +25,7 @@ public:
 public:
 	Layer(i32 w, i32 h, Color::Type colorType);
 	Layer(i32 w, i32 h, Color::Type colorType, Rot rot);
-	Layer(byte *fb, i32 w, i32 h, Color::Type colorType, Rot rot);
+	Layer(u8 *fb, i32 w, i32 h, Color::Type colorType, Rot rot);
 
 private:
 	using FrameBuffer::readPixel;

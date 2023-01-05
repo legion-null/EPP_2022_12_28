@@ -229,7 +229,7 @@ public:
 
 public:
 	static void Printf(const c8 *fmt, ...);
-	static void PrintMemory(byte *address, i32 len);
+	static void PrintMemory(u8 *address, i32 len);
 
 public:
 	OS();

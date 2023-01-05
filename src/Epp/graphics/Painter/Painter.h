@@ -25,6 +25,9 @@ public:
 		Software,		// 软件实现
 	};
 
+public:
+	static const c8* GetEnumType(IMType e);
+
 protected:
 	static const i32 NumberOfIM = 2;
 	static const bool ValidityOfIM[NumberOfIM];

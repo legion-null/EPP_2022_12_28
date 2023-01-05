@@ -20,7 +20,7 @@ public:
 
 protected:
 	Type type = Bit8;
-	union Color::ColorData *colorList = nullptr;
+	color_t *colorList = nullptr;
 
 public:
 	Palette();

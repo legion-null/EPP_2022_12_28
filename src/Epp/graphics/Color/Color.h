@@ -15,9 +15,6 @@ class Color: public Epp::base::Object {
 EPP_CLASS_INFO
 
 public:
-	friend class Palette;
-
-public:
 	enum Type : i8 {
 		// 灰度颜色模式
 		Bit1Gray,		// 1位灰度
@@ -42,6 +39,9 @@ public:
 		RGBA8888,	// RGBA8888
 	};
 
+public:
+	static const c8* GetEnumName(Type type);
+
 protected:
 	static Type DefaultColorType;
 
@@ -50,20 +50,97 @@ public:
 	static void SetDefaultColorType(Type type);
 
 public:
-	static const c8* GetEnumName(Type type);
-
-public:
 	static i32 GetBPP(Type type);
 
 protected:
+	struct Bit1Gray {
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t g :1;
+		color_t __padding :31;
+#else
+		color_t __padding :31;
+		color_t g :1;
+#endif
+	};
+
+	struct Bit2Gray {
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t g :2;
+		color_t __padding :30;
+#else
+		color_t __padding :30;
+		color_t g :2;
+#endif
+	};
+
+	struct Bit4Gray {
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t g :4;
+		color_t __padding :28;
+#else
+		color_t __padding :28;
+		color_t g :4;
+#endif
+	};
+
+	struct Bit8Gray {
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t g :8;
+		color_t __padding :24;
+#else
+		color_t __padding :24;
+		color_t g :8;
+#endif
+	};
+
+	struct Bit1Palette {
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t p :1;
+		color_t __padding :31;
+#else
+		color_t __padding :31;
+		color_t p :1;
+#endif
+	};
+
+	struct Bit2Palette {
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t p :2;
+		color_t __padding :30;
+#else
+		color_t __padding :30;
+		color_t p :2;
+#endif
+	};
+
+	struct Bit4Palette {
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t p :4;
+		color_t __padding :28;
+#else
+		color_t __padding :28;
+		color_t p :4;
+#endif
+	};
+
+	struct Bit8Palette {
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t p :8;
+		color_t __padding :24;
+#else
+		color_t __padding :24;
+		color_t p :8;
+#endif
+	};
+
 	struct RGB565 {
-#ifdef EPP_TARGET_ENDIAN_LITTLE
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
 		color_t b :5;
 		color_t g :6;
 		color_t r :5;
-		color_t x :16;
+		color_t __padding :16;
 #else
-		color_t x:16;
+		color_t __padding:16;
 		color_t r :5;
 		color_t g :6;
 		color_t b :5;
@@ -71,13 +148,13 @@ protected:
 	} __attribute__((packed));
 
 	struct RGB888 {
-#ifdef EPP_TARGET_ENDIAN_LITTLE
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
 		color_t b :8;
 		color_t g :8;
 		color_t r :8;
-		color_t x :8;
+		color_t __padding :8;
 #else
-		color_t x:8;
+		color_t __padding:8;
 		color_t r :8;
 		color_t g :8;
 		color_t b :8;
@@ -85,27 +162,13 @@ protected:
 	} __attribute__((packed));
 
 	struct XRGB8888 {
-#ifdef EPP_TARGET_ENDIAN_LITTLE
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
 		color_t b :8;
 		color_t g :8;
 		color_t r :8;
-		color_t x :8;
+		color_t __padding :8;
 #else
-		color_t x:8;
-		color_t r :8;
-		color_t g :8;
-		color_t b :8;
-#endif
-	} __attribute__((packed));
-
-	struct ARGB8888 {
-#ifdef EPP_TARGET_ENDIAN_LITTLE
-		color_t b :8;
-		color_t g :8;
-		color_t r :8;
-		color_t a :8;
-#else
-		color_t a :8;
+		color_t __padding:8;
 		color_t r :8;
 		color_t g :8;
 		color_t b :8;
@@ -113,8 +176,8 @@ protected:
 	} __attribute__((packed));
 
 	struct RGBX8888 {
-#ifdef EPP_TARGET_ENDIAN_LITTLE
-		color_t x :8;
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t __padding :8;
 		color_t b :8;
 		color_t g :8;
 		color_t r :8;
@@ -122,12 +185,26 @@ protected:
 		color_t r :8;
 		color_t g :8;
 		color_t b :8;
-		color_t x :8;
+		color_t __padding :8;
+#endif
+	} __attribute__((packed));
+
+	struct ARGB8888 {
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
+		color_t b :8;
+		color_t g :8;
+		color_t r :8;
+		color_t a :8;
+#else
+		color_t a :8;
+		color_t r :8;
+		color_t g :8;
+		color_t b :8;
 #endif
 	} __attribute__((packed));
 
 	struct RGBA8888 {
-#ifdef EPP_TARGET_ENDIAN_LITTLE
+#if EPP_CURRENT_ENDIAN == EPP_ENDIAN_LITTLE
 		color_t a :8;
 		color_t b :8;
 		color_t g :8;
@@ -142,10 +219,22 @@ protected:
 
 protected:
 	union ColorData {
+		// 灰度颜色
+		struct Bit1Gray bit1gray;
+		struct Bit2Gray bit2gray;
+		struct Bit4Gray bit4gray;
+		struct Bit8Gray bit8gray;
+		// 调色板颜色
+		struct Bit1Palette bit1palette;
+		struct Bit2Palette bit2palette;
+		struct Bit4Palette bit4palette;
+		struct Bit8Palette bit8palette;
+		// RGB颜色
 		struct RGB565 rgb565;
 		struct RGB888 rgb888;
 		struct XRGB8888 xrgb8888;
 		struct RGBX8888 rgbx8888;
+		// RGB颜色带透明通道
 		struct ARGB8888 argb8888;
 		struct RGBA8888 rgba8888;
 		color_t value;

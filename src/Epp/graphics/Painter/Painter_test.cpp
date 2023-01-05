@@ -41,10 +41,10 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 
 		}
 
-	Image *img1 = new Image((byte*) fb, size, size, Color::XRGB8888); // 原色
-	Image *img2 = new Image((byte*) fb, size, size, Color::RGBX8888); // R G 0 B
-	Image *img3 = new Image((byte*) fb, size, size, Color::ARGB8888); //
-	Image *img4 = new Image((byte*) fb, size, size, Color::RGBA8888);
+	Image *img1 = new Image((u8*) fb, size, size, Color::XRGB8888); // 原色
+	Image *img2 = new Image((u8*) fb, size, size, Color::RGBX8888); // R G 0 B
+	Image *img3 = new Image((u8*) fb, size, size, Color::ARGB8888); //
+	Image *img4 = new Image((u8*) fb, size, size, Color::RGBA8888);
 
 	EPP_DEBUG("%s", "1:");
 	painter->drawImage(0, 0, size, size, img1);

@@ -8,6 +8,47 @@ namespace graphics {
 
 const Class *Color::ClassInfo = Class::Register<Color, Object>("Epp::graphics::Color", nullptr);
 
+const c8* Color::GetEnumName(Type e) {
+	switch (e) {
+	case Bit1Gray:
+		return EPP_STR(Bit1Gray);
+	case Bit2Gray:
+		return EPP_STR(Bit2Gray);
+	case Bit4Gray:
+		return EPP_STR(Bit4Gray);
+	case Bit8Gray:
+		return EPP_STR(Bit8Gray);
+	case Bit1Palette:
+		return EPP_STR(Bit1Palette);
+	case Bit2Palette:
+		return EPP_STR(Bit2Palette);
+	case Bit3Palette:
+		return EPP_STR(Bit3Palette);
+	case Bit4Palette:
+		return EPP_STR(Bit4Palette);
+	case RGB232:
+		return EPP_STR(RGB232);
+	case RGB555:
+		return EPP_STR(RGB555);
+	case RGB565:
+		return EPP_STR(RGB565);
+	case RGB888:
+		return EPP_STR(RGB888);
+	case XRGB8888:
+		return EPP_STR(XRGB8888);
+	case RGBX8888:
+		return EPP_STR(RGBX8888);
+	case ARGB1555:
+		return EPP_STR(ARGB1555);
+	case ARGB8888:
+		return EPP_STR(ARGB8888);
+	case RGBA8888:
+		return EPP_STR(RGBA8888);
+	default:
+		throw new Exception("Careless forced transformation");
+	}
+}
+
 Color::Type Color::DefaultColorType = Color::ARGB8888;
 
 Color::Type Color::GetDefaultColorType() {
@@ -16,25 +57,6 @@ Color::Type Color::GetDefaultColorType() {
 
 void Color::SetDefaultColorType(Type type) {
 	DefaultColorType = type;
-}
-
-const c8* Color::GetEnumName(Type type) {
-	switch (type) {
-	case RGB565:
-		return EPP_STR(Color::RGB565);
-	case RGB888:
-		return EPP_STR(Color::RGB888);
-	case XRGB8888:
-		return EPP_STR(Color::XRGB8888);
-	case ARGB8888:
-		return EPP_STR(Color::ARGB8888);
-	case RGBX8888:
-		return EPP_STR(Color::RGBX8888);
-	case RGBA8888:
-		return EPP_STR(Color::RGBA8888);
-	default:
-		throw new Exception("Careless forced transformation");
-	}
 }
 
 i32 Color::GetBPP(Type type) {
@@ -113,7 +135,7 @@ color_t Color::FormARGB8888(color_t value, Type dest) { // 如果目标格式没
 }
 
 color_t Color::Transform(color_t value, Type src, Type dest) {
-	EPP_FUNC_LOCATE("0x%08X, %s, %s", value, GetEnumName(src), GetEnumName(dest));
+	// EPP_FUNC_LOCATE("0x%08X, %s, %s", value, GetEnumName(src), GetEnumName(dest));
 	if (src == dest)
 		return value;
 //
