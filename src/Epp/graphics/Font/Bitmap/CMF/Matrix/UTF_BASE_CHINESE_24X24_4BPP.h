@@ -1,3 +1,5 @@
+#if 0
+
 #pragma once
 
 #include "defs.h"
@@ -12,4 +14,4 @@ extern const u8 MATRIX_UTF_BASE_CHINESE_24X24_4BPP_DATA[20902][24 * 24 / 8 * 4];
 }
 }
 
-
+#endif

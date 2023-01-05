@@ -5,7 +5,7 @@ using namespace Epp::base;
 
 #include "Matrix/ASCII_3X5_1BPP.h"
 #include "Matrix/ASCII_16X24_1BPP.h"
-#include "Matrix/UTF_BASE_CHINESE_24X24_4BPP.h"
+//#include "Matrix/UTF_BASE_CHINESE_24X24_4BPP.h"
 
 namespace Epp {
 namespace graphics {
@@ -14,8 +14,8 @@ const Class *Font_CMF::ClassInfo = Class::Register<Font_CMF, Font_Bitmap>("Epp::
 
 const Font_CMF *Font_CMF::ASCII_3X5_1BPP = new Font_CMF(16, 24, 1, (const i32*) MATRIX_ASCII_3X5_1BPP_CODES, 1, (const u8*) MATRIX_ASCII_3X5_1BPP_DATA);
 const Font_CMF *Font_CMF::ASCII_16X24_1BPP = new Font_CMF(16, 24, 1, (const i32*) MATRIX_ASCII_16X24_1BPP_CODES, 1, (const u8*) MATRIX_ASCII_16X24_1BPP_DATA);
-const Font_CMF *Font_CMF::UTF_BASE_CHINESE_24X24_4BPP = new Font_CMF(24, 24, 4, (const i32*) MATRIX_UTF_BASE_CHINESE_24X24_4BPP_CODES, 1,
-		(const u8*) MATRIX_UTF_BASE_CHINESE_24X24_4BPP_DATA);
+//const Font_CMF *Font_CMF::UTF_BASE_CHINESE_24X24_4BPP = new Font_CMF(24, 24, 4, (const i32*) MATRIX_UTF_BASE_CHINESE_24X24_4BPP_CODES, 1,
+//		(const u8*) MATRIX_UTF_BASE_CHINESE_24X24_4BPP_DATA);
 
 void Font_CMF::Static() {
 

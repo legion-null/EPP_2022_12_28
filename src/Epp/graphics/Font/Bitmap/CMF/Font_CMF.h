@@ -15,7 +15,7 @@ EPP_CLASS_INFO
 public:
 	static const Font_CMF *ASCII_3X5_1BPP;
 	static const Font_CMF *ASCII_16X24_1BPP;
-	static const Font_CMF *UTF_BASE_CHINESE_24X24_4BPP;
+//	static const Font_CMF *UTF_BASE_CHINESE_24X24_4BPP;
 
 protected:
 	static void Static();

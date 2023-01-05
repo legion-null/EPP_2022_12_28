@@ -37,12 +37,12 @@ void Screen_Android::lockSurface() {
 
 	// 地址重映射
 	if (this->display == nullptr) {
-		this->display = new Layer((byte*) buffer.bits, buffer.stride, this->h, this->colorType, this->rot);
+		this->display = new Layer((u8*) buffer.bits, buffer.stride, this->h, this->colorType, this->rot);
 		// 同时将这个buffer.bits的指针添加到表里，下次直接查表
 	} else if (this->display->getFb() != buffer.bits) {
 		delete this->display;
 		// display->
-		this->display = new Layer((byte*) buffer.bits, buffer.stride, this->h, this->colorType, this->rot);
+		this->display = new Layer((u8*) buffer.bits, buffer.stride, this->h, this->colorType, this->rot);
 	}
 }
 

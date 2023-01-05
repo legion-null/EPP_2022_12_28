@@ -51,4 +51,5 @@ public:
 }
 
 #include "Bitmap/Font_Bitmap.h"
+#include "Vector/Font_Vector.h"
 
