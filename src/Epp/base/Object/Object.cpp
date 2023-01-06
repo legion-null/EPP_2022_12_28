@@ -32,9 +32,15 @@ Object* Object::clone() {
 	return new Object();
 }
 
-bool Object::equalTo(Object *other) {
-	(void) other;
+bool Object::equalTo(const Object &other) {
+	const void *p = &other;
+	(void) p;
+	//(void) other;
 	return true;
+}
+
+bool Object::operator ==(const Object &other) {
+	return this->equalTo(other);
 }
 
 String* Object::toString() {
@@ -58,6 +64,7 @@ void Object::printContent() {
 //
 //	OS::Printf("--------------------------------------------------------------------------------\n");
 }
+
 }
 
 bool SafeDestroy(Object *obj) {

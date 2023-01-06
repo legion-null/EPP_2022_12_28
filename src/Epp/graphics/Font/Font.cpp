@@ -8,6 +8,23 @@ namespace graphics {
 
 const Class *Font::ClassInfo = Class::Register<Font, Object>("Epp::graphics::Font", nullptr);
 
+const c8* Font::GetEnumName(Type e) {
+	switch (e) {
+	case SMF:
+		return EPP_STR(SMF);
+	case CMF:
+		return EPP_STR(CMF);
+	case BDF:
+		return EPP_STR(BDF);
+	case TTF:
+		return EPP_STR(TTF);
+	case OTF:
+		return EPP_STR(OTF);
+	default:
+		throw new Exception("Careless forced transformation");
+	}
+}
+
 Font::Font() {
 
 }
@@ -15,12 +32,8 @@ Font::Font() {
 Font::~Font() {
 }
 
-i32 Font::getWidth() const {
-	return this->w;
-}
-
-i32 Font::getHeight() const {
-	return this->h;
+Font::Font(const base::String path) {
+	(void) path;
 }
 
 bool Font::hasCharacter(i32 c) {
@@ -31,25 +44,25 @@ bool Font::hasCharacter(i32 c) {
 Image* Font::getUnavailableCharacterImage(i32 c) {
 	EPP_FUNC_LOCATE("%d", c);
 
-	if (this->w < 0 or this->h < 0) {
+	if (getW() < 0 or getH() < 0) {
 		throw new Exception();
 	}
 
 	// 创建一个图像
-	Image *img = new Image(this->w, this->h, Color::GetDefaultColorType());
+	Image *img = new Image(getW(), getH(), Color::GetDefaultColorType());
 	Painter *painter = img->getPainter();
 
 	// 填充白色
 	painter->setColor(C(White));
-	painter->fillRect(0, 0, this->w, this->h);
+	painter->fillRect(0, 0, getW(), getH());
 
 	// 绘制边框（两层）
 	painter->setColor(C(Black));
 
-	if (this->w >= 11 and this->h >= 15) {
-		painter->drawRect(0, 0, this->w, this->h);
+	if (getW() >= 11 and getH() >= 15) {
+		painter->drawRect(0, 0, getW(), getH());
 	} else {
-		painter->drawRect(0, 0, this->w, this->h);
+		painter->drawRect(0, 0, getW(), getH());
 //		painter->drawRect(2, 2, this->w - 4, this->h - 4);
 //		painter->drawLine(2, 2, this->w - 3, this->h - 3);
 //		painter->drawLine(2, this->h - 3, this->w - 3, 2);

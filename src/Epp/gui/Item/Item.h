@@ -1,53 +1,38 @@
 #pragma once
 
 #include "base/Object/Object.h"
+#include "graphics/Rect2D/Rect2D.h"
 
 namespace Epp {
 namespace graphics {
 }
 namespace gui {
 
-class Item: public Epp::base::Object {
+class UI;
+
+class Item: virtual public Epp::base::Object, virtual public graphics::Rect2D {
 
 EPP_CLASS_INFO
 
 protected:
-	i16 x = 0;
-	i16 y = 0;
-	i16 w = 0;
-	i16 h = 0;
-
-protected:
-
-protected:
 	Item *parent = nullptr;
+
+protected:
+	UI *ui = nullptr;
 
 public:
 	Item();
+	virtual ~Item();
 
 public:
-	i32 getX();
-	i32 getY();
-
-	void getPos(i32 &x, i32 &y);
-
-public:
-	void setX(i32 x);
-	void setY(i32 y);
-
-	void setPos(i32 x, i32 y);
+	virtual void setX(i32 x) override;
+	virtual void setY(i32 y) override;
+	virtual void setPos2D(i32 x, i32 y) override;
 
 public:
-	i32 getWidth();
-	i32 getHeight();
-
-	void getSize(i32 &width, i32 &height);
-
-public:
-	void setWidth(i32 width);
-	void setHeight(i32 height);
-
-	void setSize(i32 width, i32 height);
+	virtual void setW(i32 w) override;
+	virtual void setH(i32 h) override;
+	virtual void setSize2D(i32 w, i32 h) override;
 
 public:
 	Item* getParent();
@@ -67,3 +52,4 @@ public:
 }
 }
 
+#include "AbstractButton/AbstractPushButton.h"

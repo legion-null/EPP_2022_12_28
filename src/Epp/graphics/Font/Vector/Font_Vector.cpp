@@ -1,6 +1,6 @@
 #include "Epp.h"
 
-#include "About_FreeType2.h"
+#include "About_STB.h"
 
 using namespace Epp::graphics;
 

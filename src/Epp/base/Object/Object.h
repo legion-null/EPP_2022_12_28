@@ -25,7 +25,10 @@ public:
 
 public:
 	virtual Object* clone();
-	virtual bool equalTo(Object *other);
+	virtual bool equalTo(const Object &other);
+
+public:
+	bool operator==(const Object& other);
 
 public:
 	virtual String* toString();

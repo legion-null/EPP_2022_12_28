@@ -3,9 +3,9 @@
 using namespace Epp;
 using namespace Epp::base;
 
-using namespace Epp::templates;
+using namespace Epp::gui;
 
-i32 templates_Vector_test_main(i32 argc, c8 **argv) {
+i32 gui_UI_test_main(i32 argc, c8 **argv) {
 	(void) argc;
 	(void) argv;
 

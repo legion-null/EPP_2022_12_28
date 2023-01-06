@@ -188,7 +188,7 @@ String* String::clone() {
 	return new String(this->value);
 }
 
-bool String::equalTo(Object *other) {
+bool String::equalTo(const Object &other) {
 	Object::equalTo(other);
 	return true;
 }

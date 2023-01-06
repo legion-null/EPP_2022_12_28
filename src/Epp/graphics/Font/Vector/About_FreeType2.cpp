@@ -1,14 +1,8 @@
-#include <freetype2/ft2build.h>
-#include FT_FREETYPE_H
-
-#include FT_CACHE_H
-#include FT_CACHE_MANAGER_H
-
-#include FT_GLYPH_H
-#include FT_STROKER_H
-#include FT_BITMAP_H
+#if 0
 
 #include "Epp.h"
+
+extern "C" {
 
 void mainnn() {
 	FT_Library library;
@@ -50,4 +44,6 @@ void mainnn() {
 	// 7. 拷贝字符位图到用户的buffer中(用户私人函数)
 	// 注意左边的计算方法
 }
+}
 
+#endif

@@ -40,38 +40,46 @@ void __Debug(const c8 *fmt, ...) {
 	va_end(args);
 }
 
+void* SafeMalloc(u64 size){
+	return ::malloc(size);
+}
+
+void SafeFree(void * ptr){
+	::free(ptr);
+}
+
 void* origin(uSize size) {
-	void *ptr = ::malloc(size); // ::calloc(1,size)
-//EPP_DEBUG("EPP operator new 0x%016x\n", ptr);
+	void *ptr = SafeMalloc(size); // ::calloc(1,size)
+	//EPP_DEBUG("EPP operator new 0x%016x\n", ptr);
 	return ptr;
 }
 
 void finality(void *ptr) {
-//EPP_DEBUG("EPP operator delete 0x%016x\n", ptr);
-	::free(ptr);
+	//EPP_DEBUG("EPP operator delete 0x%016x\n", ptr);
+	SafeFree(ptr);
 }
 
-void Swap(u8 *a, u8 *b, i32 elSize) {
+void Swap(u8 *a, u8 *b, u64 elSize) {
 	return iSwap(a, b, elSize);
 }
 
-void SetMemory(u8 *mem, u8 *value, i32 elSize, i32 elNum) {
+void SetMemory(u8 *mem, u8 *value, u64 elSize, u64 elNum) {
 	return iSetMemory(mem, value, elSize, elNum);
 }
 
-void Copy(const u8 *src, u8 *dest, i32 elSize, i32 elNum) {
+void Copy(const u8 *src, u8 *dest, u64 elSize, u64 elNum) {
 	return iCopy(src, dest, elSize, elNum);
 }
 
-void SafeCopy(const u8 *src, u8 *&dest, i32 elSize, i32 elNum) {
+void SafeCopy(const u8 *src, u8 *&dest, u64 elSize, u64 elNum) {
 	return iSafeCopy(src, dest, elSize, elNum);
 }
 
-void Move(const u8 *src, u8 *dest, i32 elSize, i32 elNum) {
+void Move(const u8 *src, u8 *dest, u64 elSize, u64 elNum) {
 	return iMove(src, dest, elSize, elNum);
 }
 
-void SafeMove(const u8 *src, u8 *&dest, i32 elSize, i32 elNum) {
+void SafeMove(const u8 *src, u8 *&dest, u64 elSize, u64 elNum) {
 	return iSafeMove(src, dest, elSize, elNum);
 }
 

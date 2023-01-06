@@ -70,7 +70,7 @@ public:
 	virtual String* clone() override;
 
 public:
-	virtual bool equalTo(Object *other) override;
+	virtual bool equalTo(const Object &other) override;
 
 public:
 	virtual String* toString() override;

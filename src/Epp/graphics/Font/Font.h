@@ -2,38 +2,38 @@
 
 #include "base/Object/Object.h"
 
+#include "graphics/Size2D/Size2D.h"
+
 namespace Epp {
 namespace graphics {
 
 class Image;
 
-class Font: public Epp::base::Object {
+class Font: virtual public base::Object,virtual public Size2D {
 
 EPP_CLASS_INFO
 
 public:
 	enum Type : i8 {
-		SDF = 0,		// 简单矩阵字体
-		CDF,			// 代码点阵字体
+		SMF = 0,		// 简单矩阵字体
+		CMF,			// 代码点阵字体
 		BDF,			// 点阵字体
 		TTF,			// TTF字体
 		OTF,			// OTF字体
 	};
 
+public:
+	static const c8* GetEnumName(Type e);
+
 protected:
 	// 这里放一张字体表（链表或哈希表），字体加载到字体表中才可以使用
 
-protected:
-	i32 w = 20;
-	i32 h = 20;
-
 public:
 	Font();
-	~Font();
+	virtual ~Font();
 
 public:
-	i32 getWidth() const;
-	i32 getHeight() const;
+	Font(const base::String path);
 
 public:
 	virtual bool hasCharacter(i32 c);

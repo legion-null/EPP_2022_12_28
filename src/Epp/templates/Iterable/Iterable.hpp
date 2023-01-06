@@ -17,6 +17,10 @@ public:
 
 };
 
+template<class E>
+const base::Class *Iterable<E>::ClassInfo = base::Class::Register<Iterable<E>, base::Interface>("Epp::templates::Iterable<?>", nullptr);
+
+
 }
 }
 

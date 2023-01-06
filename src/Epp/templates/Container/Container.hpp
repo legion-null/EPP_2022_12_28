@@ -8,35 +8,86 @@ namespace Epp {
 namespace templates {
 
 template<class E>
-class Container: public Epp::base::Object, virtual public Iterable<E> {
+class Container: virtual public Epp::base::Object, virtual public Iterable<E> {
 EPP_CLASS_INFO
 
 protected:
-	u64 numberOfElements = 0;
+	u64 n = 0;
 
 public:
-	Container();
-	~Container();
+	Container() {
+
+	}
+
+	virtual ~Container() {
+
+	}
 
 public:
-	u64 getNumberOfElements() const;
+	u64 getN() const {
+		return this->n;
+	}
 
-	bool isEmpty() const;
-
-public:
-	virtual E* getElement(i32 index) = 0;
-	virtual void setElement(i32 index, const E *e) = 0;
-
-public:
-	virtual void addElement(const E *e) = 0;
-	virtual void deleteElement(i32 index) = 0;
-	virtual void updateElement(const E *oldE, const E *newE) = 0;
-	virtual u64 searchElement(const E *e) = 0;
+	bool isEmpty() const {
+		return (getN() == 0 ? true : false);
+	}
 
 public:
-	virtual u64 searchElement(bool (*customizedCompareFunc)(const E *e1, const E *e2)) = 0;
+	virtual const E& getElement(u64 index) const = 0;
+	virtual void setElement(u64 index, const E &e) const = 0;
+
+public:
+	const E& operator[](u64 index) const {
+		return this->getElement(index);
+	}
+
+	E& operator[](u64 index) {
+		return (E&) (this->getElement(index));
+	}
+
+public:
+	const E& getFirst() {
+		return getElement(0);
+	}
+
+	const E& getLast() {
+		return getElement(getN() - 1);
+	}
+
+	void setFirst(const E &e) {
+		setElement(0, e);
+	}
+
+	void setLast(const E &e) {
+		setElement(getN() - 1, e);
+	}
+
+public:
+	virtual void addElement(const E &e) = 0;
+	virtual void deleteElement(u64 index) = 0;
+	virtual void updateElement(u64 index, const E &newE) = 0;
+	virtual u64 searchElement(const E &e) = 0;
+
+public:
+	virtual u64 searchElement(bool (*customizedCompareFunc)(E &e1, E &e2), E &e) = 0;
+
+public:
+	void printAllElements() const {
+		for (u64 i = 0; i < this->getN(); i++) {
+			base::OS::Printf("Hello\n");
+			base::OS::Printf("%s\n",base::String::ValueOf(&this->getElement(i))->getValue());
+		}
+	}
+
+public:
+	virtual Iterator<E>* getIterator() override {
+		return nullptr;
+	}
 
 };
+
+template<class E>
+const base::Class *Container<E>::ClassInfo = base::Class::Register<Container<E>, base::Object>("Epp::templates::Container<E>", nullptr);
 
 }
 }

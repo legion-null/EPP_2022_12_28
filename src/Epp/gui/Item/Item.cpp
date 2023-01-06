@@ -14,56 +14,31 @@ Item::Item() {
 
 }
 
-i32 Item::getX() {
-	return this->x;
-}
-
-i32 Item::getY() {
-	return this->y;
-}
-
-void Item::getPos(i32 &x, i32 &y) {
-	x = this->x;
-	y = this->y;
+Item::~Item() {
 }
 
 void Item::setX(i32 x) {
-	this->x = x;
+	Rect2D::setX(x);
 }
 
 void Item::setY(i32 y) {
-	this->y = y;
+	Rect2D::setY(y);
 }
 
-void Item::setPos(i32 x, i32 y) {
-	this->x = x;
-	this->y = y;
+void Item::setPos2D(i32 x, i32 y) {
+	Rect2D::setPos2D(x, y);
 }
 
-i32 Item::getWidth() {
-	return this->w;
+void Item::setW(i32 w) {
+	Rect2D::setW(w);
 }
 
-i32 Item::getHeight() {
-	return this->h;
+void Item::setH(i32 h) {
+	Rect2D::setH(h);
 }
 
-void Item::getSize(i32 &w, i32 &h) {
-	w = this->w;
-	h = this->h;
-}
-
-void Item::setWidth(i32 w) {
-	this->w = w;
-}
-
-void Item::setHeight(i32 h) {
-	this->h = h;
-}
-
-void Item::setSize(i32 w, i32 h) {
-	this->w = w;
-	this->h = h;
+void Item::setSize2D(i32 w, i32 h) {
+	Rect2D::setSize2D(w, h);
 }
 
 Item* Item::getParent() {
@@ -77,7 +52,7 @@ void Item::setParent(Item *parent) {
 i32 Item::getAbsX() {
 	i32 absX = 0;
 	for (Item *item = this; item != nullptr;) {
-		absX = absX + item->x;
+		absX = absX + getX();
 		item = item->parent;
 	}
 	return absX;
@@ -86,7 +61,7 @@ i32 Item::getAbsX() {
 i32 Item::getAbsY() {
 	i32 absY = 0;
 	for (Item *item = this; item != nullptr;) {
-		absY = absY + item->y;
+		absY = absY + getY();
 		item = item->parent;
 	}
 	return absY;
@@ -96,8 +71,8 @@ void Item::getAbsPos(i32 &absX, i32 &absY) {
 	absX = 0;
 	absY = 0;
 	for (Item *item = this; item != nullptr;) {
-		absX = absX + item->x;
-		absY = absY + item->y;
+		absX = absX + getX();
+		absY = absY + getY();
 		item = item->parent;
 	}
 }

@@ -30,11 +30,11 @@ Font_CMF::~Font_CMF() {
 }
 
 Font_CMF::Font_CMF(i32 w, i32 h, i32 bpp, const i32 *charsInfo, i32 charsInfoN, const u8 *matrix) {
-	this->w = w;
-	this->h = h;
+	setW(w);
+	setH(h);
 	this->bpp = bpp;
 
-	this->charMatrixSize = this->w * this->h * this->bpp / 8;
+	this->charMatrixSize = getW() * getH() * this->bpp / 8;
 
 	this->matrixData = matrix;
 
@@ -63,7 +63,7 @@ const u8* Font_CMF::getCharMatrix(i32 c) {
 
 i32 Font_CMF::getPointInMatrix(const u8 *matrix, i32 x, i32 y) {
 	// 暂时先这样，明天1.4改成Image实现方式
-	i32 offsetBit = (y * this->w + x) * bpp;
+	i32 offsetBit = (y * getW() + x) * bpp;
 	i32 offsetByte = offsetBit / 8;
 	i32 bit = offsetBit % 8;
 
@@ -97,12 +97,12 @@ Image* Font_CMF::getCharacterImage(i32 c) {
 	}
 
 	// 创建一个图像
-	Image *img = new Image(this->w, this->h, Color::GetDefaultColorType());
+	Image *img = new Image(getW(), getH(), Color::GetDefaultColorType());
 	Painter *painter = img->getPainter();
 	img->clear(C(White));
 
-	for (i32 j = 0; j < this->h; j++) {
-		for (i32 i = 0; i < this->w; i++) {
+	for (i32 j = 0; j < getH(); j++) {
+		for (i32 i = 0; i < getW(); i++) {
 			i32 temp = getPointInMatrix(matrix, i, j);
 
 			if (temp >= 1) {

@@ -112,7 +112,7 @@ void Painter::setFont(Font *font) {
 }
 
 void Painter::drawPixel(i32 x, i32 y) {
-	EPP_FUNC_LOCATE("%d, %d", x, y);
+	// EPP_FUNC_LOCATE("%d, %d", x, y);
 	return this->layer->setPixel(x, y, this->color);
 }
 
@@ -125,7 +125,7 @@ void Painter::drawCharacter(i32 x, i32 y, i32 w, i32 h, i32 c) {
 
 	Image *charImage = this->font->getCharacterImage(c);
 
-	return drawImage(x, y, Min(w, this->font->getWidth()), Min(h, this->font->getHeight()), charImage);
+	return drawImage(x, y, Min(w, this->font->getW()), Min(h, this->font->getH()), charImage);
 }
 
 void Painter::drawString(i32 x, i32 y, i32 w, i32 h, String *str) {
@@ -133,14 +133,14 @@ void Painter::drawString(i32 x, i32 y, i32 w, i32 h, String *str) {
 
 	for (i32 i = 0; i < str->getLength(); i++) {
 		drawCharacter(x, y, w, h, str->getValue()[i]);
-		x = x + this->font->getWidth();
-		if (x + this->font->getWidth() > w)
+		x = x + this->font->getW();
+		if (x + this->font->getW() > w)
 			return;
 	}
 }
 
 void Painter::drawImage(i32 x, i32 y, i32 w, i32 h, Image *img) {
-	EPP_FUNC_LOCATE("%d, %d, %d, %d, 0x%016x", x, y, w, h, img);
+	// EPP_FUNC_LOCATE("%d, %d, %d, %d, 0x%016x", x, y, w, h, img);
 
 	EnsureExists(img);
 

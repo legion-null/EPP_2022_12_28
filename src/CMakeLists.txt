@@ -3,13 +3,13 @@
 
 # 发布模式
 # set(CMAKE_BUILD_TYPE "Release")
-# add_definitions(-DEPP_TARGET_DEBUG)
+# add_definitions(-DEPP_TARGET_RELEASE)
 
 set(CMAKE_BUILD_TYPE "Debug")
 add_definitions(-DEPP_TARGET_DEBUG)
 
 # 设置编译目标
-set(EPP_TARGET "Linux")
+set(EPP_TARGET "Android")
 
 # epp构建
 add_subdirectory(Epp)
