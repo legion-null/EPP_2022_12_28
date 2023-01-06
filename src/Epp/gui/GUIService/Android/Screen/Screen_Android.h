@@ -15,9 +15,6 @@ protected:
 	static const i32 MaxNumberOfAndroidFrameBuffer = 5;
 
 protected:
-	base::String *title = nullptr;
-
-protected:
 	struct JAndroid *jandroid = nullptr;
 
 protected:
@@ -28,7 +25,7 @@ public:
 	Screen_Android();
 
 public:
-	Screen_Android(struct JAndroid *ja, base::String *title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
+	Screen_Android(struct JAndroid *ja, const base::String& title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
 
 protected:
 	void lockSurface();

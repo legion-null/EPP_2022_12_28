@@ -28,17 +28,17 @@ Screen::Screen(i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Layer(w, h, colorType, rot) {
 }
 
-Screen::Screen(String *title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) :
+Screen::Screen(const base::String& title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) :
 		Layer(w, h, colorType, rot) {
-	this->title = title;
 }
 
-String* Screen::getTitle() {
-	return this->title;
+const String& Screen::getTitle() const {
+	return *(this->title);
 }
 
-void Screen::setTitle(String *title) {
-	this->title = title;
+void Screen::setTitle(const String& title) {
+	SafeDelete(this->title);
+	this->title = new String(title);
 }
 
 f32 Screen::getHPPM() const {
@@ -99,7 +99,7 @@ void Screen::refresh() {
 }
 
 void Screen::test() {
-	static Color *testColor[7] = { C(Red), C(Orange), C(Yellow), C(Green), C(Cyan), C(Blue), C(Purple) };
+	static Color testColor[7] = { Color::Red, Color::Orange, Color::Yellow, Color::Green, Color::Cyan, Color::Blue, Color::Purple };
 
 	for (i32 i = 0;; i++) {
 		Layer::clear(testColor[i % 7]);

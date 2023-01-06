@@ -108,63 +108,63 @@ i32 String::CalculateHash(const c8 *str) {
 	return hash;
 }
 
-String* String::ValueOf(bool data) {
-	return new String(data ? "true" : "false");
+String String::ValueOf(bool data) {
+	return String(data ? "true" : "false");
 }
 
-String* String::ValueOf(c8 data) {
+String String::ValueOf(c8 data) {
 	c8 str[2] = { data, 0 };
-	return new String(str);
+	return String(str);
 }
 
-String* String::ValueOf(c8 data[]) {
+String String::ValueOf(c8 data[]) {
 	return ValueOf(data, 0, strlen(data));
 }
 
-String* String::ValueOf(c8 data[], i32 off, i32 len) {
-	return new String(data, off, len);
+String String::ValueOf(c8 data[], i32 off, i32 len) {
+	return String(data, off, len);
 }
 
-String* String::ValueOf(c32 data) {
+String String::ValueOf(c32 data) {
 	(void) data;
-	return new String("Char.ToString(data)");
+	return String("Char.ToString(data)");
 }
 
-String* String::ValueOf(i32 data) {
+String String::ValueOf(i32 data) {
 	(void) data;
-	return new String("Integer.ToString(data)");
+	return String("Integer.ToString(data)");
 }
 
-String* String::ValueOf(i64 data) {
+String String::ValueOf(i64 data) {
 	(void) data;
-	return new String("Integer.ToString(data)");
+	return String("Integer.ToString(data)");
 }
 
-String* String::ValueOf(f32 data) {
+String String::ValueOf(f32 data) {
 	(void) data;
-	return new String("Float.ToString(data)");
+	return String("Float.ToString(data)");
 }
 
-String* String::ValueOf(f64 data) {
+String String::ValueOf(f64 data) {
 	(void) data;
-	return new String("Float.ToString(data)");
+	return String("Float.ToString(data)");
 }
 
-String* String::ValueOf(Object *data) {
-	return data->toString();
+String String::ValueOf(const Object &data) {
+	return data.toString();
 }
 
 String::String() {
 
 }
 
-String::String(const c8 *str) :
-		String(str, 0, strlen(str)) {
-
+String::String(const c8 *str) {
+	this->value = str;
 }
 
 String::String(const c8 *str, i32 off, i32 len) {
-	SafeCopy(str + off, this->value, len + 1);
+	//this->value = new c8[len + 1];
+	//Copy(str + off, this->value, len + 1);
 
 	/*
 	 if (strlen(str + off) < len) {
@@ -176,16 +176,12 @@ String::String(const c8 *str, i32 off, i32 len) {
 	 */
 }
 
-const c8* String::getValue() {
+const c8* String::getValue() const {
 	return this->value;
 }
 
-i32 String::getLength() {
+i32 String::getLength() const {
 	return strlen(this->value);
-}
-
-String* String::clone() {
-	return new String(this->value);
 }
 
 bool String::equalTo(const Object &other) {
@@ -193,11 +189,9 @@ bool String::equalTo(const Object &other) {
 	return true;
 }
 
-String* String::toString() {
-	return this;
+const String& String::toString() const {
+	return *this;
 }
-
-
 
 }
 }

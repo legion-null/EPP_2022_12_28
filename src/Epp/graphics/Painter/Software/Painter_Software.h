@@ -16,7 +16,7 @@ public:
 	Painter_Software();
 
 public:
-	Painter_Software(Layer *layer);
+	Painter_Software(const Layer *layer);
 
 public:
 	virtual void drawLine(i32 x0, i32 y0, i32 x1, i32 y1) override;

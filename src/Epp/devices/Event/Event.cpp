@@ -5,7 +5,6 @@ using namespace Epp::devices;
 using namespace Epp;
 using namespace Epp::base;
 
-
 namespace Epp {
 namespace devices {
 

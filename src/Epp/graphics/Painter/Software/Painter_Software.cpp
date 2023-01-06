@@ -76,7 +76,7 @@ Painter_Software::Painter_Software() :
 
 }
 
-Painter_Software::Painter_Software(Layer *layer) :
+Painter_Software::Painter_Software(const Layer *layer) :
 		Painter(layer) {
 
 }

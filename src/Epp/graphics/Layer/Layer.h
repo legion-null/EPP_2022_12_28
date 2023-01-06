@@ -27,13 +27,13 @@ public:
 	Layer(i32 w, i32 h, Color::Type colorType, Rot rot);
 	Layer(u8 *fb, i32 w, i32 h, Color::Type colorType, Rot rot);
 
-private:
+protected:
 	using FrameBuffer::readPixel;
 	using FrameBuffer::writePixel;
 	using FrameBuffer::writeRow;
 	using FrameBuffer::writeCol;
 	using FrameBuffer::writeRect;
-	using FrameBuffer::clear;
+	using FrameBuffer::writeAll;
 
 public:
 	Rot getRot();
@@ -53,7 +53,7 @@ public:
 	void fillRect(i32 x0, i32 y0, i32 w, i32 h, Color *color);
 
 public:
-	void clear(Color *color);
+	void clear(const Color &color);
 
 protected:
 	void unchecked_copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1);

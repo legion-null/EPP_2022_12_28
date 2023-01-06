@@ -32,8 +32,8 @@ public:
 	}
 
 private:
-	u64 capacity = DefaultCapacity;
-	f32 growthSpeed = DefaultGrowthSpeed;
+	u64 capacity = 0;
+	f32 growthSpeed = 0;
 
 private:
 	E *data = nullptr;
@@ -56,10 +56,8 @@ public:
 
 	Array(u64 capacity, f32 growthSpeed) {
 		// 上锁
-		this->capacity = capacity;
+		setCapacity(capacity);
 		this->growthSpeed = growthSpeed;
-
-		setCapacity(this->capacity);
 		// 解锁
 	}
 
@@ -122,22 +120,13 @@ private:
 		}
 	}
 
-protected:
-	inline const E& unchecked_getElement(u64 index) const {
-		return this->data[index];
-	}
-
-	inline void unchecked_setElement(u64 index, const E &e) const {
-		this->data[index] = e;
-	}
-
 public:
 	virtual const E& getElement(u64 index) const override {
 		if (index >= this->getN()) {
 			base::Exception("Illegal parameter");
 		}
 
-		return this->unchecked_getElement(index);
+		return this->data[index];
 	}
 
 	virtual void setElement(u64 index, const E &e) const override {
@@ -145,7 +134,7 @@ public:
 			base::Exception("Illegal parameter");
 		}
 
-		this->unchecked_setElement(index, e);
+		this->data[index] = e;
 	}
 
 public:
@@ -154,7 +143,7 @@ public:
 			tryGrow();
 		}
 
-		this->unchecked_setElement(this->n, e);
+		this->data[this->n] = e;
 		this->n++;
 	}
 
@@ -163,16 +152,19 @@ public:
 			base::Exception("Illegal parameter");
 		}
 
-		SafeDelete(&(this->getElement(index)));
+		for (u64 i = index; i < this->n - 1; i++) {
+			this->data[i] = this->data[i + 1];
+		}
+
 		this->n--;
 	}
 
-	virtual void updateElement(u64 index, const E &newE) override {
+	virtual void updateElement(u64 index, const E &e) override {
 		if (index >= this->getN()) {
 			base::Exception("Illegal parameter");
 		}
 
-		this->unchecked_setElement(index, newE);
+		this->data[index] = e;
 	}
 
 	virtual u64 searchElement(const E &e) override {
@@ -211,7 +203,7 @@ public:
 };
 
 template<class E>
-const base::Class *Array<E>::ClassInfo = base::Class::Register<Array<E>, Container<E>>("Epp::templates::Vector<E>", nullptr);
+const base::Class *Array<E>::ClassInfo = base::Class::Register<Array<E>, Container<E>>("Epp::templates::Array<E>", nullptr);
 
 template<class E>
 u64 Array<E>::DefaultCapacity = 100;

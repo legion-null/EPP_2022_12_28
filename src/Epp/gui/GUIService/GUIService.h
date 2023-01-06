@@ -61,4 +61,5 @@ public:
 #include "SDL2/GUIService_SDL2.h"
 #include "X11/GUIService_X11.h"
 #include "Android/GUIService_Android.h"
+#include "Windows/GUIService_Windows.h"
 

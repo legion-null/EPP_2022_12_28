@@ -176,7 +176,7 @@ Color::Color(i32 value, Type src) :
 		Color(ToARGB8888(value, src)) {
 }
 
-color_t Color::getValue() {
+color_t Color::getValue() const {
 	return this->value.value;
 }
 
@@ -236,10 +236,6 @@ void Color::getRGBF(f32 &r, f32 &g, f32 &b) {
 	r = getRF();
 	g = getGF();
 	b = getBF();
-}
-
-Color* Color::clone() {
-	return new Color(this->value.value);
 }
 
 }

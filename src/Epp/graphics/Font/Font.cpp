@@ -53,11 +53,11 @@ Image* Font::getUnavailableCharacterImage(i32 c) {
 	Painter *painter = img->getPainter();
 
 	// 填充白色
-	painter->setColor(C(White));
+	painter->setColor(Color::White);
 	painter->fillRect(0, 0, getW(), getH());
 
 	// 绘制边框（两层）
-	painter->setColor(C(Black));
+	painter->setColor(Color::Black);
 
 	if (getW() >= 11 and getH() >= 15) {
 		painter->drawRect(0, 0, getW(), getH());
@@ -80,10 +80,6 @@ Image* Font::getCharacterImage(i32 c) {
 	}
 
 	return nullptr;
-}
-
-Font* Font::clone() {
-	return new Font();
 }
 
 }

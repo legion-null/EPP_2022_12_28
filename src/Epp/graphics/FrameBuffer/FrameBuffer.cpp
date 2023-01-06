@@ -274,7 +274,7 @@ void FrameBuffer::writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t color) {
 	return unchecked_writeRect(x0, y0, w, h, color);
 }
 
-void FrameBuffer::clear(color_t color) {
+void FrameBuffer::writeAll(color_t color) {
 	if (this->fb != nullptr) {
 		SetMemory(this->fb, (u8*) &color, 4, this->w * this->h);
 	} else {

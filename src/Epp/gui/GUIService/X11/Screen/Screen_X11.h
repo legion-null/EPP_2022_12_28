@@ -22,10 +22,10 @@ public:
 
 public:
 	Screen_X11(i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
-	Screen_X11(base::String *title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
+	Screen_X11(const base::String &title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot);
 
 public:
-	virtual void setTitle(base::String *title);
+	virtual void setTitle(const base::String& title) override;
 
 public:
 	virtual void refresh() override;

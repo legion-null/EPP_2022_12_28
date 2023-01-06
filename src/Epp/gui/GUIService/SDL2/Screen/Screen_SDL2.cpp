@@ -12,8 +12,7 @@ using namespace Epp::graphics;
 namespace Epp {
 namespace gui {
 
-const Class * Screen_SDL2::ClassInfo = Class::Register<Screen_SDL2, Screen>("Epp::gui::Screen_SDL2", nullptr);
-
+const Class *Screen_SDL2::ClassInfo = Class::Register<Screen_SDL2, Screen>("Epp::gui::Screen_SDL2", nullptr);
 
 Screen_SDL2::Screen_SDL2() :
 		Screen_SDL2(800, 600, Color::XRGB8888, Rot_0) {
@@ -21,13 +20,11 @@ Screen_SDL2::Screen_SDL2() :
 }
 
 Screen_SDL2::Screen_SDL2(i32 w, i32 h, Color::Type colorType, Rot rot) :
-		Screen_SDL2(S("Epp SDL2_ScreenSimulator Author:legion"), w, h, colorType, rot) {
+		Screen_SDL2("Epp SDL2_ScreenSimulator Author:legion", w, h, colorType, rot) {
 }
 
-Screen_SDL2::Screen_SDL2(String* title, i32 w, i32 h, Color::Type colorType, Rot rot) :
-		Screen(w, h, colorType, rot) {
-
-	this->title = title->clone();
+Screen_SDL2::Screen_SDL2(const String &title, i32 w, i32 h, Color::Type colorType, Rot rot) :
+		Screen(title, w, h, colorType, rot) {
 
 	this->csdl2 = new CSDL2;
 

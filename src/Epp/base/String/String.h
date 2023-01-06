@@ -40,20 +40,19 @@ public:
 	static i32 CalculateHash(const c8 *str);
 
 public:
-	static String* ValueOf(bool data);
-	static String* ValueOf(c8 data);
-	static String* ValueOf(c8 data[]);
-	static String* ValueOf(c8 data[], i32 off, i32 len);
-	static String* ValueOf(c32 data);
-	static String* ValueOf(i32 data);
-	static String* ValueOf(i64 data);
-	static String* ValueOf(f32 data);
-	static String* ValueOf(f64 data);
-	static String* ValueOf(Object *data);
+	static String ValueOf(bool data);
+	static String ValueOf(c8 data);
+	static String ValueOf(c8 data[]);
+	static String ValueOf(c8 data[], i32 off, i32 len);
+	static String ValueOf(c32 data);
+	static String ValueOf(i32 data);
+	static String ValueOf(i64 data);
+	static String ValueOf(f32 data);
+	static String ValueOf(f64 data);
+	static String ValueOf(const Object &data);
 
 protected:
-	c8 *value = nullptr;
-	i32 length = 0;
+	const c8 *value = nullptr;
 
 public:
 	String();
@@ -63,17 +62,22 @@ public:
 	String(const c8 *str, i32 off, i32 len);
 
 public:
-	const c8* getValue();
-	i32 getLength();
+	String(const String &other) = default;
+	String(String &&other) = default;
 
 public:
-	virtual String* clone() override;
+	String& operator=(const String &other) = default;
+	String& operator=(String &&other) = default;
+
+public:
+	const c8* getValue() const;
+	i32 getLength() const;
 
 public:
 	virtual bool equalTo(const Object &other) override;
 
 public:
-	virtual String* toString() override;
+	virtual const String& toString() const override;
 
 };
 

@@ -16,14 +16,14 @@ const Class *Screen_Android::ClassInfo = Class::Register<Screen_Android, Screen>
 
 Screen_Android::Screen_Android() :
 		Screen_Android(GUIService_Android::JA, //
-				S("Epp Android_ScreenSimulator Author:legion"), //
+				"Epp Android_ScreenSimulator Author:legion", //
 				GUIService_Android::JA->w, GUIService_Android::JA->h, //
 				GUIService_Android::JA->colorType, //
 				Rot_0 //
 				) {
 }
 
-Screen_Android::Screen_Android(struct JAndroid *ja, String *title, i32 w, i32 h, Color::Type colorType, Rot rot) :
+Screen_Android::Screen_Android(struct JAndroid *ja, const String &title, i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Screen(title, w, h, colorType, rot) {
 	EPP_FUNC_LOCATE("0x%016x, %s, %d, %d, %s", ja, title->getValue(), w, h, Color::GetEnumName(colorType));
 	this->jandroid = ja;

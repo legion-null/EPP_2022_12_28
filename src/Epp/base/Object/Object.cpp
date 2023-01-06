@@ -28,10 +28,6 @@ Object::~Object() {
 
 }
 
-Object* Object::clone() {
-	return new Object();
-}
-
 bool Object::equalTo(const Object &other) {
 	const void *p = &other;
 	(void) p;
@@ -43,8 +39,9 @@ bool Object::operator ==(const Object &other) {
 	return this->equalTo(other);
 }
 
-String* Object::toString() {
-	return new String("This is an Element of Epp::Object");
+const String& Object::toString() const {
+	static String str = "This is an Element of Epp::Object";
+	return str;
 }
 
 void Object::printContent() {
@@ -63,13 +60,9 @@ void Object::printContent() {
 //	OS::Printf("\n");
 //
 //	OS::Printf("--------------------------------------------------------------------------------\n");
-}
 
 }
 
-bool SafeDestroy(Object *obj) {
-	return iSafeDestroy(obj);
 }
-
 }
 

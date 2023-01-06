@@ -13,7 +13,7 @@ EPP_CLASS_INFO
 
 public:
 	Painter_OpenGL();
-	~Painter_OpenGL();
+	virtual ~Painter_OpenGL();
 
 };
 

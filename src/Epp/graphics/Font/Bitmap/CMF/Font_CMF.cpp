@@ -99,7 +99,7 @@ Image* Font_CMF::getCharacterImage(i32 c) {
 	// 创建一个图像
 	Image *img = new Image(getW(), getH(), Color::GetDefaultColorType());
 	Painter *painter = img->getPainter();
-	img->clear(C(White));
+	img->clear(Color::White);
 
 	for (i32 j = 0; j < getH(); j++) {
 		for (i32 i = 0; i < getW(); i++) {
@@ -111,11 +111,11 @@ Image* Font_CMF::getCharacterImage(i32 c) {
 					painter->drawPixel(i, j);
 					break;
 				case 2:
-					painter->setColor(new Color(White / 3 * (3 - temp)));
+					painter->setColor(Color(Color::White / 3 * (3 - temp)));
 					painter->drawPixel(i, j);
 					break;
 				case 4:
-					painter->setColor(new Color(White / 15 * (15 - temp)));
+					painter->setColor(Color(Color::White / 15 * (15 - temp)));
 					painter->drawPixel(i, j);
 					break;
 				}

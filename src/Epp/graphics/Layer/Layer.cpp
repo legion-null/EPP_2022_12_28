@@ -84,8 +84,8 @@ void Layer::fillRect(i32 x0, i32 y0, i32 w, i32 h, Color *color) {
 	return FrameBuffer::writeRect(x0, y0, w, h, color->getValue());
 }
 
-void Layer::clear(Color *color) {
-	FrameBuffer::clear(color->getValue());
+void Layer::clear(const Color &color) {
+	FrameBuffer::writeAll(color.getValue());
 }
 
 void Layer::unchecked_copyFrom(Layer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1) {

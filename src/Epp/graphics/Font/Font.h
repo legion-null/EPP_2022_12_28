@@ -42,9 +42,6 @@ public:
 	virtual Image* getUnavailableCharacterImage(i32 c);
 	virtual Image* getCharacterImage(i32 c);
 
-public:
-	virtual Font* clone() override;
-
 };
 
 }

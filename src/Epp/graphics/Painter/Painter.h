@@ -49,30 +49,32 @@ public:
 
 protected:
 	Layer *layer = nullptr;
-	Color *color = C(Black);
-	Font *font = new Font();
+
+protected:
+	Color *color = new Color(Color::Black);
+	Font *font = nullptr;
 
 public:
 	Painter();
 
 public:
-	Painter(Layer *layer);
+	Painter(const Layer *layer);
 
 public:
 	const Layer* getLayer() const;
-	void setLayer(Layer *layer);
+	void setLayer(const Layer *layer);
 
 public:
-	Color* getColor();
-	void setColor(Color *color);
+	const Color& getColor();
+	void setColor(const Color &color);
+
+public:
+	const Font& getFont();
+	void setFont(const Font &font);
 
 public:
 	void drawPixel(i32 x, i32 y);
 	Color* getPixel(i32 x, i32 y);
-
-public:
-	Font* getFont();
-	void setFont(Font *font);
 
 public:
 	virtual void drawLine(i32 x0, i32 y0, i32 x1, i32 y1) = 0;

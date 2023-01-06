@@ -15,7 +15,7 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 	Screen *scr = Screen::GetDefaultScreen();
 	Painter *painter = scr->getPainter();
 
-	painter->setColor(C(White));
+	painter->setColor(Color::White);
 	painter->drawRect(100, 100, 500, 500);
 	painter->fillRect(200, 200, 200, 200);
 	painter->drawCircle(400, 400, 100);
@@ -27,15 +27,15 @@ i32 graphics_Painter_test_main(i32 argc, c8 **argv) {
 		for (i32 y = 0; y < size; y++) {
 			if (y < size / 2) { // 上半
 				if (x >= 0 and x < size / 2) { // 左上
-					fb[y * size + x] = Red;
+					fb[y * size + x] = Color::Red;
 				} else { //右上
-					fb[y * size + x] = Green;
+					fb[y * size + x] = Color::Green;
 				}
 			} else { // 下半
 				if (x >= 0 and x < size / 2) { //左下
-					fb[y * size + x] = Blue;
+					fb[y * size + x] = Color::Blue;
 				} else { //右下
-					fb[y * size + x] = Yellow;
+					fb[y * size + x] = Color::Yellow;
 				}
 			}
 

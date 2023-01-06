@@ -93,7 +93,7 @@ public:
 	void writeRect(i32 x0, i32 y0, i32 w, i32 h, color_t color);
 
 public:
-	void clear(color_t color);
+	void writeAll(color_t color);
 
 protected:
 	void unchecked_copyFrom(FrameBuffer *other, i32 x0, i32 y0, i32 w, i32 h, i32 x1, i32 y1);

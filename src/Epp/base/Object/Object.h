@@ -11,40 +11,36 @@ class String;
 
 class Object {
 public:
-	static const Epp::base::Class *ClassInfo;
-
-	virtual const Epp::base::Class* getClassInfo() const;
+	static const Class *ClassInfo;
+	virtual const Class* getClassInfo() const;
 
 public:
-	const Epp::base::Class* getBaseClassInfo(i32 index) const;
-	const Epp::base::Class* getBaseClassInfo() const;
+	const Class* getBaseClassInfo(i32 index) const;
+	const Class* getBaseClassInfo() const;
 
 public:
 	Object();
 	virtual ~Object();
 
 public:
-	virtual Object* clone();
+	Object(const Object &other) = default;
+	Object(Object &&other) = default;
+
+public:
+	Object& operator=(const Object &other) = default;
+	Object& operator=(Object &&other) = default;
+
+public:
 	virtual bool equalTo(const Object &other);
 
 public:
-	bool operator==(const Object& other);
+	bool operator==(const Object &other);
 
 public:
-	virtual String* toString();
+	virtual const String& toString() const;
 	virtual void printContent();
 };
+
 }
-
-inline bool iSafeDestroy(base::Object *obj) {
-	if (obj == nullptr)
-		return false;
-
-	delete obj;
-	return true;
-}
-
-bool SafeDestroy(base::Object *obj);
-
 }
 

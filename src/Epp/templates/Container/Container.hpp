@@ -72,10 +72,9 @@ public:
 	virtual u64 searchElement(bool (*customizedCompareFunc)(E &e1, E &e2), E &e) = 0;
 
 public:
-	void printAllElements() const {
+	void paintAllElements() {
 		for (u64 i = 0; i < this->getN(); i++) {
-			base::OS::Printf("Hello\n");
-			base::OS::Printf("%s\n",base::String::ValueOf(&this->getElement(i))->getValue());
+			base::OS::Printf("[%d] %s\n", i, base::String::ValueOf(this->getElement(i)).getValue());
 		}
 	}
 

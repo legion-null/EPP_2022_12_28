@@ -9,7 +9,7 @@ namespace graphics {
 const Class *Painter::ClassInfo = Class::Register<Painter, Object>("Epp::graphics::Painter", nullptr);
 
 const c8* Painter::GetEnumType(IMType e) {
-	switch(e){
+	switch (e) {
 	case OpenGL:
 		return EPP_STR(OpenGL);
 	case Software:
@@ -21,7 +21,7 @@ const c8* Painter::GetEnumType(IMType e) {
 
 const bool Painter::ValidityOfIM[NumberOfIM] = { //
 		(EPP_MODULE_OPENGL_SUPPORT == EPP_TRUE),	// OpenGL渲染为可选模块
-		true,	// 软件渲染永远可用
+				true,	// 软件渲染永远可用
 		};
 
 bool Painter::IsAvailable(IMType type) {
@@ -76,39 +76,37 @@ Painter* Painter::GetDefaultIM() {
 }
 
 Painter::Painter() {
-	this->color = new Color();
-	this->font = new Font();
+
 }
 
-Painter::Painter(Layer *layer) {
-	this->layer = layer;
+Painter::Painter(const Layer *layer) {
+	setLayer(layer);
 }
 
 const Layer* Painter::getLayer() const {
 	return this->layer;
 }
 
-void Painter::setLayer(Layer *layer) {
-	this->layer = layer;
+void Painter::setLayer(const Layer *layer) {
+	this->layer = (Layer*) layer;
 }
 
-Color* Painter::getColor() {
-	return this->color->clone();
+const Color& Painter::getColor() {
+	return *(this->color);
 }
 
-void Painter::setColor(Color *color) {
-	SafeDestroy(this->color);
-	this->color = color->clone();
+void Painter::setColor(const Color &color) {
+	SafeDelete(this->color);
+	this->color = new Color(color);
 }
 
-Font* Painter::getFont() {
-	return this->font->clone();
+const Font& Painter::getFont() {
+	return *(this->font);
 }
 
-void Painter::setFont(Font *font) {
-	this->font = font;
-	//SafeDestroy(this->font);
-	//this->font = font->clone();
+void Painter::setFont(const Font &font) {
+	SafeDelete(this->font);
+	this->font = new Font(font);
 }
 
 void Painter::drawPixel(i32 x, i32 y) {
@@ -146,8 +144,6 @@ void Painter::drawImage(i32 x, i32 y, i32 w, i32 h, Image *img) {
 
 	this->layer->copyFrom(img, 0, 0, w, h, x, y);
 }
-
-
 
 }
 }

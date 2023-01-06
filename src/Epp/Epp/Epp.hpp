@@ -18,7 +18,7 @@ void* SafeMalloc(u64 size);
 void SafeFree(void *ptr);
 
 template<typename T>
-inline bool SafeDelete(T *ptr, bool freeOnly = false) {
+inline bool Delete(T *ptr, bool freeOnly = false) {
 	if (ptr == nullptr) {
 		return false;
 	}
@@ -28,7 +28,16 @@ inline bool SafeDelete(T *ptr, bool freeOnly = false) {
 	} else {
 		SafeFree((void*) ptr);
 	}
+
 	return true;
+}
+
+template<typename T>
+inline bool SafeDelete(T *&ptr, bool freeOnly = false) {
+	bool ret = Delete(ptr, freeOnly);
+	//ptr = nullptr;
+
+	return ret;
 }
 
 template<typename T>
