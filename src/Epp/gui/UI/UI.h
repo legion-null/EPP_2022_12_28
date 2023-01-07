@@ -18,6 +18,8 @@ public:
 	UI();
 	virtual ~UI();
 
+public:
+	virtual void paint(graphics::Painter *painter);
 };
 
 }

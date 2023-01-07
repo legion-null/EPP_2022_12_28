@@ -18,5 +18,9 @@ UI::~UI() {
 
 }
 
+void UI::paint(graphics::Painter *painter) {
+
+}
+
 }
 }

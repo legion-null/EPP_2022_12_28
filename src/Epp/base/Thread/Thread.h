@@ -11,7 +11,9 @@ class Thread: virtual public Epp::base::Object, virtual public Epp::base::Runnab
 EPP_CLASS_INFO
 
 public:
-	static void Sleep(i32 sec);
+	static void USleep(u32 us);
+	static void MSleep(u32 ms);
+	static void Sleep(u32 sec);
 
 public:
 	Thread();

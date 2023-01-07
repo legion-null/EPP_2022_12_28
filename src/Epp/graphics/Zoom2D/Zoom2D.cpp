@@ -48,7 +48,7 @@ void Zoom2D::SetDefaultZoom(const gui::Screen &screen, Type type) {
 		f32 slightDistance = screen.getSlightDistance();	// 人眼视距
 
 		// 默认定义视效尺寸为相当于人眼55cm外的物理尺寸
-		return SetDefaultZoom(hppm / (slightDistance / 550), hppm / (slightDistance / 550));
+		return SetDefaultZoom(hppm / (slightDistance / 550), vppm / (slightDistance / 550));
 	}
 	}
 }

@@ -9,4 +9,6 @@
 #include "Array/Array.hpp"
 #include "List/List.hpp"
 
+#include "Queue/Queue.hpp"
+
 #include "Map/Map.hpp"
