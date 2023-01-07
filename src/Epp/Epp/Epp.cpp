@@ -40,23 +40,25 @@ void __Debug(const c8 *fmt, ...) {
 	va_end(args);
 }
 
-void* SafeMalloc(u64 size){
+void* Malloc(u64 size){
+	// 记录指针到堆区指针分配表
 	return ::malloc(size);
 }
 
-void SafeFree(void * ptr){
+void Free(void * ptr){
+	// 从堆区指针分配表删除指针
 	::free(ptr);
 }
 
 void* origin(uSize size) {
-	void *ptr = SafeMalloc(size); // ::calloc(1,size)
+	void *ptr = Malloc(size); // ::calloc(1,size)
 	//EPP_DEBUG("EPP operator new 0x%016x\n", ptr);
 	return ptr;
 }
 
 void finality(void *ptr) {
 	//EPP_DEBUG("EPP operator delete 0x%016x\n", ptr);
-	SafeFree(ptr);
+	Free(ptr);
 }
 
 void Swap(u8 *a, u8 *b, u64 elSize) {

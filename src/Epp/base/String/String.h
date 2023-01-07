@@ -74,7 +74,7 @@ public:
 	i32 getLength() const;
 
 public:
-	virtual bool equalTo(const Object &other) override;
+	virtual bool equalTo(const Object &other) const override;
 
 public:
 	virtual const String& toString() const override;

@@ -31,15 +31,25 @@ public:
 	Object& operator=(Object &&other) = default;
 
 public:
-	virtual bool equalTo(const Object &other);
+	virtual bool equalTo(const Object &obj) const;
 
 public:
-	bool operator==(const Object &other);
+	bool operator==(const Object &obj) const;
 
 public:
 	virtual const String& toString() const;
 	virtual void printContent();
 };
+
+template<class E>
+inline bool operator==(const E &obj1, const E &obj2) {
+	return obj1 == ((const Object&) obj2);
+}
+
+template<class E>
+inline bool operator!=(const E &obj1, const E &obj2) {
+	return !(obj1 == obj2);
+}
 
 }
 }

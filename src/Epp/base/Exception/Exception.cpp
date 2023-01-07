@@ -16,7 +16,7 @@ Exception::Exception() {
 
 }
 
-Exception::Exception(const c8 *info) {
+Exception::Exception(const String &info) {
 	static const i8 重置所有属性 = 0;
 	static const i8 高亮_加粗 = 1;
 	static const i8 暗淡 = 2;
@@ -69,7 +69,7 @@ Exception::Exception(const c8 *info) {
 	(void) 深绿色字体;
 	(void) 白色字体;
 
-	OS::Printf("\033[%d;%dm%s\033[0m", 隐藏, 黄色字体, info);
+	OS::Printf("\033[%d;%dm%s\033[0m", 隐藏, 黄色字体, info.getValue());
 	OS::Printf("\n");
 }
 

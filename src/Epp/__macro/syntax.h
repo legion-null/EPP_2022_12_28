@@ -2,6 +2,8 @@
 
 #include "defs.h"
 
+#define self					(*this)
+
 #define EPP_NULL_MACRO
 #define EPP_LINE_NOTE 			/EPP_NULL_MACRO/
 #define EPP_NOTE				/EPP_NULL_MACRO*

@@ -28,14 +28,11 @@ Object::~Object() {
 
 }
 
-bool Object::equalTo(const Object &other) {
-	const void *p = &other;
-	(void) p;
-	//(void) other;
-	return true;
+bool Object::equalTo(const Object &other) const {
+	return (this->getClassInfo() == other.getClassInfo());
 }
 
-bool Object::operator ==(const Object &other) {
+bool Object::operator ==(const Object &other) const {
 	return this->equalTo(other);
 }
 

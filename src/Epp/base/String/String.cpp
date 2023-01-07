@@ -184,9 +184,14 @@ i32 String::getLength() const {
 	return strlen(this->value);
 }
 
-bool String::equalTo(const Object &other) {
-	Object::equalTo(other);
-	return true;
+bool String::equalTo(const Object &obj) const {
+	if (Object::equalTo(obj) == false) {
+		return false;
+	}
+
+	const String &other = (const String&) obj;
+
+	return (this->value == other.getValue());
 }
 
 const String& String::toString() const {

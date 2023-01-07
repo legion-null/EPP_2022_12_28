@@ -2,13 +2,10 @@
 
 #include "base/Object/Object.h"
 
-
 namespace Epp {
 namespace base {
 
-
-
-class Exception: public Epp::base::Object {
+class Exception: public Object {
 
 EPP_CLASS_INFO
 
@@ -19,10 +16,9 @@ public:
 	Exception();
 
 public:
-	Exception(const c8* info);
+	Exception(const String &info);
 
 };
-
 
 }
 }

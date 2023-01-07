@@ -14,8 +14,8 @@ inline bool EnsureExists(T *ptr) {
 	return true;
 }
 
-void* SafeMalloc(u64 size);
-void SafeFree(void *ptr);
+void* Malloc(u64 size);
+void Free(void *ptr);
 
 template<typename T>
 inline bool Delete(T *ptr, bool freeOnly = false) {
@@ -24,9 +24,9 @@ inline bool Delete(T *ptr, bool freeOnly = false) {
 	}
 
 	if (freeOnly == false) {
-		delete[] ptr;
+		delete ptr;
 	} else {
-		SafeFree((void*) ptr);
+		Free((void*) ptr);
 	}
 
 	return true;
@@ -35,7 +35,7 @@ inline bool Delete(T *ptr, bool freeOnly = false) {
 template<typename T>
 inline bool SafeDelete(T *&ptr, bool freeOnly = false) {
 	bool ret = Delete(ptr, freeOnly);
-	//ptr = nullptr;
+	ptr = nullptr;
 
 	return ret;
 }
@@ -47,7 +47,7 @@ inline bool SafeNew(T *&ptr, bool mallocOnly = false) {
 	if (mallocOnly == false) {
 		ptr = new T;
 	} else {
-		ptr = SafeMalloc(sizeof(T));
+		ptr = Malloc(sizeof(T));
 	}
 
 	return constructed;
@@ -59,7 +59,7 @@ inline bool SafeNew(T *&ptr, u64 len, bool mallocOnly = false) {
 	if (mallocOnly == false) {
 		ptr = new T[len];
 	} else {
-		ptr = (T*) SafeMalloc(sizeof(T) * len);
+		ptr = (T*) Malloc(sizeof(T) * len);
 	}
 	return constructed;
 }

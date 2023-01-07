@@ -70,7 +70,7 @@ public:
 		if (capacity == getCapacity()) {
 			return;
 		} else {
-			if (capacity < this->getN()) {	// 特殊情况
+			if (capacity < this->n) {	// 特殊情况
 				return;
 			}
 
@@ -79,8 +79,8 @@ public:
 
 			// 上锁
 			// 复制内容
-			if (this->data != nullptr and this->getN() > 0) {
-				Copy(this->data, tempData, this->getN());	// 仅使用内存复制，不调用复制构造函数
+			if (this->data != nullptr and this->n > 0) {
+				Copy(this->data, tempData, this->n);	// 仅使用内存复制，不调用复制构造函数
 			}
 
 			// 交换内存空间
@@ -115,23 +115,23 @@ private:
 	}
 
 	void tryNarrow() {
-		if (2 * this->getN() < this->getCapacity()) {
-			this->setCapacity(this->getN() * 2);
+		if (2 * this->n < this->getCapacity()) {
+			this->setCapacity(this->n * 2);
 		}
 	}
 
 public:
 	virtual const E& getElement(u64 index) const override {
-		if (index >= this->getN()) {
-			base::Exception("Illegal parameter");
+		if (this->checkIndex(index) == false){
+			return this->getFirst();
 		}
 
 		return this->data[index];
 	}
 
 	virtual void setElement(u64 index, const E &e) const override {
-		if (index >= this->getN()) {
-			base::Exception("Illegal parameter");
+		if (this->checkIndex(index) == false){
+			return;
 		}
 
 		this->data[index] = e;
@@ -139,7 +139,7 @@ public:
 
 public:
 	virtual void addElement(const E &e) override {
-		if (this->getN() == this->getCapacity()) {
+		if (this->n == this->getCapacity()) {
 			tryGrow();
 		}
 
@@ -148,8 +148,8 @@ public:
 	}
 
 	virtual void deleteElement(u64 index) override {
-		if (index >= this->getN()) {
-			base::Exception("Illegal parameter");
+		if (this->checkIndex(index) == false){
+			return;
 		}
 
 		for (u64 i = index; i < this->n - 1; i++) {
@@ -160,44 +160,36 @@ public:
 	}
 
 	virtual void updateElement(u64 index, const E &e) override {
-		if (index >= this->getN()) {
-			base::Exception("Illegal parameter");
+		if (this->checkIndex(index) == false){
+			return;
 		}
 
 		this->data[index] = e;
 	}
 
-	virtual u64 searchElement(const E &e) override {
-		const void *p = &e;
-		(void) p;
-		for (u64 i = 0; i < this->getN(); i++) {
-//			if (e == this->getElement(i)) {
-//				return i;
-//			}
-			break;
-		}
-
-		base::Exception("Search completed but no matching results");
-		return -1;
-	}
-
 public:
-	virtual u64 searchElement(bool (*customizedCompareFunc)(E &e1, E &e2), E &e) override {
-		const void *p = &e;
-		(void) p;
-		if (customizedCompareFunc == nullptr) {
-			base::Exception("Illegal parameter");
+	virtual void insertElement(u64 index, const E &e, bool rear = true) override {
+		if (this->checkIndex(index) == false){
+			return;
 		}
 
-		for (u64 i = 0; i < this->getN(); i++) {
-//			if (customizedCompareFunc(this->getElement(i), e) == true) {
-//				return i;
-//			}
-			break;
+		if (this->n == this->getCapacity()) {
+			tryGrow();
 		}
 
-		base::Exception("Search completed but no matching results");
-		return -1;
+		if (rear == true) {	// 后方插入
+			for (u64 i = this->n; i > index + 1; i--) {
+				this->data[i] = this->data[i - 1];
+			}
+			this->data[index + 1] = e;
+		} else {	// 前方插入
+			for (u64 i = this->n; i > index; i--) {
+				this->data[i] = this->data[i - 1];
+			}
+			this->data[index] = e;
+		}
+
+		this->n++;
 	}
 
 };
