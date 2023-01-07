@@ -25,6 +25,9 @@ public:
 	virtual ~Item();
 
 public:
+	Item(i32 x, i32 y, i32 w, i32 h);
+
+public:
 	virtual void setX(i32 x) override;
 	virtual void setY(i32 y) override;
 	virtual void setPos2D(i32 x, i32 y) override;
@@ -52,4 +55,5 @@ public:
 }
 }
 
-#include "AbstractButton/AbstractPushButton.h"
+#include "AbstractButton/AbstractButton.h"
+#include "PushButton/PushButton.h"

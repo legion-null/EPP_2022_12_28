@@ -25,7 +25,7 @@ Screen_Android::Screen_Android() :
 
 Screen_Android::Screen_Android(struct JAndroid *ja, const String &title, i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Screen(title, w, h, colorType, rot) {
-	EPP_FUNC_LOCATE("0x%016x, %s, %d, %d, %s", ja, title->getValue(), w, h, Color::GetEnumName(colorType));
+	EPP_FUNC_LOCATE("0x%016x, %s, %d, %d, %s", ja, title.getValue(), w, h, Color::GetEnumName(colorType));
 	this->jandroid = ja;
 }
 

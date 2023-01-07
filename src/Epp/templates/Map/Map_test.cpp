@@ -3,9 +3,9 @@
 using namespace Epp;
 using namespace Epp::base;
 
-using namespace Epp::gui;
+using namespace Epp::templates;
 
-i32 gui_UI_AbstractButton_test_main(i32 argc, c8 **argv) {
+i32 templates_Map_test_main(i32 argc, c8 **argv) {
 	(void) argc;
 	(void) argv;
 

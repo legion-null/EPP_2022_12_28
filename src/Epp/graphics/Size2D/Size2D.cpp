@@ -15,7 +15,7 @@ i32 Size2D::getW_px() const {
 }
 
 i32 Size2D::getH_px() const {
-	return this->h;
+	return this->h_px;
 }
 
 void Size2D::setW_px() {

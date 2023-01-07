@@ -12,7 +12,7 @@ const Class *Screen::ClassInfo = Class::Register<Screen, Layer>("Epp::gui::Scree
 
 f32 Screen::MinPPM = 1e-3;		// 最小PPM默认为0.001，相当于像素长度1m
 f32 Screen::MaxPPM = 1e3;		// 最大PPM默认为1000
-f32 Screen::MinSlightDistance = 1e2;	// 最小视距默认为10mm
+f32 Screen::MinSlightDistance = 1e2;	// 最小视距默认为100mm
 f32 Screen::MaxSlightDistance = 3e7;	// 最大视距默认为30km
 
 Screen* Screen::GetDefaultScreen() {
@@ -28,16 +28,19 @@ Screen::Screen(i32 w, i32 h, Color::Type colorType, Rot rot) :
 		Layer(w, h, colorType, rot) {
 }
 
-Screen::Screen(const base::String& title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) :
+Screen::Screen(const base::String &title, i32 w, i32 h, graphics::Color::Type colorType, graphics::Rot rot) :
 		Layer(w, h, colorType, rot) {
+	setTitle(title);
 }
 
 const String& Screen::getTitle() const {
 	return *(this->title);
 }
 
-void Screen::setTitle(const String& title) {
-	SafeDelete(this->title);
+void Screen::setTitle(const String &title) {
+	if (this->title != nullptr) {
+		delete this->title;
+	}
 	this->title = new String(title);
 }
 
@@ -56,9 +59,11 @@ void Screen::getPPM(f32 &hppm, f32 &vppm) const {
 
 void Screen::setHPPM(f32 hppm) {
 	if (hppm < MinPPM) {
-		throw new Exception("HPPM过低！");
+		Exception("HPPM过低！");
+		return;
 	} else if (hppm > MaxPPM) {
-		throw new Exception("HPPM过高！");
+		Exception("HPPM过高！");
+		return;
 	}
 
 	this->hppm = hppm;
@@ -66,9 +71,11 @@ void Screen::setHPPM(f32 hppm) {
 
 void Screen::setVPPM(f32 vppm) {
 	if (vppm < MinPPM) {
-		throw new Exception("VPPM过低！");
+		Exception("VPPM过低！");
+		return;
 	} else if (vppm > MaxPPM) {
-		throw new Exception("VPPM过高！");
+		Exception("VPPM过高！");
+		return;
 	}
 
 	this->vppm = vppm;
@@ -76,17 +83,37 @@ void Screen::setVPPM(f32 vppm) {
 
 void Screen::setPPM(f32 hppm, f32 vppm) {
 	if (hppm < MinPPM) {
-		throw new Exception("HPPM过低！");
+		Exception("HPPM过低！");
+		return;
 	} else if (hppm > MaxPPM) {
-		throw new Exception("HPPM过高！");
+		Exception("HPPM过高！");
+		return;
 	} else if (vppm < MinPPM) {
-		throw new Exception("VPPM过低！");
+		Exception("VPPM过低！");
+		return;
 	} else if (vppm > MaxPPM) {
-		throw new Exception("VPPM过高！");
+		Exception("VPPM过高！");
+		return;
 	}
 
 	this->hppm = hppm;
 	this->vppm = vppm;
+}
+
+f32 Screen::getSlightDistance() const {
+	return this->slightDistance;
+}
+
+void Screen::setSlightDistance(f32 distance) {
+	if (distance < MinSlightDistance) {
+		Exception("视距过近！");
+		return;
+	} else if (distance > MaxSlightDistance) {
+		Exception("视距过远！");
+		return;
+	}
+
+	this->slightDistance = distance;
 }
 
 void Screen::refreshRect(i32 x0, i32 y0, i32 w, i32 h) {

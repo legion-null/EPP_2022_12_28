@@ -49,9 +49,9 @@ void Layer::setPixel(i32 x, i32 y, Color *color) {
 }
 
 void Layer::drawLineH(i32 x0, i32 y0, i32 w, Color *color) {
-	EPP_FUNC_LOCATE("%d, %d, %d, 0x%08X", x0, y0, w, color->getValue());
+	// EPP_FUNC_LOCATE("%d, %d, %d, 0x%08X", x0, y0, w, color->getValue());
 	rMapPixel(x0, y0);
-	EPP_FUNC_LOCATE("%d, %d, %d, 0x%08X", x0, y0, w, color->getValue());
+	// EPP_FUNC_LOCATE("%d, %d, %d, 0x%08X", x0, y0, w, color->getValue());
 	switch (this->rot) {
 	case Rot::Rot_0:
 		return FrameBuffer::writeRow(x0, y0, w, color->getValue());
@@ -65,7 +65,7 @@ void Layer::drawLineH(i32 x0, i32 y0, i32 w, Color *color) {
 }
 
 void Layer::drawLineV(i32 x0, i32 y0, i32 h, Color *color) {
-	EPP_CODE_LOCATE();
+	// EPP_CODE_LOCATE();
 	rMapPixel(x0, y0);
 	switch (this->rot) {
 	case Rot::Rot_0:

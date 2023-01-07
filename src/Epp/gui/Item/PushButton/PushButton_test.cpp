@@ -5,7 +5,7 @@ using namespace Epp::base;
 
 using namespace Epp::gui;
 
-i32 gui_UI_PushButton_test_main(i32 argc, c8 **argv) {
+i32 gui_PushButton_test_main(i32 argc, c8 **argv) {
 	(void) argc;
 	(void) argv;
 

@@ -60,6 +60,10 @@ public:
 	void setPPM(f32 hppm, f32 vppm);
 
 public:
+	f32 getSlightDistance() const;
+	void setSlightDistance(f32 distance);
+
+public:
 	using Layer::clear;
 
 public:

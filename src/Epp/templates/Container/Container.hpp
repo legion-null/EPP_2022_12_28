@@ -24,16 +24,16 @@ public:
 	}
 
 public:
-	u64 getN() const {
+	virtual u64 getN() const {
 		return this->n;
 	}
 
-	bool isEmpty() const {
+	virtual bool isEmpty() const {
 		return (getN() == 0 ? true : false);
 	}
 
 public:
-	bool checkIndex(u64 index) const {
+	virtual bool checkIndex(u64 index) const {
 		if (index >= this->n) {
 			base::Exception("Illegal parameter");
 			return false;
@@ -63,18 +63,18 @@ public:
 		return getElement(getN() - 1);
 	}
 
-	void setFirst(const E &e) {
+	void setFirst(const E &e) const {
 		setElement(0, e);
 	}
 
-	void setLast(const E &e) {
+	void setLast(const E &e) const {
 		setElement(getN() - 1, e);
 	}
 
 public:
 	virtual void addElement(const E &e) = 0;
 	virtual void deleteElement(u64 index) = 0;
-	virtual void updateElement(u64 index, const E &newE) = 0;
+	virtual void updateElement(u64 index, const E &e) = 0;
 
 	virtual u64 searchElement(const E &e) {
 		const void *p = &e;

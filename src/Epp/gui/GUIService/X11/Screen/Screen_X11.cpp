@@ -27,7 +27,7 @@ Screen_X11::Screen_X11(i32 w, i32 h, Color::Type colorType, Rot rot) :
 }
 
 Screen_X11::Screen_X11(const String &title, i32 w, i32 h, Color::Type colorType, Rot rot) :
-		Screen(title, w, h, colorType, rot) {
+		Screen(w, h, colorType, rot) {
 	EPP_CODE_LOCATE();
 
 	this->cx11 = new struct CX11;
@@ -43,7 +43,7 @@ Screen_X11::Screen_X11(const String &title, i32 w, i32 h, Color::Type colorType,
 			Color::White	// 背景颜色，XRGB8888格式
 			);
 
-	setTitle(title);
+	this->setTitle(title);
 
 	this->cx11->gc = DefaultGC(this->cx11->display, DefaultScreen(this->cx11->display));
 
@@ -64,8 +64,11 @@ Screen_X11::Screen_X11(const String &title, i32 w, i32 h, Color::Type colorType,
 	::XFlush(this->cx11->display);
 }
 
-void Screen_X11::setTitle(const String& title) {
-	Screen::setTitle(title);
+void Screen_X11::setTitle(const String &title) {
+	if (this->title != nullptr) {
+		delete this->title;
+	}
+	this->title = new String(title);
 	::XStoreName(this->cx11->display, this->cx11->window, this->title->getValue());
 }
 

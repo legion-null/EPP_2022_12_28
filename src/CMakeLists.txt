@@ -2,10 +2,8 @@
 #set(CMAKE_VISIBILITY_INLINES_HIDDEN 0)
 
 # 发布模式
-# set(CMAKE_BUILD_TYPE "Release")
-# add_definitions(-DEPP_TARGET_RELEASE)
-
-set(CMAKE_BUILD_TYPE "Debug")
+set(CMAKE_BUILD_TYPE "Release")
+# set(CMAKE_BUILD_TYPE "Debug")
 add_definitions(-DEPP_TARGET_DEBUG)
 
 # 设置编译目标

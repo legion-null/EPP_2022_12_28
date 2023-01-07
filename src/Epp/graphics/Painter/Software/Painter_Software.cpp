@@ -82,7 +82,7 @@ Painter_Software::Painter_Software(const Layer *layer) :
 }
 
 void Painter_Software::drawLine(i32 x0, i32 y0, i32 x1, i32 y1) {
-	EPP_FUNC_LOCATE("%d, %d, %d, %d", x0, y0, x1, y1);
+	// EPP_FUNC_LOCATE("%d, %d, %d, %d", x0, y0, x1, y1);
 
 	//EPP_DEBUG("%s", "XXX");
 	if (x0 == x1) {
@@ -121,6 +121,8 @@ void Painter_Software::drawLine(i32 x0, i32 y0, i32 x1, i32 y1) {
 }
 
 void Painter_Software::drawRect(i32 x0, i32 y0, i32 w, i32 h) {
+	EPP_FUNC_LOCATE("%d, %d, %d, %d", x0, y0, w, h);
+
 	i32 x1 = x0 + w - 1;
 	i32 y1 = y0 + h - 1;
 

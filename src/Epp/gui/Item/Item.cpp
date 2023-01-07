@@ -17,6 +17,10 @@ Item::Item() {
 Item::~Item() {
 }
 
+Item::Item(i32 x, i32 y, i32 w, i32 h) {
+	setRect2D(x, y, w, h);
+}
+
 void Item::setX(i32 x) {
 	Rect2D::setX(x);
 }
