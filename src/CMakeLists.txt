@@ -7,7 +7,7 @@ set(CMAKE_BUILD_TYPE "Release")
 add_definitions(-DEPP_TARGET_DEBUG)
 
 # 设置编译目标
-set(EPP_TARGET "Android")
+set(EPP_TARGET "Linux")
 
 # epp构建
 add_subdirectory(Epp)

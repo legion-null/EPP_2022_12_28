@@ -15,6 +15,9 @@ public:
 	Mouse();
 	virtual ~Mouse();
 
+protected:
+	virtual InputEvent* reportInputEvent() = 0;
+
 };
 
 }

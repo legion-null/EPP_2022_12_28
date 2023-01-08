@@ -21,6 +21,10 @@ public:
 	InputDevice();
 	virtual ~InputDevice();
 
+public:
+	u32 getReportingFrequency() const;
+	void setReportingFrequency(u32 frequency);
+
 private:
 	void wait();
 
@@ -32,7 +36,7 @@ protected:
 
 public:
 	bool isInputEventReady();
-	InputEvent* getInputEvent();
+	const InputEvent& getInputEvent();
 };
 
 }

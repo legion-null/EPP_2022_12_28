@@ -18,16 +18,25 @@ InputDevice::~InputDevice() {
 
 }
 
+u32 InputDevice::getReportingFrequency() const {
+	return this->reportingFrequency;
+}
+
+void InputDevice::setReportingFrequency(u32 frequency) {
+	this->reportingFrequency = frequency;
+}
+
 void InputDevice::wait() {
-	Thread::Sleep(1);
+	Thread::USleep(1000000 / this->reportingFrequency);
 }
 
 void InputDevice::run() {
-	InputEvent *e = nullptr;
 	while (true) {
-		e = reportInputEvent();
-		if (e != nullptr) {
+		try {
+			InputEvent *e = reportInputEvent();
 			this->eventQueue.enqueue(e);
+		} catch (Exception &exception) {
+			; // 什么也不做
 		}
 		wait();
 	}
@@ -37,9 +46,15 @@ bool InputDevice::isInputEventReady() {
 	return true;
 }
 
-InputEvent* InputDevice::getInputEvent() {
-	return nullptr;
+const InputEvent& InputDevice::getInputEvent() {
+	if (this->eventQueue.isEmpty()) {
+		throw Exception("EventQueue is empty!");
+	}
+
+	return *(this->eventQueue.dequeue());
 }
+
+
 
 }
 }
