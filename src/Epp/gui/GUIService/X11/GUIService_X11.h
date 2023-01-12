@@ -24,4 +24,6 @@ public:
 
 #include "Screen/Screen_X11.h"
 
+#include "Mouse/Mouse_X11.h"
+
 #endif

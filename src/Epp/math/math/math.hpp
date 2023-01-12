@@ -24,6 +24,17 @@ inline T Max(T a, T b) {
 	return a >= b ? a : b;
 }
 
+template<typename T>
+inline T Normalized(T &a, T min, T max) {
+	if (a <= min) {
+		a = min;
+	} else if (a >= max) {
+		a = max;
+	}
+
+	return a;
+}
+
 namespace math {
 
 }

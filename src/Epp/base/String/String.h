@@ -28,11 +28,11 @@ public:
 	static bool strncmp(const c8 *str1, const c8 *str2, i32 n);
 	static c8* strcpy(c8 *dest, const c8 *src);
 	static c8* strncpy(c8 *dest, const c8 *src, i32 n);
-	static i32 strcspn(const c8 *str1, const c8 *str2);
-	static i32 strlen(const c8 *str);
+	static u64 strcspn(const c8 *str1, const c8 *str2);
+	static u64 strlen(const c8 *str);
 	static const c8* strpbrk(const c8 *str1, const c8 *str2);
 	static const c8* strrchr(const c8 *str, i32 c);
-	static i32 strspn(const c8 *str1, const c8 *str2);
+	static u64 strspn(const c8 *str1, const c8 *str2);
 	static const c8* strstr(const c8 *haystack, const c8 *needle);
 	static c8* strtok(c8 *str, const c8 *delim);
 
@@ -53,6 +53,7 @@ public:
 
 protected:
 	const c8 *value = nullptr;
+	Char::Type type = Char::UTF8;
 
 public:
 	String();
@@ -71,7 +72,11 @@ public:
 
 public:
 	const c8* getValue() const;
-	i32 getLength() const;
+	u64 getLength() const;
+
+public:
+	const Char* toCharArray() const;
+	Char charAt(u64 index) const;
 
 public:
 	virtual bool equalTo(const Object &other) const override;

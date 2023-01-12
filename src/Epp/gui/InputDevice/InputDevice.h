@@ -9,6 +9,8 @@
 namespace Epp {
 namespace gui {
 
+class InputEvent;
+
 class InputDevice: virtual public base::Object, virtual public base::Runnable {
 
 EPP_CLASS_INFO
@@ -36,7 +38,7 @@ protected:
 
 public:
 	bool isInputEventReady();
-	const InputEvent& getInputEvent();
+	virtual const InputEvent& getInputEvent();
 };
 
 }

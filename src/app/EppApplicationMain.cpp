@@ -1,7 +1,7 @@
 #include "../Epp/Epp.h"
 
 // 单元测试
-#define EPP_TEST_UNIT			templates_Queue_test_main
+#define EPP_TEST_UNIT			base_String_test_main
 //#define EPP_TEST_UNIT			tools_GetEnumName_main
 
 // 声明单元测试入口函数

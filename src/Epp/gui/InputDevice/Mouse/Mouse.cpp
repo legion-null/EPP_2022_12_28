@@ -18,5 +18,13 @@ Mouse::~Mouse() {
 
 }
 
+const MouseEvent& Mouse::getInputEvent() {
+	try {
+		return (const MouseEvent&)InputDevice::getInputEvent();
+	} catch (Exception &e) {
+		throw e;
+	}
+}
+
 }
 }

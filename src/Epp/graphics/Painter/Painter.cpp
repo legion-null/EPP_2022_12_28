@@ -129,7 +129,7 @@ void Painter::drawCharacter(i32 x, i32 y, i32 w, i32 h, i32 c) {
 void Painter::drawString(i32 x, i32 y, i32 w, i32 h, String *str) {
 	EPP_FUNC_LOCATE("%d, %d, %d, %d, %s", x, y, w, h, str->getValue());
 
-	for (i32 i = 0; i < str->getLength(); i++) {
+	for (u64 i = 0; i < str->getLength(); i++) {
 		drawCharacter(x, y, w, h, str->getValue()[i]);
 		x = x + this->font->getW();
 		if (x + this->font->getW() > w)

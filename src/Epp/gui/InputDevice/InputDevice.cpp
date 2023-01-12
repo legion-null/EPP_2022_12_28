@@ -43,11 +43,11 @@ void InputDevice::run() {
 }
 
 bool InputDevice::isInputEventReady() {
-	return true;
+	return !(this->eventQueue.isEmpty());
 }
 
 const InputEvent& InputDevice::getInputEvent() {
-	if (this->eventQueue.isEmpty()) {
+	if (this->isInputEventReady() == false) {
 		throw Exception("EventQueue is empty!");
 	}
 

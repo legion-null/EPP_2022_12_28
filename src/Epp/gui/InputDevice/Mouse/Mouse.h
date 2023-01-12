@@ -11,12 +11,20 @@ class Mouse: public InputDevice {
 
 EPP_CLASS_INFO
 
+protected:
+	i32 x = 0;
+	i32 y = 0;
+
+	bool leftButtonPressed = false;
+	bool middleButtonPressed = false;
+	bool rightButtonPressed = false;
+
 public:
 	Mouse();
 	virtual ~Mouse();
 
-protected:
-	virtual InputEvent* reportInputEvent() = 0;
+public:
+	virtual const MouseEvent& getInputEvent() override;
 
 };
 

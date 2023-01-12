@@ -72,11 +72,11 @@ c8* String::strncpy(c8 *dest, const c8 *src, i32 n) {
 	return ::strncpy(dest, src, n);
 }
 
-i32 String::strcspn(const c8 *str1, const c8 *str2) {
+u64 String::strcspn(const c8 *str1, const c8 *str2) {
 	return ::strcspn(str1, str2);
 }
 
-i32 String::strlen(const c8 *str) {
+u64 String::strlen(const c8 *str) {
 	return ::strlen(str);
 }
 
@@ -88,7 +88,7 @@ const c8* String::strrchr(const c8 *str, i32 c) {
 	return ::strchr(str, c);
 }
 
-i32 String::strspn(const c8 *str1, const c8 *str2) {
+u64 String::strspn(const c8 *str1, const c8 *str2) {
 	return ::strspn(str1, str2);
 }
 
@@ -180,8 +180,44 @@ const c8* String::getValue() const {
 	return this->value;
 }
 
-i32 String::getLength() const {
+u64 String::getLength() const {
 	return strlen(this->value);
+}
+
+const Char* String::toCharArray() const {
+//	u64 length = this->getLength();
+//	Char *charArray = nullptr;
+//	switch (this->type) {
+//	case Char::ASCII: {
+//		charArray = new Char[length];
+//		for (u64 i = 0; i < length; i++) {
+//			charArray[i] = Char(this->value[i]);
+//		}
+//		break;
+//	}
+//	case Char::GB18030: {
+//
+//		break;
+//	}
+//
+//	case Char::UTF8: {
+//
+//		break;
+//	}
+//
+//	case Char::UTF32: {
+//
+//		break;
+//	}
+//	}
+//
+//	return charArray;
+	return nullptr;
+}
+
+Char String::charAt(u64 index) const {
+
+	return nullptr;
 }
 
 bool String::equalTo(const Object &obj) const {
